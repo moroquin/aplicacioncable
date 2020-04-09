@@ -2441,12 +2441,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "4919e0ba4ecea90506dd4d24094d5414303c1666"
+                "reference": "a75dfcec597379a04a62ffa70b4b8dc0db70fc6f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/4919e0ba4ecea90506dd4d24094d5414303c1666",
-                "reference": "4919e0ba4ecea90506dd4d24094d5414303c1666",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/a75dfcec597379a04a62ffa70b4b8dc0db70fc6f",
+                "reference": "a75dfcec597379a04a62ffa70b4b8dc0db70fc6f",
                 "shasum": ""
             },
             "require": {
@@ -2526,7 +2526,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-04-06T05:16:08+00:00"
+            "time": "2020-04-07T06:31:18+00:00"
         },
         {
             "name": "psr/container",
