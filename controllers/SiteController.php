@@ -9,6 +9,8 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\SignupForm;
+use app\models\Empleados;
 
 class SiteController extends Controller
 {
@@ -124,5 +126,51 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+    
+    public function actionAddAdmin() {
+        $model = User::find()->where(['username' => 'admin'])->one();
+        if (empty($model)) {
+            $user = new User();
+            $user->username = 'admin';
+            $user->email = 'admin@devreadwrite.com';
+            $user->empleados_idempleado = 1;
+            $user->setPassword('admin');
+            $user->generateAuthKey();
+            if ($user->save()) {
+                echo 'good';
+            }
+        }
+    }
+    public function actionRegistrar()
+    {
+
+ 
+        $model = new Empleados();
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['signup', 'id' => $model->idempleado]);
+        }
+
+        return $this->render('/empleados/create', [
+            'model' => $model,
+        ]);
+ 
+    }
+    public function actionSignup($id)
+    {
+        $model = new SignupForm();
+        $model->idempleado = $id;
+        if ($model->load(Yii::$app->request->post())) {
+            if ($user = $model->signup()) {
+                if (Yii::$app->getUser()->login($user)) {
+                    return $this->goHome();
+                }
+            }
+        }
+ 
+        return $this->render('signup', [
+            'model' => $model,
+        ]);
     }
 }

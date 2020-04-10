@@ -5,7 +5,7 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "empleados".
+ * This is the model class for table "{{%empleados}}".
  *
  * @property int $idempleado
  * @property string|null $nombre
@@ -14,8 +14,9 @@ use Yii;
  * @property string|null $direccion
  * @property int $puestos_idpuestos
  *
- * @property Cobros[] $cobros
- * @property Puestos $puestosIdpuestos
+ * @property Cobro[] $cobros
+ * @property Puesto $puestosIdpuestos
+ * @property User[] $users
  */
 class Empleados extends \yii\db\ActiveRecord
 {
@@ -24,7 +25,7 @@ class Empleados extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'empleados';
+        return '{{%empleados}}';
     }
 
     /**
@@ -38,7 +39,7 @@ class Empleados extends \yii\db\ActiveRecord
             [['nombre', 'apellido'], 'string', 'max' => 50],
             [['telefono'], 'string', 'max' => 40],
             [['direccion'], 'string', 'max' => 45],
-            [['puestos_idpuestos'], 'exist', 'skipOnError' => true, 'targetClass' => Puestos::className(), 'targetAttribute' => ['puestos_idpuestos' => 'idpuestos']],
+            [['puestos_idpuestos'], 'exist', 'skipOnError' => true, 'targetClass' => Puesto::className(), 'targetAttribute' => ['puestos_idpuestos' => 'idpuestos']],
         ];
     }
 
@@ -48,12 +49,12 @@ class Empleados extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'idempleado' => 'Idempleado',
-            'nombre' => 'Nombre',
-            'apellido' => 'Apellido',
-            'telefono' => 'Telefono',
-            'direccion' => 'Direccion',
-            'puestos_idpuestos' => 'Puestos Idpuestos',
+            'idempleado' => Yii::t('app', 'Idempleado'),
+            'nombre' => Yii::t('app', 'Nombre'),
+            'apellido' => Yii::t('app', 'Apellido'),
+            'telefono' => Yii::t('app', 'Telefono'),
+            'direccion' => Yii::t('app', 'Direccion'),
+            'puestos_idpuestos' => Yii::t('app', 'Puestos Idpuestos'),
         ];
     }
 
@@ -64,7 +65,7 @@ class Empleados extends \yii\db\ActiveRecord
      */
     public function getCobros()
     {
-        return $this->hasMany(Cobros::className(), ['idempleado' => 'idempleado']);
+        return $this->hasMany(Cobro::className(), ['idempleado' => 'idempleado']);
     }
 
     /**
@@ -74,6 +75,16 @@ class Empleados extends \yii\db\ActiveRecord
      */
     public function getPuestosIdpuestos()
     {
-        return $this->hasOne(Puestos::className(), ['idpuestos' => 'puestos_idpuestos']);
+        return $this->hasOne(Puesto::className(), ['idpuestos' => 'puestos_idpuestos']);
+    }
+
+    /**
+     * Gets query for [[Users]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUsers()
+    {
+        return $this->hasMany(User::className(), ['empleados_idempleado' => 'idempleado']);
     }
 }
