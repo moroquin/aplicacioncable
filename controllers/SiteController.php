@@ -11,7 +11,7 @@ use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\SignupForm;
 use app\models\Empleados;
-
+use app\models\User;
 class SiteController extends Controller
 {
     /**
@@ -125,7 +125,14 @@ class SiteController extends Controller
      */
     public function actionAbout()
     {
-        return $this->render('about');
+        if (!Yii::$app->user->isGuest) {
+           $model1 = User::findOne(Yii::$app->user->id);
+           $model2 = Empleados::findOne($model1->empleados_idempleado);
+           echo $model2->nombre;
+        }else{
+            return $this->render('about');
+        }
+
     }
     
     public function actionAddAdmin() {
