@@ -4,7 +4,9 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Empleados;
+use app\models\Puesto;
 use app\models\EmpleadosSearch;
+use app\models\PuestoSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -52,8 +54,11 @@ class EmpleadosController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        $model1 = Puesto::findOne($model->puestos_idpuestos); 
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'model1' => $model1,
         ]);
     }
 

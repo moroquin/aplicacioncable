@@ -12,6 +12,8 @@ use app\models\ContactForm;
 use app\models\SignupForm;
 use app\models\Empleados;
 use app\models\User;
+use app\models\Puesto;
+
 class SiteController extends Controller
 {
     /**
@@ -156,18 +158,26 @@ class SiteController extends Controller
         $model = new Empleados();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['signup', 'id' => $model->idempleado]);
+            $puesto = Puesto::findOne($model->puestos_idpuestos);
+            return $this->redirect(['signup', 'id' => $model->idempleado, 'acceso' => $puesto->nivel]);
         }
+        $puestos = [];
+        $tmp = Puesto::find()->all();
+        foreach($tmp as $puest){
 
+            $puestos[$puest->idpuestos] ="Puesto: ".$puest->nombre; 
+        }
         return $this->render('/empleados/create', [
             'model' => $model,
+            'puestos' => $puestos,
         ]);
  
     }
-    public function actionSignup($id)
+    public function actionSignup($id, $acceso)
     {
         $model = new SignupForm();
         $model->idempleado = $id;
+        $model->permiso = $acceso;
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {
                 if (Yii::$app->getUser()->login($user)) {
@@ -175,7 +185,7 @@ class SiteController extends Controller
                 }
             }
         }
- 
+        
         return $this->render('signup', [
             'model' => $model,
         ]);

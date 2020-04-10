@@ -50,11 +50,11 @@ class Empleados extends \yii\db\ActiveRecord
     {
         return [
             'idempleado' => Yii::t('app', 'Idempleado'),
-            'nombre' => Yii::t('app', 'Nombre'),
-            'apellido' => Yii::t('app', 'Apellido'),
-            'telefono' => Yii::t('app', 'Telefono'),
+            'nombre' => Yii::t('app', 'Nombres'),
+            'apellido' => Yii::t('app', 'Apellidos'),
+            'telefono' => Yii::t('app', 'Numero de Telefono'),
             'direccion' => Yii::t('app', 'Direccion'),
-            'puestos_idpuestos' => Yii::t('app', 'Puestos Idpuestos'),
+            'puestos_idpuestos' => Yii::t('app', 'Puesto'),
         ];
     }
 

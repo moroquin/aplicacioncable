@@ -15,6 +15,7 @@ class SignupForm extends Model
     public $email;
     public $password;
     public $idempleado;
+    public $permiso;
  
     /**
      * @inheritdoc
@@ -23,6 +24,7 @@ class SignupForm extends Model
     {
         return [
             ['idempleado', 'integer'],
+            ['permiso', 'integer'],
             ['username', 'trim'],
             ['username', 'required'],
             ['username', 'unique', 'targetClass' => '\app\models\User', 'message' => 'This username has already been taken.'],
@@ -53,9 +55,9 @@ class SignupForm extends Model
         $user->username = $this->username;
         $user->email = $this->email;
         $user->empleados_idempleado = $this->idempleado;
+        $user->permiso = $this->permiso;
         $user->setPassword($this->password);
         $user->generateAuthKey();
         return $user->save() ? $user : null;
     }
- 
 }
