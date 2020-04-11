@@ -178,16 +178,31 @@ class SiteController extends Controller
         $model = new SignupForm();
         $model->idempleado = $id;
         $model->permiso = $acceso;
+        $model->estado = 1;
         if ($model->load(Yii::$app->request->post())) {
-            if ($user = $model->signup()) {
-                if (Yii::$app->getUser()->login($user)) {
-                    return $this->goHome();
-                }
-            }
+            $user = $model->signup();
+            
+            return $this->goHome();
+                
         }
         
         return $this->render('signup', [
             'model' => $model,
+        ]);
+    }
+    public function actionActualizarcontra($id){
+        $model = new SignupForm();
+        $model1 = User::findOne($id);
+        $model2 = Empleados::findOne($model1->empleados_idempleado);
+        if ($model->load(Yii::$app->request->post())){
+            $model1->setPassword($model->password);
+            $model1->save(); 
+            return $this->redirect(['/empleados/view', 'id' => $model1->empleados_idempleado]);
+        }
+        
+        return $this->render('actualizar', [
+            'model' => $model,
+            'model2' => $model2,
         ]);
     }
 }

@@ -8,12 +8,12 @@ use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 /**
- * User model
+ * User Model
  *
- * @property int $iduser
+ * @property int $id
  * @property string $username
  * @property string $auth_key
- * @property int $permiso
+ * @property int|null $permiso
  * @property string $password_hash
  * @property string|null $password_reset_token
  * @property string $email
@@ -21,6 +21,7 @@ use yii\web\IdentityInterface;
  * @property int $created_at
  * @property int $updated_at
  * @property int|null $empleados_idempleado
+ * @property int $estado
  *
  * @property Empleado $empleadosIdempleado
  */

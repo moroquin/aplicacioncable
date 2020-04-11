@@ -11,7 +11,7 @@ use kartik\select2\Select2;
 <div class="empleados-form">
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <H1>Registrar Informacion Personal Empleado</H1>
+            <H1>Actualizar Informacion Empleado: <?=$model->nombre.' '.$model->apellido?></H1>
         </div>
         <div class="panel-body">
             <?php $form = ActiveForm::begin(); ?>
@@ -34,12 +34,15 @@ use kartik\select2\Select2;
 
         </div>
         <div class="panel-footer">
-            <div class="form-group">
-                <?= Html::submitButton(Yii::t('app', 'Siguiente'), ['class' => 'btn btn-success']) ?>
-                <?= Html::a(Yii::t('app', 'Cancelar'), ['site/index'], ['class' => 'btn btn-danger'])?>
-            </div>
+
+            
+                <div class="form-group">
+                    <?= Html::submitButton(Yii::t('app', 'Siguiente'), ['class' => 'btn btn-success']) ?>
+                    <?= Html::a(Yii::t('app', 'Cancelar'), ['view', 'id' => $model->idempleado], ['class' => 'btn btn-danger'])?>
+                </div>
         </div>
     </div>
+
     <?php ActiveForm::end(); ?>
 
 </div>
