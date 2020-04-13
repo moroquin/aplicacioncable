@@ -3,3 +3,6 @@ php-fpm
 
 
 icu  aspell c-client curl db enchant freetds gd gmp  icu libnsl libsodium  libtool libxslt libzip net-snmp  oniguruma pcre2 
+
+
+

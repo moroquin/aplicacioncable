@@ -29,3 +29,8 @@ php-cgi php-dblib php-embed php-enchant php-gd php-imap php-intl 7.4.4-2 php-php
 
 por eliminar views servicios
 
+
+
+clientes unique kpi y nit
+
+auto increment
