@@ -75,7 +75,7 @@ class Clientes extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Servicioscontratados]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
      */
     public function getServicioscontratados()
     {
@@ -85,10 +85,19 @@ class Clientes extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Idservicios]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|ServiciosQuery
      */
     public function getIdservicios()
     {
         return $this->hasMany(Servicios::className(), ['idservicio' => 'idservicio'])->viaTable('servicioscontratados', ['idcliente' => 'idcliente']);
+    }
+
+    /**
+     * {@inheritdoc}
+     * @return ClientesQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new ClientesQuery(get_called_class());
     }
 }

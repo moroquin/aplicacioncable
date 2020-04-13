@@ -17,8 +17,8 @@ class ServiciosSearch extends Servicios
     public function rules()
     {
         return [
-            [['idservicio'], 'integer'],
-            [['nombre', 'descripcion'], 'safe'],
+            [['idservicio', 'disponible'], 'integer'],
+            [['nombre', 'descripcion', 'tiposervicio'], 'safe'],
             [['tarifa'], 'number'],
         ];
     }
@@ -61,10 +61,12 @@ class ServiciosSearch extends Servicios
         $query->andFilterWhere([
             'idservicio' => $this->idservicio,
             'tarifa' => $this->tarifa,
+            'disponible' => $this->disponible,
         ]);
 
         $query->andFilterWhere(['like', 'nombre', $this->nombre])
-            ->andFilterWhere(['like', 'descripcion', $this->descripcion]);
+            ->andFilterWhere(['like', 'descripcion', $this->descripcion])
+            ->andFilterWhere(['like', 'tiposervicio', $this->tiposervicio]);
 
         return $dataProvider;
     }

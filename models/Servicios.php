@@ -11,6 +11,8 @@ use Yii;
  * @property string|null $nombre
  * @property float|null $tarifa
  * @property string|null $descripcion
+ * @property string|null $tiposervicio
+ * @property int|null $disponible
  *
  * @property Servicioscontratados $servicioscontratados
  * @property Clientes[] $idclientes
@@ -31,9 +33,11 @@ class Servicios extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['tarifa'], 'number'],
+            [['tarifa'], 'double'],
             [['descripcion'], 'string'],
+            [['disponible'], 'integer'],
             [['nombre'], 'string', 'max' => 100],
+            [['tiposervicio'], 'string', 'max' => 45],
         ];
     }
 
@@ -45,15 +49,17 @@ class Servicios extends \yii\db\ActiveRecord
         return [
             'idservicio' => 'Idservicio',
             'nombre' => 'Nombre',
-            'tarifa' => 'Tarifa',
+            'tarifa' => 'Tarifa Q.',
             'descripcion' => 'Descripcion',
+            'tiposervicio' => 'Tipo de Servicio',
+            'disponible' => 'Estado del Servicio',
         ];
     }
 
     /**
      * Gets query for [[Servicioscontratados]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
      */
     public function getServicioscontratados()
     {
@@ -63,10 +69,19 @@ class Servicios extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Idclientes]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
      */
     public function getIdclientes()
     {
         return $this->hasMany(Clientes::className(), ['idcliente' => 'idcliente'])->viaTable('servicioscontratados', ['idservicio' => 'idservicio']);
+    }
+
+    /**
+     * {@inheritdoc}
+     * @return ServiciosQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new ServiciosQuery(get_called_class());
     }
 }

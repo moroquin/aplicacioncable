@@ -1,0 +1,31 @@
+tabla servicios 
+    agregué tipo de servicio, para poder agrupar los resultados
+        internet
+        cable
+
+    alter table servicios add `tiposervicio` VARCHAR(45) NULL;
+    alter table servicios add `disponible` TINYINT NULL DEFAULT 1;
+
+
+
+
+
+
+extra/php-apache 7.4.4-2
+    Apache SAPI for PHP
+php-apcu
+
+    A userland caching module for PHP
+extra/php-apcu-bc 1.0.5-2
+    APCu Backwards Compatibility Module
+
+
+
+
+php-cgi php-dblib php-embed php-enchant php-gd php-imap php-intl 7.4.4-2 php-phpdbg php-pspell php-snmp php-xsl php-imagick php-box 
+
+    
+
+
+por eliminar views servicios
+

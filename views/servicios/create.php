@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Servicios */
 
-$this->title = 'Create Servicios';
+$this->title = 'Creación de nuevos servicios ';
 $this->params['breadcrumbs'][] = ['label' => 'Servicios', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -15,6 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
+        'serviciosDisponibles' => $serviciosDisponibles,
     ]) ?>
 
 </div>
