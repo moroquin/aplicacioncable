@@ -14,9 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Create Clientes', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+    
 
     <?php Pjax::begin(); ?>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -27,23 +25,29 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'idcliente',
+            //'idcliente',
             'correlativo',
             'primernombre',
             'segundonombre',
             'primerapelldio',
-            //'segundoapellido',
+            'segundoapellido',
             //'direccion:ntext',
-            //'dpi',
+            'dpi',
             //'referencias:ntext',
             //'telefono1',
             //'telefono2',
-            //'nit',
+            'nit',
+            'nombrezona',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 
     <?php Pjax::end(); ?>
+
+
+    <div class="panel panel-primary">
+        <div class="col-xs-12"><?= Html::a('Agregar un nuevo cliente', ['create'], ['class' => 'btn btn-block btn-success']) ?></div>
+    </div>
 
 </div>

@@ -13,9 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="servicios-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-
-
-
+    
     <?php Pjax::begin(); ?>
     <?php // echo $this->render('_search', ['model' => $searchModel]); 
     ?>
@@ -24,11 +22,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            //   'idservicio',
+            //'idservicio',
             'nombre',
             'tarifa',
             'descripcion:ntext',
             'tiposervicio',
+            //'disponible',
             [
                 'class' => 'yii\grid\ActionColumn',
                 'header' => 'Actualizar',
@@ -53,22 +52,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php Pjax::end(); ?>
 
-
-    <div class="row">
-        <div class="col-xs-4">
-            <p>
-                <?= Html::a('Crear Nuevo Servicio', ['create'], ['class' => 'btn btn-success']) ?>
-            </p>
-        </div>
-        <div class="col-xs-4">
-            <p>
-
-                <?= Html::a(Yii::t('app', (($searchModel->disponible) ? 'Mostrar servicios <strong>de baja</strong>.' : 'Mostrar servicios <strong>de alta</strong>.')), ['servicios/indexx', 'disponible' => $searchModel->disponible], ['class' => ($searchModel->disponible) ? 'btn btn-danger' : 'btn btn-warning']) ?>
-            </p>
-        </div>
+    <div class="panel panel-primary">
+    <div class="col-xs-12"><?= Html::a('Crear Nuevo Servicio', ['create'], ['class' => 'btn btn-block btn-success']) ?></div>
+    <div class="col-xs-12"><?= Html::a(Yii::t('app', (($searchModel->disponible) ? 'Mostrar servicios <strong>de baja</strong>.' : 'Mostrar servicios <strong>de alta</strong>.')), ['servicios/indexx', 'disponible' => $searchModel->disponible], ['class' => ($searchModel->disponible) ? 'btn btn-block btn-danger' : 'btn btn-block btn-warning']) ?></div>
     </div>
-
-
-
 
 </div>

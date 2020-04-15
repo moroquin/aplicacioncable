@@ -15,7 +15,6 @@ use Yii;
  * @property int|null $disponible
  *
  * @property Servicioscontratados $servicioscontratados
- * @property Clientes[] $idclientes
  */
 class Servicios extends \yii\db\ActiveRecord
 {
@@ -33,7 +32,7 @@ class Servicios extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['tarifa'], 'double'],
+            [['tarifa'], 'number'],
             [['descripcion'], 'string'],
             [['disponible'], 'integer'],
             [['nombre'], 'string', 'max' => 100],
@@ -49,10 +48,10 @@ class Servicios extends \yii\db\ActiveRecord
         return [
             'idservicio' => 'Idservicio',
             'nombre' => 'Nombre',
-            'tarifa' => 'Tarifa Q.',
+            'tarifa' => 'Tarifa',
             'descripcion' => 'Descripcion',
-            'tiposervicio' => 'Tipo de Servicio',
-            'disponible' => 'Estado del Servicio',
+            'tiposervicio' => 'Tiposervicio',
+            'disponible' => 'Disponible',
         ];
     }
 
@@ -64,16 +63,6 @@ class Servicios extends \yii\db\ActiveRecord
     public function getServicioscontratados()
     {
         return $this->hasOne(Servicioscontratados::className(), ['idservicio' => 'idservicio']);
-    }
-
-    /**
-     * Gets query for [[Idclientes]].
-     *
-     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
-     */
-    public function getIdclientes()
-    {
-        return $this->hasMany(Clientes::className(), ['idcliente' => 'idcliente'])->viaTable('servicioscontratados', ['idservicio' => 'idservicio']);
     }
 
     /**

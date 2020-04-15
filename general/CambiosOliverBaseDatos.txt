@@ -6,9 +6,9 @@ tabla servicios
     alter table servicios add `tiposervicio` VARCHAR(45) NULL;
     alter table servicios add `disponible` TINYINT NULL DEFAULT 1;
 
+    alter table servicios modify column `disponible` TINYINT NULL DEFAULT 1;
 
-
-
+    alter table clientes modify column `idcliente`  AUTO_INCREMENT;
 
 
 extra/php-apache 7.4.4-2
@@ -34,3 +34,22 @@ por eliminar views servicios
 clientes unique kpi y nit
 
 auto increment
+
+
+
+
+https://getbootstrap.com/docs/3.3/components/#alerts
+
+pannel-primary   -->  registro y actualización de datos 
+
+pannel-info      --> desplegar información 
+
+pannel-warning   --> cosas cuidado
+
+alertas
+
+https://getbootstrap.com/docs/3.3/components/#alerts
+
+
+
+https://getbootstrap.com/docs/3.3/css/#buttons

@@ -16,11 +16,15 @@ class ServiciosController extends Controller
 {
 
 
+    /**
+     * Array de servicios para no crecar una tabla por estos tres servicios. 
+     */
     private $serviciosDisponibles = [
         "Internet" => "Internet",
         "Cable" => "Cable",
         "Internet y Cable" => "Internet y Cable"
     ];
+
 
     /**
      * {@inheritdoc}
@@ -46,7 +50,6 @@ class ServiciosController extends Controller
         return $this->redirect(['indexx', 'disponible' => 0]);
     }
 
-
     /**
      * Lists all Servicios models.
      * @param integer $disponible
@@ -69,15 +72,13 @@ class ServiciosController extends Controller
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
-     
+     */
     public function actionView($id)
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
-    }*/
-
-
+    }
 
     /**
      * Creates a new Servicios model.
@@ -90,9 +91,8 @@ class ServiciosController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
+            //return $this->redirect(['view', 'id' => $model->idservicio]);
         }
-
-
 
         return $this->render('create', [
             'model' => $model,
@@ -112,28 +112,13 @@ class ServiciosController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['update', 'id' => $model->idservicio]);
+            return $this->redirect(['view', 'id' => $model->idservicio]);
         }
 
         return $this->render('update', [
             'model' => $model,
             'serviciosDisponibles' => $this->serviciosDisponibles,
         ]);
-    }
-
-    /**
-     * Updates an existing Servicios model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionUpdatealta($id)
-    {
-        $model = $this->findModel($id);
-        $model->disponible = ($model->disponible == 0) ? 1 : 0;
-        $model->save();
-        return $this->redirect(['update', 'id' => $model->idservicio]);
     }
 
     /**
@@ -145,10 +130,7 @@ class ServiciosController extends Controller
      */
     public function actionDelete($id)
     {
-        //$this->findModel($id)->delete();
-        $model = $this->findModel($id);
-        $model->disponible = ($model->disponible == 0) ? 1 : 0;
-        $model->save();
+        $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
     }
