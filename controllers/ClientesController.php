@@ -66,7 +66,7 @@ class ClientesController extends Controller
     {
         $model = new Clientes();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->guardar()) {
             return $this->redirect(['view', 'id' => $model->idcliente]);
         }
 

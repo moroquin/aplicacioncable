@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use phpDocumentor\Reflection\Types\Boolean;
 use Yii;
 
 /**
@@ -47,7 +48,8 @@ class Clientes extends \yii\db\ActiveRecord
             [['dpi'], 'string', 'max' => 15],
             [['telefono1', 'telefono2'], 'string', 'max' => 40],
             [['nit', 'nombrezona'], 'string', 'max' => 45],
-            [['nombrezona'], 'exist', 'skipOnError' => true, 'targetClass' => Zona::className(), 'targetAttribute' => ['nombrezona' => 'nombrezona']],
+            [['nombrezona'], 'required'],
+            //'exist', 'skipOnError' => true, 'targetClass' => Zona::className(), 'targetAttribute' => ['nombrezona' => 'nombrezona']
         ];
     }
 
@@ -59,18 +61,48 @@ class Clientes extends \yii\db\ActiveRecord
         return [
             'idcliente' => 'Idcliente',
             'correlativo' => 'Correlativo',
-            'primernombre' => 'Primernombre',
-            'segundonombre' => 'Segundonombre',
-            'primerapelldio' => 'Primerapelldio',
-            'segundoapellido' => 'Segundoapellido',
-            'direccion' => 'Direccion',
+            'primernombre' => '1er. nombre',
+            'segundonombre' => '2do. nombre',
+            'primerapelldio' => '1er. apelldio',
+            'segundoapellido' => '2do. apellido',
+            'direccion' => 'Dirección',
             'dpi' => 'Dpi',
             'referencias' => 'Referencias',
-            'telefono1' => 'Telefono1',
-            'telefono2' => 'Telefono2',
+            'telefono1' => 'Telefono 1',
+            'telefono2' => 'Telefono 2',
             'nit' => 'Nit',
             'nombrezona' => 'Nombrezona',
         ];
+    }
+
+    public function guardar()
+    {
+
+        $salida = FALSE;
+        $connection = \Yii::$app->db;
+        $transaction = $connection->beginTransaction();
+        try {
+
+            $this->nombrezona = strtoupper($this->nombrezona);
+
+            if ((Zona::findOne($this->nombrezona)) !== null) {
+                $salida = $this->save();
+            }
+            else{
+                $modelZona = new Zona();
+                $modelZona->nombrezona = $this->nombrezona;
+                if ($modelZona->save())
+                    $salida = $this->save();
+            }
+            $transaction->commit();
+        } catch (\Exception $e) {
+            $transaction->rollBack();
+            throw $e;
+        } catch (\Throwable $e) {
+            $transaction->rollBack();
+            throw $e;
+        }
+        return true;
     }
 
     /**
