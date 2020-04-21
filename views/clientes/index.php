@@ -39,7 +39,46 @@ $this->params['breadcrumbs'][] = $this->title;
             'nit',
             'nombrezona',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'header' => '',
+                'headerOptions' => ['style' => 'color:#337ab7'],
+                'template' => '{update}',
+                'buttons' => [
+                    'update' => function ($url, $model) {
+                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, [
+                            'title' => Yii::t('app', 'Actualizar cliente'),
+                        ]);
+                    },
+                ],
+                'urlCreator' => function ($action, $model, $key, $index) {
+                    if ($action === 'update') {
+                        $url = 'clientes/update?id=' . $model->idcliente;
+                        return $url;
+                    }
+                }
+            ],
+
+
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'header' => '',
+                'headerOptions' => ['style' => 'color:#337ab7'],
+                'template' => '{view}',
+                'buttons' => [
+                    'view' => function ($url, $model) {
+                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url, [
+                            'title' => Yii::t('app', 'Ver detalle del cliente'),
+                        ]);
+                    },
+                ],
+                'urlCreator' => function ($action, $model, $key, $index) {
+                    if ($action === 'view') {
+                        $url = 'clientes/view?id=' . $model->idcliente;
+                        return $url;
+                    }
+                }
+            ],
         ],
     ]); ?>
 

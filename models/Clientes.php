@@ -71,29 +71,35 @@ class Clientes extends \yii\db\ActiveRecord
             'telefono1' => 'Telefono 1',
             'telefono2' => 'Telefono 2',
             'nit' => 'Nit',
-            'nombrezona' => 'Nombrezona',
+            'nombrezona' => 'Agrupación Cobro',
         ];
     }
 
-    public function guardar()
+    public function guardar($zona)
     {
 
         $salida = FALSE;
         $connection = \Yii::$app->db;
         $transaction = $connection->beginTransaction();
         try {
+            
+            if ($this->nombrezona === '0'){
+                $zona->save();
+                $this->nombrezona = $zona->getNombrezona();
+            }
+            $salida = $this->save();
 
-            $this->nombrezona = strtoupper($this->nombrezona);
+            /*$this->nombrezona = strtoupper($this->nombrezona);
 
-            if ((Zona::findOne($this->nombrezona)) !== null) {
+            if ($this->nombrezona != '0') {
+                $this->nom
                 $salida = $this->save();
             }
             else{
-                $modelZona = new Zona();
-                $modelZona->nombrezona = $this->nombrezona;
-                if ($modelZona->save())
+                if ($zona->save())
+                    $this->nombrezona = $zona->getNombrezona0();
                     $salida = $this->save();
-            }
+            }*/
             $transaction->commit();
         } catch (\Exception $e) {
             $transaction->rollBack();
@@ -102,7 +108,7 @@ class Clientes extends \yii\db\ActiveRecord
             $transaction->rollBack();
             throw $e;
         }
-        return true;
+        return $salida;
     }
 
     /**

@@ -39,7 +39,7 @@ class Zona extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'nombrezona' => 'Nombrezona',
+            'nombrezona' => 'Agrupación Cobro',
         ];
     }
 
@@ -60,5 +60,25 @@ class Zona extends \yii\db\ActiveRecord
     public static function find()
     {
         return new ZonaQuery(get_called_class());
+    }
+
+    /**
+     * @return ArrayZonas returns an array of zones 
+     */
+    public function listadoZonas()
+    {
+        $result = Zona::find()->all();
+
+        $zonas = [];
+
+        foreach ($result as $record)
+            $zonas[$record->nombrezona] = ($record->nombrezona != '0') ? $record->nombrezona : 'Ingresar Nueva zona';
+
+        return $zonas;
+    }
+
+    public function getNombrezona()
+    {
+        return $this->nombrezona;
     }
 }

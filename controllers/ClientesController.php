@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Clientes;
+use app\models\Zona;
 use app\models\ClientesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -37,6 +38,7 @@ class ClientesController extends Controller
     {
         $searchModel = new ClientesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->pagination->pageSize=5;
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -65,13 +67,18 @@ class ClientesController extends Controller
     public function actionCreate()
     {
         $model = new Clientes();
+        $zonas = Zona::listadoZonas();
+        $zona = new Zona();
+        $zona->nombrezona = "Escribe aqui . . .";
 
-        if ($model->load(Yii::$app->request->post()) && $model->guardar()) {
+        if ($model->load(Yii::$app->request->post()) && $zona->load(Yii::$app->request->post()) && $model->guardar($zona)) {
             return $this->redirect(['view', 'id' => $model->idcliente]);
         }
 
         return $this->render('create', [
             'model' => $model,
+            'zonas' => $zonas,
+            'zona' => $zona,
         ]);
     }
 
@@ -85,13 +92,18 @@ class ClientesController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $zonas = Zona::listadoZonas();
+        $zona = new Zona();
+        $zona->nombrezona = "Escribe aqui . . .";
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $zona->load(Yii::$app->request->post()) && $model->guardar($zona)) {
             return $this->redirect(['view', 'id' => $model->idcliente]);
         }
 
         return $this->render('update', [
             'model' => $model,
+            'zonas' => $zonas,
+            'zona' => $zona,
         ]);
     }
 

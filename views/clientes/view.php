@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Clientes */
 
-$this->title = $model->idcliente;
+$this->title = $model->primernombre . ' ' . $model->segundonombre . ' ' . $model->primerapelldio . ' ' . $model->segundoapellido;
 $this->params['breadcrumbs'][] = ['label' => 'Clientes', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
@@ -15,26 +15,17 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->idcliente], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->idcliente], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
+
 
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'idcliente',
+            //'idcliente',
             'correlativo',
-            'primernombre',
-            'segundonombre',
-            'primerapelldio',
-            'segundoapellido',
+          //  'primernombre',
+          //  'segundonombre',
+          //  'primerapelldio',
+          //  'segundoapellido',
             'direccion:ntext',
             'dpi',
             'referencias:ntext',
@@ -44,5 +35,19 @@ $this->params['breadcrumbs'][] = $this->title;
             'nombrezona',
         ],
     ]) ?>
+
+
+    <p>
+        <div class="col-xs-12">
+            <?= Html::a('Actualizar ', ['update', 'id' => $model->idcliente], ['class' => 'btn btn-block btn-primary']) ?>
+        </div>
+        <!--    < ? = Html::a('Delete', ['delete', 'id' => $model->idcliente], [
+            'class' => 'btn btn-danger',
+            'data' => [
+                'confirm' => 'Are you sure you want to delete this item?',
+                'method' => 'post',
+            ],
+        ]) ? >  -->
+    </p>
 
 </div>
