@@ -11,19 +11,18 @@ use Yii;
  * @property float|null $subtotal
  * @property int $idcliente
  * @property int $idservicio
- * @property int $idfechacorte
- * @property int $idestado
- * @property string|null $contratonumero
+ * @property string $contratonumero
  * @property float|null $cobropactado
  * @property int|null $duracioncontrato
  * @property string|null $fechainicio
+ * @property string $nombreestado
+ * @property int $idservicioscontratados
+ * @property string|null $corte
  *
  * @property Cobros[] $cobros
  * @property Clientes $idcliente0
- * @property Estado $idestado0
- * @property Fechacorte $idfechacorte0
+ * @property Estado $nombreestado0
  * @property Servicios $idservicio0
- * @property Trabajospendientes[] $trabajospendientes
  */
 class Servicioscontratados extends \yii\db\ActiveRecord
 {
@@ -41,17 +40,17 @@ class Servicioscontratados extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['mesesnopagados', 'idcliente', 'idservicio', 'idfechacorte', 'idestado', 'duracioncontrato'], 'integer'],
+            [['mesesnopagados', 'idcliente', 'idservicio', 'duracioncontrato'], 'integer'],
             [['subtotal', 'cobropactado'], 'number'],
-            [['idcliente', 'idservicio', 'idfechacorte', 'idestado'], 'required'],
+            [['idcliente', 'idservicio', 'contratonumero', 'nombreestado'], 'required'],
             [['fechainicio'], 'safe'],
             [['contratonumero'], 'string', 'max' => 45],
+            [['nombreestado'], 'string', 'max' => 60],
+            [['corte'], 'string', 'max' => 4],
             [['idcliente'], 'unique'],
             [['idservicio'], 'unique'],
-            [['idcliente', 'idservicio'], 'unique', 'targetAttribute' => ['idcliente', 'idservicio']],
             [['idcliente'], 'exist', 'skipOnError' => true, 'targetClass' => Clientes::className(), 'targetAttribute' => ['idcliente' => 'idcliente']],
-            [['idestado'], 'exist', 'skipOnError' => true, 'targetClass' => Estado::className(), 'targetAttribute' => ['idestado' => 'idestado']],
-            [['idfechacorte'], 'exist', 'skipOnError' => true, 'targetClass' => Fechacorte::className(), 'targetAttribute' => ['idfechacorte' => 'idfechacorte']],
+            [['nombreestado'], 'exist', 'skipOnError' => true, 'targetClass' => Estado::className(), 'targetAttribute' => ['nombreestado' => 'nombreestado']],
             [['idservicio'], 'exist', 'skipOnError' => true, 'targetClass' => Servicios::className(), 'targetAttribute' => ['idservicio' => 'idservicio']],
         ];
     }
@@ -66,29 +65,30 @@ class Servicioscontratados extends \yii\db\ActiveRecord
             'subtotal' => 'Subtotal',
             'idcliente' => 'Idcliente',
             'idservicio' => 'Idservicio',
-            'idfechacorte' => 'Idfechacorte',
-            'idestado' => 'Idestado',
             'contratonumero' => 'Contratonumero',
             'cobropactado' => 'Cobropactado',
             'duracioncontrato' => 'Duracioncontrato',
             'fechainicio' => 'Fechainicio',
+            'nombreestado' => 'Nombreestado',
+            'idservicioscontratados' => 'Idservicioscontratados',
+            'corte' => 'Corte',
         ];
     }
 
     /**
      * Gets query for [[Cobros]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
      */
     public function getCobros()
     {
-        return $this->hasMany(Cobros::className(), ['idcliente' => 'idcliente', 'idservicio' => 'idservicio']);
+        return $this->hasMany(Cobros::className(), ['idservicioscontratados' => 'idservicioscontratados']);
     }
 
     /**
      * Gets query for [[Idcliente0]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|ClientesQuery
      */
     public function getIdcliente0()
     {
@@ -96,29 +96,19 @@ class Servicioscontratados extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Idestado0]].
+     * Gets query for [[Nombreestado0]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
      */
-    public function getIdestado0()
+    public function getNombreestado0()
     {
-        return $this->hasOne(Estado::className(), ['idestado' => 'idestado']);
-    }
-
-    /**
-     * Gets query for [[Idfechacorte0]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getIdfechacorte0()
-    {
-        return $this->hasOne(Fechacorte::className(), ['idfechacorte' => 'idfechacorte']);
+        return $this->hasOne(Estado::className(), ['nombreestado' => 'nombreestado']);
     }
 
     /**
      * Gets query for [[Idservicio0]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|ServiciosQuery
      */
     public function getIdservicio0()
     {
@@ -126,12 +116,11 @@ class Servicioscontratados extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Trabajospendientes]].
-     *
-     * @return \yii\db\ActiveQuery
+     * {@inheritdoc}
+     * @return ServicioscontratadosQuery the active query used by this AR class.
      */
-    public function getTrabajospendientes()
+    public static function find()
     {
-        return $this->hasMany(Trabajospendientes::className(), ['servicioscontratados_idcliente' => 'idcliente', 'servicioscontratados_idservicio' => 'idservicio']);
+        return new ServicioscontratadosQuery(get_called_class());
     }
 }
