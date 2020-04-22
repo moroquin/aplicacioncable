@@ -73,4 +73,38 @@ class Servicios extends \yii\db\ActiveRecord
     {
         return new ServiciosQuery(get_called_class());
     }
+
+    /**
+     * {@inheritdoc}
+     * @return servicios Array de salida de servicios prestados
+     */
+    public function listadoServicios($activo){
+        $result = Servicios::find()->all();
+
+        $servicios = [];
+
+        foreach ($result as $record)
+            if ($activo == $record->disponible)
+                $servicios[$record->idservicio] = $record->nombre . ". Q. " . $record->tarifa;
+        
+        return $servicios;
+    }
+
+    /**
+     * {@inheritdoc}
+     * @return costos Array de salida de servicios prestados
+     */
+    public function listadoTarifas($activo){
+        $result = Servicios::find()->all();
+
+        $costos = [];
+
+        foreach ($result as $record)
+            if ($activo == $record->disponible)
+                $costos[$record->idservicio] = $record->tarifa;
+        
+        return $costos;
+
+    }
+
 }

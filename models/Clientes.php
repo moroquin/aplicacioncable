@@ -139,4 +139,22 @@ class Clientes extends \yii\db\ActiveRecord
     {
         return new ClientesQuery(get_called_class());
     }
+
+
+     /**
+     * @return clientes returns an array of zones 
+     */
+    public function listadoClientes()
+    {
+        $result = Clientes::find()->all();
+
+        $clientes = [];
+
+        foreach ($result as $record)
+            $clientes[$record->idcliente] = ($record->idcliente != '1') ? ($record->primernombre . ' ' . $record->segundonombre . ' ' . $record->primerapelldio . ' ' . $record->segundoapellido . '. Agrupación cobro: ' . $record->nombrezona . '. DPI: '. $record->dpi . '. Nit: '. $record->nit) : 'Ingrese nuevo usuario';
+
+        return $clientes;
+    }
+
+
 }

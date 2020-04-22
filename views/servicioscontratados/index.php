@@ -14,12 +14,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Create Servicioscontratados', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+
 
     <?php Pjax::begin(); ?>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); 
+    ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -43,6 +42,16 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
 
+    <div class="panel ">
+        <div class="col-xs-12">
+            <?= Html::a('Create Servicioscontratados', ['create'], ['class' => 'btn btn-block btn-success']) ?>
+        </div>
+    </div>
+
     <?php Pjax::end(); ?>
+
+
+
+
 
 </div>

@@ -3,6 +3,9 @@
 namespace app\controllers;
 
 use Yii;
+use app\models\Servicios;
+use app\models\Clientes;
+use app\models\Zona;
 use app\models\Servicioscontratados;
 use app\models\ServicioscontratadosSearch;
 use yii\web\Controller;
@@ -37,10 +40,12 @@ class ServicioscontratadosController extends Controller
     {
         $searchModel = new ServicioscontratadosSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $servicios = Servicios::listadoServicios(TRUE);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'servicios' => $servicios,
         ]);
     }
 
@@ -64,14 +69,33 @@ class ServicioscontratadosController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Servicioscontratados();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+        $model = new Clientes();
+        $zonas = Zona::listadoZonas();
+        $zona = new Zona();
+        $zona->nombrezona = "Escribe aqui . . .";
+
+
+        $modelservicios = new Servicioscontratados();
+        $servicios = Servicios::listadoServicios(TRUE);
+        $tarifas = Servicios::listadoTarifas(TRUE);
+        $clientes = Clientes::listadoClientes();
+
+        if ($modelservicios->load(Yii::$app->request->post()) && $modelservicios->save()) {
             return $this->redirect(['view', 'id' => $model->idservicioscontratados]);
         }
 
         return $this->render('create', [
+            'modelservicios' => $modelservicios,
+            'servicios' => $servicios,
+            'clientes' => $clientes,
+            'tarifas' => $tarifas,
+
+
             'model' => $model,
+            'zonas' => $zonas,
+            'zona' => $zona,
         ]);
     }
 

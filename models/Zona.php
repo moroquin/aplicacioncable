@@ -72,7 +72,7 @@ class Zona extends \yii\db\ActiveRecord
         $zonas = [];
 
         foreach ($result as $record)
-            $zonas[$record->nombrezona] = ($record->nombrezona != '0') ? $record->nombrezona : 'Ingresar Nueva zona';
+            $zonas[$record->nombrezona] = ($record->nombrezona != '0') ? $record->nombrezona : 'Nueva agrupación de cobro';
 
         return $zonas;
     }

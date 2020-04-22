@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "420162a60ee54b98abc0046214b86456",
+    "content-hash": "583dacc2035f4e0cacb0532b3990adc8",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -380,6 +380,60 @@
                 "yii2"
             ],
             "time": "2019-05-25T07:25:02+00:00"
+        },
+        {
+            "name": "kartik-v/yii2-widget-datepicker",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kartik-v/yii2-widget-datepicker.git",
+                "reference": "fada92bc506d382ea3367daac6a1f7a9adf434b2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-datepicker/zipball/fada92bc506d382ea3367daac6a1f7a9adf434b2",
+                "reference": "fada92bc506d382ea3367daac6a1f7a9adf434b2",
+                "shasum": ""
+            },
+            "require": {
+                "kartik-v/yii2-krajee-base": ">=2.0.0"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.4.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "kartik\\date\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kartik Visweswaran",
+                    "email": "kartikv2@gmail.com",
+                    "homepage": "http://www.krajee.com/"
+                }
+            ],
+            "description": "Enhanced Yii2 wrapper for the bootstrap datepicker plugin (sub repo split from yii2-widgets).",
+            "homepage": "https://github.com/kartik-v/yii2-widget-datepicker",
+            "keywords": [
+                "date",
+                "extension",
+                "form",
+                "jquery",
+                "picker",
+                "plugin",
+                "select2",
+                "widget",
+                "yii2"
+            ],
+            "time": "2020-03-20T14:21:31+00:00"
         },
         {
             "name": "kartik-v/yii2-widget-select2",
@@ -839,12 +893,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "792ca2c381f9d427109503a8124c92a1fcd9e401"
+                "reference": "03cb66d540913a85efa4222b2f5535d02f2ba803"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/792ca2c381f9d427109503a8124c92a1fcd9e401",
-                "reference": "792ca2c381f9d427109503a8124c92a1fcd9e401",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/03cb66d540913a85efa4222b2f5535d02f2ba803",
+                "reference": "03cb66d540913a85efa4222b2f5535d02f2ba803",
                 "shasum": ""
             },
             "require": {
@@ -931,7 +985,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2020-04-18T08:53:18+00:00"
+            "time": "2020-04-19T21:39:29+00:00"
         },
         {
             "name": "yiisoft/yii2-bootstrap",
@@ -1002,12 +1056,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-composer.git",
-                "reference": "ac0af9da5b4addd9fc6cf852fe66d65f6ac761cd"
+                "reference": "a42a0d69e1a0799f7db0d0e907db2bbeb437230c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-composer/zipball/ac0af9da5b4addd9fc6cf852fe66d65f6ac761cd",
-                "reference": "ac0af9da5b4addd9fc6cf852fe66d65f6ac761cd",
+                "url": "https://api.github.com/repos/yiisoft/yii2-composer/zipball/a42a0d69e1a0799f7db0d0e907db2bbeb437230c",
+                "reference": "a42a0d69e1a0799f7db0d0e907db2bbeb437230c",
                 "shasum": ""
             },
             "require": {
@@ -1049,7 +1103,7 @@
                 "extension installer",
                 "yii2"
             ],
-            "time": "2020-04-17T22:49:53+00:00"
+            "time": "2020-04-20T18:48:05+00:00"
         },
         {
             "name": "yiisoft/yii2-swiftmailer",
@@ -1356,21 +1410,21 @@
         },
         {
             "name": "codeception/module-asserts",
-            "version": "1.2.0",
+            "version": "1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/module-asserts.git",
-                "reference": "f9bfbb4be4b993f5b315eba9eecaa1b358c2fcd2"
+                "reference": "79f13d05b63f2fceba4d0e78044bab668c9b2a6b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/module-asserts/zipball/f9bfbb4be4b993f5b315eba9eecaa1b358c2fcd2",
-                "reference": "f9bfbb4be4b993f5b315eba9eecaa1b358c2fcd2",
+                "url": "https://api.github.com/repos/Codeception/module-asserts/zipball/79f13d05b63f2fceba4d0e78044bab668c9b2a6b",
+                "reference": "79f13d05b63f2fceba4d0e78044bab668c9b2a6b",
                 "shasum": ""
             },
             "require": {
                 "codeception/codeception": "*@dev",
-                "codeception/lib-asserts": "^1.0.0",
+                "codeception/lib-asserts": "^1.12.0",
                 "php": ">=5.6.0 <8.0"
             },
             "conflict": {
@@ -1404,7 +1458,7 @@
                 "asserts",
                 "codeception"
             ],
-            "time": "2020-04-18T10:01:11+00:00"
+            "time": "2020-04-20T07:26:11+00:00"
         },
         {
             "name": "codeception/module-filesystem",
@@ -4778,7 +4832,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "kartik-v/yii2-widget-select2": 20
+        "kartik-v/yii2-widget-select2": 20,
+        "kartik-v/yii2-widget-datepicker": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
