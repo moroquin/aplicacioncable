@@ -7,8 +7,9 @@ use Yii;
 /**
  * This is the model class for table "estado".
  *
- * @property int $idestado
- * @property string|null $nombre
+ * @property string $nombre
+ * @property string|null $descripcion
+ * @property int|null $nivelautorizacion
  *
  * @property Servicioscontratados[] $servicioscontratados
  */
@@ -28,7 +29,11 @@ class Estado extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nombre'], 'string', 'max' => 60],
+            [['nombre'], 'required'],
+            [['descripcion'], 'string'],
+            [['nivelautorizacion'], 'integer'],
+            [['nombre'], 'string', 'max' => 45],
+            [['nombre'], 'unique'],
         ];
     }
 
@@ -38,18 +43,28 @@ class Estado extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'idestado' => 'Idestado',
             'nombre' => 'Nombre',
+            'descripcion' => 'Descripcion',
+            'nivelautorizacion' => 'Nivelautorizacion',
         ];
     }
 
     /**
      * Gets query for [[Servicioscontratados]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|ServicioscontratadosQuery
      */
     public function getServicioscontratados()
     {
-        return $this->hasMany(Servicioscontratados::className(), ['idestado' => 'idestado']);
+        return $this->hasMany(Servicioscontratados::className(), ['nombreestado' => 'nombre']);
+    }
+
+    /**
+     * {@inheritdoc}
+     * @return EstadoQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new EstadoQuery(get_called_class());
     }
 }

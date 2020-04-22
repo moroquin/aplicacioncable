@@ -39,12 +39,16 @@ use yii\widgets\ActiveForm;
 
         <div class="panel-body">
             <div class="col-xs-12"><?= Html::submitButton(!(empty($model->idservicio)) ? 'Actualizar Información' : 'Guardar nuevo servicio', ['class' => 'btn btn-block btn-success']) ?></div>
-            <div class="col-xs-12"><?= Html::a(Yii::t('app', (($model->disponible) ? 'Dar de <strong>baja</strong> el servicio' : 'Dar de <strong>alta</strong> al servicio')), ['servicios/updatealta', 'id' => $model->idservicio], [
-                'class' => ($model->disponible) ? 'btn btn-block btn-danger' : 'btn btn-block btn-warning', 
-                'data' => [
-                'confirm' => '¿Está seguro de querer cambiar el estado de este curso?',
-                'method' => 'post',]]) ?></div>
+            <div class="col-xs-12" style="<?= ((empty($model->idservicio))) ? 'display: none' : 'display: block' ?>"><?= Html::a(Yii::t('app', (($model->disponible) ? 'Dar de <strong>baja</strong> el servicio' : 'Dar de <strong>alta</strong> al servicio')), ['servicios/updatealta', 'id' => $model->idservicio], [
+                                                                                                                            'class' => ($model->disponible) ? 'btn btn-block btn-danger' : 'btn btn-block btn-warning',
+                                                                                                                            'data' => [
+                                                                                                                                'confirm' => '¿Está seguro de querer cambiar el estado de este curso?',
+                                                                                                                                'method' => 'post',
+                                                                                                                            ]
+                                                                                                                        ]) ?></div>
         </div>
+    </div>
+    <div class="panel panel-warning">
 
         <div class="panel-heading">Acerca del estado del servicio</div>
         <div class="panel-body">
