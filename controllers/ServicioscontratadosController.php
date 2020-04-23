@@ -6,6 +6,7 @@ use Yii;
 use app\models\Servicios;
 use app\models\Clientes;
 use app\models\Zona;
+use app\models\Estado;
 use app\models\Servicioscontratados;
 use app\models\ServicioscontratadosSearch;
 use yii\web\Controller;
@@ -75,6 +76,8 @@ class ServicioscontratadosController extends Controller
         $zonas = Zona::listadoZonas();
         $zona = new Zona();
         $zona->nombrezona = "Escribe aqui . . .";
+        $model->nombrezona = '0';
+
 
 
         $modelservicios = new Servicioscontratados();
@@ -82,8 +85,11 @@ class ServicioscontratadosController extends Controller
         $tarifas = Servicios::listadoTarifas(TRUE);
         $clientes = Clientes::listadoClientes();
 
+        $estados = Estado::listadoEstados();
+
+
         if ($modelservicios->load(Yii::$app->request->post()) && $modelservicios->save()) {
-            return $this->redirect(['view', 'id' => $model->idservicioscontratados]);
+            return $this->redirect(['view', 'id' => $modelservicios->idservicioscontratados]);
         }
 
         return $this->render('create', [
@@ -96,6 +102,8 @@ class ServicioscontratadosController extends Controller
             'model' => $model,
             'zonas' => $zonas,
             'zona' => $zona,
+
+            'estados' => $estados,
         ]);
     }
 
@@ -108,14 +116,42 @@ class ServicioscontratadosController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $modelservicios = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idservicioscontratados]);
+
+        $model = Clientes::findOne($modelservicios->idcliente);
+        $zonas = Zona::listadoZonas();
+        $zona = new Zona();
+        $zona->nombrezona = "Escribe aqui . . .";
+        $model->nombrezona = '0';
+
+
+
+        
+        $servicios = Servicios::listadoServicios(TRUE);
+        $tarifas = Servicios::listadoTarifas(TRUE);
+        $clientes = Clientes::listadoClientes();
+
+        $estados = Estado::listadoEstados();
+
+
+
+        if ($modelservicios->load(Yii::$app->request->post()) && $modelservicios->save()) {
+            return $this->redirect(['view', 'id' => $modelservicios->idservicioscontratados]);
         }
 
         return $this->render('update', [
+            'modelservicios' => $modelservicios,
+            'servicios' => $servicios,
+            'clientes' => $clientes,
+            'tarifas' => $tarifas,
+
+
             'model' => $model,
+            'zonas' => $zonas,
+            'zona' => $zona,
+
+            'estados' => $estados,
         ]);
     }
 
@@ -149,3 +185,4 @@ class ServicioscontratadosController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 }
+

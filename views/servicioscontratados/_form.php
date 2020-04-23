@@ -115,13 +115,25 @@ use kartik\date\DatePicker;
                     ->widget(DatePicker::classname(), [
                         'options' => ['placeholder' => 'Ingrese fecha inicio'],
                         'pluginOptions' => [
-                            'autoclose' => true
+                            'autoclose' => true,
+                            'todayHighlight' => true,
+                            'format' => 'yyyy-mm-dd' ,
                         ]
                     ]) ?>
             </div>
 
             <div class="col-xs-12">
                 <?= $form->field($modelservicios, 'corte')->textInput(['maxlength' => true]) ?>
+            </div>
+
+            <div class="col-xs-6">
+                <?= $form->field($modelservicios, 'nombreestado')
+                    ->widget(Select2::classname(), [
+                        'data' =>  $estados,
+                        'options' => ['tag' => true, 'placeholder' => 'Seleccione el servicio que se contratará.'],
+                        'pluginOptions' => ['allowClear' => true,],
+
+                    ]) ?>
             </div>
         </div>
     </div>
@@ -137,38 +149,3 @@ use kartik\date\DatePicker;
 
 
 
-<?php
-$script = <<< JS
-   
-    const clientenew = document.querySelector('#clientenuevo')
-
-    $('#servicioscontratados-idcliente').on('change', function(){
-        if ( this.value == '1') {
-            
-            clientenew.style.display =  "block";      
-            }
-            else {
-                nombrezona.value = 'Escribe aca . . .';
-                clientenew.style.display =  "none";
-            }
-        });
-
-
-
-        const nombrezona = document.querySelector('#zona-nombrezona');
-    const divnombrezona = document.querySelector('#agregarzona');
-    
-  $('#clientes-nombrezona').on('change', function() {
-    if ( this.value == '0') {
-       nombrezona.value = '';
-       divnombrezona.style.display =  "block";      
-    }
-    else {
-        nombrezona.value = 'Escribe aca . . .';
-        divnombrezona.style.display =  "none";
-    }
-  });
-      
-  JS;
-$this->registerJs($script);
-?>

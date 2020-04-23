@@ -67,4 +67,19 @@ class Estado extends \yii\db\ActiveRecord
     {
         return new EstadoQuery(get_called_class());
     }
+
+    /**
+     * @return ArrayEstados returns an array of zones 
+     */
+    public function listadoEstados()
+    {
+        $result = Estado::find()->all();
+
+        $estados = [];
+
+        foreach ($result as $record)
+            $estados[$record->nombre] =  $record->nombre;
+
+        return $estados;
+    }
 }
