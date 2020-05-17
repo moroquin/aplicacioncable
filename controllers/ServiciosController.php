@@ -150,4 +150,19 @@ class ServiciosController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+      /**
+     * Updates an existing Servicios model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionUpdatealta($id)
+    {
+        $model = $this->findModel($id);
+        $model->disponible = ($model->disponible == 0) ? 1 : 0;
+        $model->save();
+        return $this->redirect(['update', 'id' => $model->idservicio]);
+    }
 }

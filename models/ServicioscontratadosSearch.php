@@ -11,6 +11,12 @@ use app\models\Servicioscontratados;
  */
 class ServicioscontratadosSearch extends Servicioscontratados
 {
+
+    public $primernombre;
+    public $segundonombre;
+    public $primerapelldio;
+    public $segundoapellido;
+    public $correlativo;
     /**
      * {@inheritdoc}
      */
@@ -19,7 +25,7 @@ class ServicioscontratadosSearch extends Servicioscontratados
         return [
             [['mesesnopagados', 'idcliente', 'idservicio', 'duracioncontrato', 'idservicioscontratados'], 'integer'],
             [['subtotal', 'cobropactado'], 'number'],
-            [['contratonumero', 'fechainicio', 'nombreestado', 'corte'], 'safe'],
+            [['contratonumero', 'fechainicio', 'nombreestado', 'primernombre', 'correlativo', 'segundonombre', 'primerapelldio', 'segundoapellido', 'corte'], 'safe'],
         ];
     }
 
@@ -41,7 +47,11 @@ class ServicioscontratadosSearch extends Servicioscontratados
      */
     public function search($params)
     {
-        $query = Servicioscontratados::find();
+        //$query = Servicioscontratados::find();
+
+        $query = Servicioscontratados::find()
+            ->joinWith(['clientes']);
+            
 
         // add conditions that should always apply here
 
@@ -60,7 +70,7 @@ class ServicioscontratadosSearch extends Servicioscontratados
         // grid filtering conditions
         $query->andFilterWhere([
             'mesesnopagados' => $this->mesesnopagados,
-            'subtotal' => $this->subtotal,
+       //     'subtotal' => $this->subtotal,
             'idcliente' => $this->idcliente,
             'idservicio' => $this->idservicio,
             'cobropactado' => $this->cobropactado,
@@ -71,6 +81,16 @@ class ServicioscontratadosSearch extends Servicioscontratados
 
         $query->andFilterWhere(['like', 'contratonumero', $this->contratonumero])
             ->andFilterWhere(['like', 'nombreestado', $this->nombreestado])
+
+
+            ->andFilterWhere(['like', 'clientes.primernombre', $this->primernombre])
+            ->andFilterWhere(['like', 'clientes.segundonombre', $this->segundonombre])
+            ->andFilterWhere(['like', 'clientes.primerapelldio', $this->primerapelldio])
+            ->andFilterWhere(['like', 'clientes.segundoapellido', $this->segundoapellido])
+            ->andFilterWhere(['like', 'clientes.correlativo', $this->correlativo])
+
+            
+
             ->andFilterWhere(['like', 'corte', $this->corte]);
 
         return $dataProvider;

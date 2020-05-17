@@ -12,6 +12,15 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="servicioscontratados-index">
 
+
+
+
+    <div class="panel ">
+        <div class="col-xs-12">
+            <?= Html::a('Nuevo contrato', ['create'], ['class' => 'btn btn-block btn-success']) ?>
+        </div>
+    </div>
+
     <h1><?= Html::encode($this->title) ?></h1>
 
 
@@ -20,21 +29,48 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); 
     ?>
 
+
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+          //  ['class' => 'yii\grid\SerialColumn'],
 
+            [
+                'attribute' => 'primernombre',
+                'value' => 'clientes.primernombre',
+            ],
+
+            [
+                'attribute' => 'segundonombre',
+                'value' => 'clientes.segundonombre',
+            ],
+
+            [
+                'attribute' => 'primerapelldio',
+                'value' => 'clientes.primerapelldio',
+            ],
+
+            [
+                'attribute' => 'segundoapellido',
+                'value' => 'clientes.segundoapellido',
+            ],
+
+            [
+                'attribute' => 'correlativo',
+                'value' => 'clientes.correlativo',
+            ],
+
+            //'clientes.primernombre',
             'mesesnopagados',
-            'subtotal',
-            'idcliente',
-            'idservicio',
+            //'subtotal',
+            //'idcliente',
+            //'idservicio',
             'contratonumero',
             //'cobropactado',
             //'duracioncontrato',
-            //'fechainicio',
-            //'nombreestado',
+            'fechainicio',
+            'nombreestado',
             //'idservicioscontratados',
             //'corte',
 
@@ -42,11 +78,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
 
-    <div class="panel ">
-        <div class="col-xs-12">
-            <?= Html::a('Create Servicioscontratados', ['create'], ['class' => 'btn btn-block btn-success']) ?>
-        </div>
-    </div>
+
 
     <?php Pjax::end(); ?>
 

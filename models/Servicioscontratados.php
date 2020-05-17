@@ -15,14 +15,16 @@ use Yii;
  * @property float|null $cobropactado
  * @property int|null $duracioncontrato
  * @property string|null $fechainicio
- * @property string $nombreestado
  * @property int $idservicioscontratados
  * @property string|null $corte
+ * @property string $nombreestado
+ * @property int|null $trabajopendiente
  *
  * @property Cobros[] $cobros
  * @property Clientes $idcliente0
  * @property Estado $nombreestado0
  * @property Servicios $idservicio0
+ * @property Trabajospendientes[] $trabajospendientes
  */
 class Servicioscontratados extends \yii\db\ActiveRecord
 {
@@ -40,12 +42,11 @@ class Servicioscontratados extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['mesesnopagados', 'idcliente', 'idservicio', 'duracioncontrato'], 'integer'],
+            [['mesesnopagados', 'idcliente', 'idservicio', 'duracioncontrato', 'trabajopendiente'], 'integer'],
             [['subtotal', 'cobropactado'], 'number'],
             [['idcliente', 'idservicio', 'contratonumero', 'nombreestado'], 'required'],
             [['fechainicio'], 'safe'],
-            [['contratonumero'], 'string', 'max' => 45],
-            [['nombreestado'], 'string', 'max' => 60],
+            [['contratonumero', 'nombreestado'], 'string', 'max' => 45],
             [['corte'], 'string', 'max' => 4],
             [['idcliente'], 'unique'],
             [['idservicio'], 'unique'],
@@ -61,6 +62,15 @@ class Servicioscontratados extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
+
+
+            'primernombre' => '1er nombre',
+            'segundonombre' => '2do nombre',
+
+            'primerapelldio' => '1er apellido',
+            'segundoapellido' => '2do apellido',
+
+
             'mesesnopagados' => 'Mesesnopagados',
             'subtotal' => 'Subtotal',
             'idcliente' => 'Idcliente',
@@ -69,9 +79,10 @@ class Servicioscontratados extends \yii\db\ActiveRecord
             'cobropactado' => 'Cobropactado',
             'duracioncontrato' => 'Duracioncontrato',
             'fechainicio' => 'Fechainicio',
-            'nombreestado' => 'Nombreestado',
             'idservicioscontratados' => 'Idservicioscontratados',
             'corte' => 'Corte',
+            'nombreestado' => 'Nombreestado',
+            
         ];
     }
 
@@ -86,6 +97,18 @@ class Servicioscontratados extends \yii\db\ActiveRecord
     }
 
     /**
+     * Gets query for [[Clientes]].
+     *
+     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
+     */
+    public function getClientes()
+    {
+        return $this->hasOne(Clientes::className(), ['idcliente' => 'idcliente']);
+    }
+
+
+
+    /**
      * Gets query for [[Idcliente0]].
      *
      * @return \yii\db\ActiveQuery|ClientesQuery
@@ -98,11 +121,11 @@ class Servicioscontratados extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Nombreestado0]].
      *
-     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|EstadoQuery
      */
     public function getNombreestado0()
     {
-        return $this->hasOne(Estado::className(), ['nombreestado' => 'nombreestado']);
+        return $this->hasOne(Estado::className(), ['nombre' => 'nombreestado']);
     }
 
     /**
@@ -114,6 +137,16 @@ class Servicioscontratados extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Servicios::className(), ['idservicio' => 'idservicio']);
     }
+
+    /**
+     * hace los cambios cuando se crea el cliente
+     */
+    public function guardar($model)
+    {
+        $this->idcliente = $model->getIdcliente();
+        return $this->save();
+    }
+
 
     /**
      * {@inheritdoc}

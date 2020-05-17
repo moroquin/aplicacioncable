@@ -35,10 +35,11 @@ class ClientesSearch extends Clientes
      * Creates data provider instance with search query applied
      *
      * @param array $params
+     * @param boolean $agregarcliente indica si debemos agregar el cliente 1 que indica un nuevo cliente
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params, $agregarcliente)
     {
         $query = Clientes::find();
 
@@ -60,17 +61,21 @@ class ClientesSearch extends Clientes
         $query->andFilterWhere([
             'idcliente' => $this->idcliente,
         ]);
+        if (!$agregarcliente)
+            $query->andFilterWhere([
+                '<>','idcliente','1',
+            ]);
 
         $query->andFilterWhere(['like', 'correlativo', $this->correlativo])
             ->andFilterWhere(['like', 'primernombre', $this->primernombre])
             ->andFilterWhere(['like', 'segundonombre', $this->segundonombre])
             ->andFilterWhere(['like', 'primerapelldio', $this->primerapelldio])
             ->andFilterWhere(['like', 'segundoapellido', $this->segundoapellido])
-            ->andFilterWhere(['like', 'direccion', $this->direccion])
+            //->andFilterWhere(['like', 'direccion', $this->direccion])
             ->andFilterWhere(['like', 'dpi', $this->dpi])
-            ->andFilterWhere(['like', 'referencias', $this->referencias])
-            ->andFilterWhere(['like', 'telefono1', $this->telefono1])
-            ->andFilterWhere(['like', 'telefono2', $this->telefono2])
+            //->andFilterWhere(['like', 'referencias', $this->referencias])
+            //->andFilterWhere(['like', 'telefono1', $this->telefono1])
+            //->andFilterWhere(['like', 'telefono2', $this->telefono2])
             ->andFilterWhere(['like', 'nit', $this->nit])
             ->andFilterWhere(['like', 'nombrezona', $this->nombrezona]);
 

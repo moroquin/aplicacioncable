@@ -6,6 +6,9 @@ tabla servicios
     alter table servicios add `tiposervicio` VARCHAR(45) NULL;
     alter table servicios add `disponible` TINYINT NULL DEFAULT 1;
 
+
+    alter table servicioscontratados add `trabajopendiente` TINYINT NULL;
+
     alter table servicios modify column `disponible` TINYINT NULL DEFAULT 1;
 
     alter table clientes modify column `idcliente`  AUTO_INCREMENT;

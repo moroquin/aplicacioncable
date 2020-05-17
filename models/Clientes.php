@@ -156,5 +156,9 @@ class Clientes extends \yii\db\ActiveRecord
         return $clientes;
     }
 
+    public function getIdcliente(){
+        return $this->idcliente;
+    }
+
 
 }

@@ -78,6 +78,8 @@ class ServicioscontratadosController extends Controller
         $zona->nombrezona = "Escribe aqui . . .";
         $model->nombrezona = '0';
 
+        
+        $pendientes = ['0'=> 'No necesita instalación. ', '1'=> 'Necesita instalación. Se agregará un trabajo pendiente.  '];
 
 
         $modelservicios = new Servicioscontratados();
@@ -88,8 +90,20 @@ class ServicioscontratadosController extends Controller
         $estados = Estado::listadoEstados();
 
 
-        if ($modelservicios->load(Yii::$app->request->post()) && $modelservicios->save()) {
-            return $this->redirect(['view', 'id' => $modelservicios->idservicioscontratados]);
+        if ($modelservicios->load(Yii::$app->request->post())) {
+            if ($modelservicios->idcliente == 1){
+
+                if ($model->load(Yii::$app->request->post()) && $zona->load(Yii::$app->request->post()) && $model->guardar($zona) && $modelservicios->guardar($model))
+                    return $this->redirect(['view', 'id' => $modelservicios->idservicioscontratados]);
+            }
+            else{
+                if ($modelservicios->save())
+                    return $this->redirect(['view', 'id' => $modelservicios->idservicioscontratados]);
+            }
+
+
+            // && 
+            
         }
 
         return $this->render('create', [
@@ -97,6 +111,7 @@ class ServicioscontratadosController extends Controller
             'servicios' => $servicios,
             'clientes' => $clientes,
             'tarifas' => $tarifas,
+            'pendientes' => $pendientes,
 
 
             'model' => $model,

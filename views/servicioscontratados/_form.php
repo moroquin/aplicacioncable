@@ -99,7 +99,7 @@ use kartik\date\DatePicker;
 
                     ]) ?>
             </div>
-            
+
 
             <div class="col-xs-4">
                 <?= $form->field($modelservicios, 'contratonumero')->textInput(['maxlength' => true]) ?>
@@ -117,7 +117,7 @@ use kartik\date\DatePicker;
                         'pluginOptions' => [
                             'autoclose' => true,
                             'todayHighlight' => true,
-                            'format' => 'yyyy-mm-dd' ,
+                            'format' => 'yyyy-mm-dd',
                         ]
                     ]) ?>
             </div>
@@ -136,9 +136,25 @@ use kartik\date\DatePicker;
                     ]) ?>
             </div>
         </div>
+
+        <div class="panel-heading">Agregar trabajo de instalación</div>
+        <div class="panel-body">
+
+            <div class="col-xs-12">
+                <?= $form->field($modelservicios, 'trabajopendiente')
+                    ->widget(Select2::classname(), [
+                        'data' =>  $pendientes,
+                        'options' => ['tag' => true, 'placeholder' => 'Seleccione si debe de realizar una instalación.'],
+                        'pluginOptions' => ['allowClear' => true,],
+
+                    ]) ?>
+            </div>
+
+
+        </div>
     </div>
 
-    
+
     <div class="form-group">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-block btn-success']) ?>
     </div>
@@ -149,3 +165,35 @@ use kartik\date\DatePicker;
 
 
 
+
+<?php
+$script = <<< JS
+   
+    const clientenew = document.querySelector('#clientenuevo')
+    $('#servicioscontratados-idcliente').on('change', function(){
+        if ( this.value == '1') {
+            
+            clientenew.style.display =  "block";      
+            }
+            else {
+                nombrezona.value = 'Escribe aca . . .';
+                clientenew.style.display =  "none";
+            }
+        });
+        const nombrezona = document.querySelector('#zona-nombrezona');
+    const divnombrezona = document.querySelector('#agregarzona');
+    
+  $('#clientes-nombrezona').on('change', function() {
+    if ( this.value == '0') {
+       nombrezona.value = '';
+       divnombrezona.style.display =  "block";      
+    }
+    else {
+        nombrezona.value = 'Escribe aca . . .';
+        divnombrezona.style.display =  "none";
+    }
+  });
+      
+  JS;
+$this->registerJs($script);
+?>
