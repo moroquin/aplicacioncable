@@ -9,6 +9,10 @@ tabla servicios
 
     alter table servicioscontratados add `trabajopendiente` TINYINT NULL;
 
+alter table servicioscontratados add `zona` VARCHAR(45) NULL;
+  alter table servicioscontratados add `anyomes` VARCHAR(6) NULL;
+
+
     alter table servicios modify column `disponible` TINYINT NULL DEFAULT 1;
 
     alter table clientes modify column `idcliente`  AUTO_INCREMENT;

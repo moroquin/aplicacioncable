@@ -121,6 +121,10 @@ class Clientes extends \yii\db\ActiveRecord
         return $this->hasOne(Zona::className(), ['nombrezona' => 'nombrezona']);
     }
 
+    public function getZona(){
+        return $this->nombrezona;
+    }
+
     /**
      * Gets query for [[Servicioscontratados]].
      *

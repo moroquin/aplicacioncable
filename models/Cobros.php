@@ -12,11 +12,15 @@ use Yii;
  * @property int $idempleado
  * @property string|null $fecha
  * @property float|null $total
- * @property int $idcliente
- * @property int $idservicio
+ * @property int $idservicioscontratados
+ * @property string|null $tipo
+ * @property string|null $factura
+ * @property string|null $contrasenya
+ * @property string|null $zona
+ * @property string|null $anyomes
  *
  * @property Empleados $idempleado0
- * @property Servicioscontratados $idcliente0
+ * @property Servicioscontratados $idservicioscontratados0
  */
 class Cobros extends \yii\db\ActiveRecord
 {
@@ -34,13 +38,15 @@ class Cobros extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idempleado', 'idcliente', 'idservicio'], 'required'],
-            [['idempleado', 'idcliente', 'idservicio'], 'integer'],
+            [['idempleado', 'idservicioscontratados'], 'required'],
+            [['idempleado', 'idservicioscontratados'], 'integer'],
             [['fecha'], 'safe'],
             [['total'], 'number'],
             [['numerofactura'], 'string', 'max' => 100],
+            [['tipo', 'factura', 'contrasenya', 'zona'], 'string', 'max' => 45],
+            [['anyomes'], 'string', 'max' => 7],
             [['idempleado'], 'exist', 'skipOnError' => true, 'targetClass' => Empleados::className(), 'targetAttribute' => ['idempleado' => 'idempleado']],
-            [['idcliente', 'idservicio'], 'exist', 'skipOnError' => true, 'targetClass' => Servicioscontratados::className(), 'targetAttribute' => ['idcliente' => 'idcliente', 'idservicio' => 'idservicio']],
+            [['idservicioscontratados'], 'exist', 'skipOnError' => true, 'targetClass' => Servicioscontratados::className(), 'targetAttribute' => ['idservicioscontratados' => 'idservicioscontratados']],
         ];
     }
 
@@ -55,15 +61,20 @@ class Cobros extends \yii\db\ActiveRecord
             'idempleado' => 'Idempleado',
             'fecha' => 'Fecha',
             'total' => 'Total',
-            'idcliente' => 'Idcliente',
-            'idservicio' => 'Idservicio',
+            'idservicioscontratados' => 'Idservicioscontratados',
+            'tipo' => 'Tipo',
+            'factura' => 'Factura',
+            'contrasenya' => 'Contrasenya',
+            'zona' => 'Zona',
+            'anyomes' => 'Anyomes',
+            //'mesespagados'=>'mesespagados',
         ];
     }
 
     /**
      * Gets query for [[Idempleado0]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
      */
     public function getIdempleado0()
     {
@@ -71,12 +82,21 @@ class Cobros extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Idcliente0]].
+     * Gets query for [[Idservicioscontratados0]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|ServicioscontratadosQuery
      */
-    public function getIdcliente0()
+    public function getIdservicioscontratados0()
     {
-        return $this->hasOne(Servicioscontratados::className(), ['idcliente' => 'idcliente', 'idservicio' => 'idservicio']);
+        return $this->hasOne(Servicioscontratados::className(), ['idservicioscontratados' => 'idservicioscontratados']);
+    }
+
+    /**
+     * {@inheritdoc}
+     * @return CobrosQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new CobrosQuery(get_called_class());
     }
 }

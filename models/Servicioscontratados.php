@@ -48,8 +48,8 @@ class Servicioscontratados extends \yii\db\ActiveRecord
             [['fechainicio'], 'safe'],
             [['contratonumero', 'nombreestado'], 'string', 'max' => 45],
             [['corte'], 'string', 'max' => 4],
-            [['idcliente'], 'unique'],
-            [['idservicio'], 'unique'],
+            //[['idcliente'], 'unique'],
+            //[['idservicio'], 'unique'],
             [['idcliente'], 'exist', 'skipOnError' => true, 'targetClass' => Clientes::className(), 'targetAttribute' => ['idcliente' => 'idcliente']],
             [['nombreestado'], 'exist', 'skipOnError' => true, 'targetClass' => Estado::className(), 'targetAttribute' => ['nombreestado' => 'nombre']],
             [['idservicio'], 'exist', 'skipOnError' => true, 'targetClass' => Servicios::className(), 'targetAttribute' => ['idservicio' => 'idservicio']],
@@ -156,4 +156,32 @@ class Servicioscontratados extends \yii\db\ActiveRecord
     {
         return new ServicioscontratadosQuery(get_called_class());
     }
+
+    public function getZona(){
+        return Clientes::findOne(['idcliente'=> $this->idcliente])->getZona();
+        //return $this->hasOne(Clientes::className(),['idcliente'=>$this->idcliente])->getZona();
+    }
+
+    public function setMesnopagado(){
+        $this->mesesnopagados ++;
+        $this->save();
+    }
+
+    public function getMesnopagado(){
+        return $this->mesesnopagados;
+    }
+
+    public function getCobropactado(){
+        return $this->cobropactado;
+    }
+
+    public function getDeuda(){
+        return $this->cobropactado * $this->mesesnopagados;
+    }
+
+    public function getId(){
+        return $this->idservicioscontratados;
+    }
+
+    
 }
