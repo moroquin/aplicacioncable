@@ -275,13 +275,10 @@ INSERT INTO `servicioscontratados` VALUES (0,0,3,1,'2',NULL,18,'2020-05-18',2,''
 /*!40000 ALTER TABLE `servicioscontratados` ENABLE KEYS */;
 UNLOCK TABLES;
 
---
--- Table structure for table `user`
---
+
 
 DROP TABLE IF EXISTS `user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -302,15 +299,9 @@ CREATE TABLE `user` (
   KEY `fk_user_empleados1_idx` (`empleados_idempleado`),
   CONSTRAINT `fk_user_empleados1` FOREIGN KEY (`empleados_idempleado`) REFERENCES `empleados` (`idempleado`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `user`
---
 
 LOCK TABLES `user` WRITE;
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+
 UNLOCK TABLES;
 
 --
