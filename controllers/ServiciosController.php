@@ -22,7 +22,10 @@ class ServiciosController extends Controller
     private $serviciosDisponibles = [
         "Internet" => "Internet",
         "Cable" => "Cable",
-        "Internet y Cable" => "Internet y Cable"
+        "Teléfono" => "Teléfono",
+        "Internet y Cable" => "Internet y Cable",
+        "Teléfono, internet y Cable" => "Teléfono, internet y Cable",
+        
     ];
 
 

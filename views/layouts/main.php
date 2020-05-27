@@ -38,11 +38,66 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
+            
+            [
+                'label' => 'Clientes',
+                'items' => [
+
+                    
+                     
+                     '<li class="divider"></li>',
+                     '<li class="dropdown-header">Nuevo cliente</li>',
+                     ['label' => 'Agregar cliente', 'url' => '/clientes/create'],
+
+                     '<li class="divider"></li>',
+                     '<li class="dropdown-header">Listado de clientes</li>',
+                     ['label' => 'Clientes', 'url' => '/clientes'],
+                     
+                ],
+            ],
+
+            [
+                'label' => 'Servicios',
+                'items' => [
+
+                    '<li class="divider"></li>',
+                     '<li class="dropdown-header">Contratación de servicios</li>',
+                     ['label' => 'Nuevo contrato', 'url' => '/servicioscontratados/create'],
+                     ['label' => 'Listado de Contratos', 'url' => '/servicioscontratados'],
+                     
+                     
+                     '<li class="divider"></li>',
+                     '<li class="dropdown-header">Servicios Prestados</li>',
+                     ['label' => 'Servicios prestados', 'url' => '/servicios'],
+                     
+                ],
+            ],
+
+
+            [
+                'label' => 'Cobros',
+                'items' => [
+
+                    '<li class="divider"></li>',
+                     '<li class="dropdown-header">Principal</li>',
+                     ['label' => 'Cobros general', 'url' => '/cobros'],
+                     ['label' => 'Nuevo cobro', 'url' => '/cobros/create'],
+                     
+                     
+                     '<li class="divider"></li>',
+                     '<li class="dropdown-header">Listado de cobro</li>',
+                     ['label' => 'Listado por sector', 'url' => '/servicios'],
+                     
+                ],
+            ],
+
+
+
+
+
+            
             Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login']]
+                ['label' => 'Ingresar', 'url' => ['/site/login']]
             ) : (
                 '<li>'
                 . Html::beginForm(['/site/logout'], 'post')

@@ -68,7 +68,7 @@ insert into zona values ('0');
 insert into clientes(nombrezona) values ('0');
 
 
-insert into estado values ('Pendiente');
-insert into estado values ('Aprobado');
-insert into estado values ('Finalizado');
-insert into estado values ('Por renovar');
+insert into estado values ('Pendiente', ' . . . ',10 );
+insert into estado values ('Aprobado', ' . . . ',0);
+insert into estado values ('Finalizado', ' . . . ',0);
+insert into estado values ('Por renovar', ' . . . ',0);

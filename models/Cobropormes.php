@@ -55,4 +55,22 @@ class Cobropormes extends \yii\db\ActiveRecord
     {
         return new CobropormesQuery(get_called_class());
     }
+
+    public static function getListado(){
+        $tmp = Cobropormes::find()->all();
+        $result = [];
+        foreach($tmp as $record)
+            $result[$record->cobrosmes] = $record->cobrosmes;
+    }
+
+    public function listadoServicioscompleto(){
+        $result = Servicios::find()->all();
+
+        $servicios = [];
+
+        foreach ($result as $record)
+                $servicios[$record->idservicio] = $record->nombre . ". Q. " . $record->tarifa;
+        
+        return $servicios;
+    }
 }

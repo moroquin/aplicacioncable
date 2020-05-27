@@ -3,11 +3,12 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use kartik\select2\Select2;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\ServicioscontratadosSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Servicioscontratados';
+$this->title = 'Listado de contratos';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="servicioscontratados-index">
@@ -15,11 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 
-    <div class="panel ">
-        <div class="col-xs-12">
-            <?= Html::a('Nuevo contrato', ['create'], ['class' => 'btn btn-block btn-success']) ?>
-        </div>
-    </div>
+
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -34,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-          //  ['class' => 'yii\grid\SerialColumn'],
+            //  ['class' => 'yii\grid\SerialColumn'],
 
             [
                 'attribute' => 'primernombre',
@@ -61,6 +58,21 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => 'clientes.correlativo',
             ],
 
+            [
+                'attribute' => 'nombreestado',
+                'value' => 'nombreestado',
+                //'filter' => $estados,
+                'filter' => Html::activeDropDownList(
+                    $searchModel,
+                    'nombreestado',
+                    $estados,
+                    [
+                        'class' => 'form-control',
+                        'prompt' => 'Select Category'
+                    ]
+                ),
+            ],
+
             //'clientes.primernombre',
             'mesesnopagados',
             //'subtotal',
@@ -70,7 +82,7 @@ $this->params['breadcrumbs'][] = $this->title;
             //'cobropactado',
             //'duracioncontrato',
             'fechainicio',
-            'nombreestado',
+
             //'idservicioscontratados',
             //'corte',
 
@@ -83,6 +95,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php Pjax::end(); ?>
 
 
+
+    <div class="panel panel-primary">
+        <div class="panel-body">
+            <?= Html::a('Nuevo contrato', ['create'], ['class' => 'btn btn-block btn-success']) ?>
+        </div>
+    </div>
 
 
 

@@ -16,7 +16,7 @@ use Yii;
  * @property int|null $duracioncontrato
  * @property string|null $fechainicio
  * @property int $idservicioscontratados
- * @property string|null $corte
+ * @property string|null $nombrezona
  * @property string $nombreestado
  * @property int|null $trabajopendiente
  *
@@ -42,12 +42,12 @@ class Servicioscontratados extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['mesesnopagados', 'idcliente', 'idservicio', 'duracioncontrato', 'trabajopendiente'], 'integer'],
+            [['mesesnopagados', 'idcliente', 'idservicio', 'duracioncontrato'], 'integer'],
             [['subtotal', 'cobropactado'], 'number'],
             [['idcliente', 'idservicio', 'contratonumero', 'nombreestado'], 'required'],
             [['fechainicio'], 'safe'],
-            [['contratonumero', 'nombreestado'], 'string', 'max' => 45],
-            [['corte'], 'string', 'max' => 4],
+            [['nombrezona','contratonumero', 'nombreestado'], 'string', 'max' => 45],
+            //[['nombrezona'], 'string', 'max' => 45],
             //[['idcliente'], 'unique'],
             //[['idservicio'], 'unique'],
             [['idcliente'], 'exist', 'skipOnError' => true, 'targetClass' => Clientes::className(), 'targetAttribute' => ['idcliente' => 'idcliente']],
@@ -80,7 +80,7 @@ class Servicioscontratados extends \yii\db\ActiveRecord
             'duracioncontrato' => 'Duracioncontrato',
             'fechainicio' => 'Fechainicio',
             'idservicioscontratados' => 'Idservicioscontratados',
-            'corte' => 'Corte',
+            'nombrezona' => 'Zona agrupación',
             'nombreestado' => 'Nombreestado',
             
         ];
@@ -96,6 +96,11 @@ class Servicioscontratados extends \yii\db\ActiveRecord
         return $this->hasMany(Cobros::className(), ['idservicioscontratados' => 'idservicioscontratados']);
     }
 
+    public function getCliente(){
+        return Clientes::findOne(['idcliente'=> $this->idcliente]);
+        //return $this->hasOne(Clientes::className(),['idcliente'=>$this->idcliente])->getZona();
+    }
+
     /**
      * Gets query for [[Clientes]].
      *
@@ -106,6 +111,42 @@ class Servicioscontratados extends \yii\db\ActiveRecord
         return $this->hasOne(Clientes::className(), ['idcliente' => 'idcliente']);
     }
 
+    public static function getIdserviciocliente(){
+        $result = Servicioscontratados::find()
+                ->where(['nombreestado'=>'Aprobado'])
+                ->all();
+
+        $serviciosgeneral = Servicios::listadoServicioscompleto();
+
+
+        $servicios = [];
+
+        foreach ($result as $record){
+                $cliente = $record->getCliente();
+                $servicios[$record->idservicioscontratados] = $cliente->getNombres() . '. ' . $serviciosgeneral[$record->idservicio];
+            }
+        
+        return $servicios;
+    }
+
+
+    public static function getIdserviciozona(){
+        $result = Servicioscontratados::find()
+                ->where(['nombreestado'=>'Aprobado'])
+                ->all();
+
+        
+
+
+        $serviciosz = [];
+
+        foreach ($result as $record){
+                
+                $serviciosz[$record->idservicioscontratados] = $record->zona;
+            }
+        
+        return $serviciosz;
+    }
 
 
     /**
@@ -144,6 +185,8 @@ class Servicioscontratados extends \yii\db\ActiveRecord
     public function guardar($model)
     {
         $this->idcliente = $model->getIdcliente();
+        $this->nombrezona = $model->nombrezona;
+        
         return $this->save();
     }
 

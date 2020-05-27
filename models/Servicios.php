@@ -90,6 +90,17 @@ class Servicios extends \yii\db\ActiveRecord
         return $servicios;
     }
 
+    public function listadoServicioscompleto(){
+        $result = Servicios::find()->all();
+
+        $servicios = [];
+
+        foreach ($result as $record)
+                $servicios[$record->idservicio] = $record->nombre . ". Q. " . $record->tarifa;
+        
+        return $servicios;
+    }
+
     /**
      * {@inheritdoc}
      * @return costos Array de salida de servicios prestados
@@ -105,6 +116,11 @@ class Servicios extends \yii\db\ActiveRecord
         
         return $costos;
 
+    }
+
+    public static function getTarifa($id){
+        
+        return Servicios::findOne($id)->tarifa;
     }
 
 }

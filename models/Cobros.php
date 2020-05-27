@@ -18,6 +18,8 @@ use Yii;
  * @property string|null $contrasenya
  * @property string|null $zona
  * @property string|null $anyomes
+ * @property int $mesesporcobrar
+ * @property int $mesespagados
  *
  * @property Empleados $idempleado0
  * @property Servicioscontratados $idservicioscontratados0
@@ -39,9 +41,9 @@ class Cobros extends \yii\db\ActiveRecord
     {
         return [
             [['idempleado', 'idservicioscontratados'], 'required'],
-            [['idempleado', 'idservicioscontratados'], 'integer'],
+            [['idempleado', 'idservicioscontratados', 'mesesporcobrar','mesespagados'], 'integer'],
             [['fecha'], 'safe'],
-            [['total'], 'number'],
+            [['totalporcobrar', 'totalcobrado'], 'number'],
             [['numerofactura'], 'string', 'max' => 100],
             [['tipo', 'factura', 'contrasenya', 'zona'], 'string', 'max' => 45],
             [['anyomes'], 'string', 'max' => 7],
@@ -60,14 +62,17 @@ class Cobros extends \yii\db\ActiveRecord
             'numerofactura' => 'Numerofactura',
             'idempleado' => 'Idempleado',
             'fecha' => 'Fecha',
-            'total' => 'Total',
+            'totalporcobrar' => 'Debe cobrar',
+            'totalcobrado' => 'Cobro',
+            
             'idservicioscontratados' => 'Idservicioscontratados',
             'tipo' => 'Tipo',
             'factura' => 'Factura',
             'contrasenya' => 'Contrasenya',
             'zona' => 'Zona',
             'anyomes' => 'Anyomes',
-            //'mesespagados'=>'mesespagados',
+            'mesespagados'=>'mesespagados',
+            'mesesporcobrar'=>'mesesporcobrar',
         ];
     }
 

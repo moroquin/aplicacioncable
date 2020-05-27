@@ -40,13 +40,21 @@ class ServicioscontratadosController extends Controller
     public function actionIndex()
     {
         $searchModel = new ServicioscontratadosSearch();
+        $searchModel->iniEstadocontrato();
+        
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $servicios = Servicios::listadoServicios(TRUE);
+
+        $estados = Estado::listadoEstados();
+
+
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'servicios' => $servicios,
+
+            'estados' =>  $estados,
         ]);
     }
 
@@ -79,7 +87,7 @@ class ServicioscontratadosController extends Controller
         $model->nombrezona = '0';
 
         
-        $pendientes = ['0'=> 'No necesita instalación. ', '1'=> 'Necesita instalación. Se agregará un trabajo pendiente.  '];
+        
 
 
         $modelservicios = new Servicioscontratados();
@@ -91,6 +99,8 @@ class ServicioscontratadosController extends Controller
 
 
         if ($modelservicios->load(Yii::$app->request->post())) {
+            $modelservicios->cobropactado = Servicios::getTarifa($modelservicios->idservicio);
+            $modelservicios->mesesnopagados = 1;
             if ($modelservicios->idcliente == 1){
 
                 if ($model->load(Yii::$app->request->post()) && $zona->load(Yii::$app->request->post()) && $model->guardar($zona) && $modelservicios->guardar($model))
@@ -111,7 +121,7 @@ class ServicioscontratadosController extends Controller
             'servicios' => $servicios,
             'clientes' => $clientes,
             'tarifas' => $tarifas,
-            'pendientes' => $pendientes,
+        
 
 
             'model' => $model,

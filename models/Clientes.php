@@ -47,7 +47,7 @@ class Clientes extends \yii\db\ActiveRecord
             [['primernombre', 'segundonombre', 'primerapelldio', 'segundoapellido'], 'string', 'max' => 75],
             [['dpi'], 'string', 'max' => 15],
             [['telefono1', 'telefono2'], 'string', 'max' => 40],
-            [['nit', 'nombrezona'], 'string', 'max' => 45],
+            [['nit', 'nombrezona','mail'], 'string', 'max' => 45],
             [['nombrezona'], 'required'],
             //'exist', 'skipOnError' => true, 'targetClass' => Zona::className(), 'targetAttribute' => ['nombrezona' => 'nombrezona']
         ];
@@ -72,6 +72,7 @@ class Clientes extends \yii\db\ActiveRecord
             'telefono2' => 'Telefono 2',
             'nit' => 'Nit',
             'nombrezona' => 'Agrupación Cobro',
+            'mail' => 'Correo electrónico',
         ];
     }
 
@@ -109,6 +110,10 @@ class Clientes extends \yii\db\ActiveRecord
             throw $e;
         }
         return $salida;
+    }
+
+    public function getNombres(){
+        return 'DPI: '. $this->dpi . '. ' . $this->primernombre . ' ' . $this->segundonombre . ' '. $this->primerapelldio . ' ' . $this->segundoapellido;
     }
 
     /**

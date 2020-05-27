@@ -17,9 +17,9 @@ class CobrosSearch extends Cobros
     public function rules()
     {
         return [
-            [['idcobro', 'idempleado', 'idservicioscontratados'], 'integer'],
+            [['idcobro', 'idempleado', 'idservicioscontratados', 'mesesporcobrar','mesespagados'], 'integer'],
             [['numerofactura', 'fecha', 'tipo', 'factura', 'contrasenya', 'zona', 'anyomes'], 'safe'],
-            [['total'], 'number'],
+            [['totalporcobrar', 'totalcobrado'], 'number'],
         ];
     }
 
@@ -62,7 +62,8 @@ class CobrosSearch extends Cobros
             'idcobro' => $this->idcobro,
             'idempleado' => $this->idempleado,
             'fecha' => $this->fecha,
-            'total' => $this->total,
+            'mesesporcobrar' => $this->mesesporcobrar,
+            'mesespagados' => $this->mesespagados,
             'idservicioscontratados' => $this->idservicioscontratados,
         ]);
 
@@ -72,6 +73,9 @@ class CobrosSearch extends Cobros
             ->andFilterWhere(['like', 'contrasenya', $this->contrasenya])
             ->andFilterWhere(['like', 'zona', $this->zona])
             ->andFilterWhere(['like', 'anyomes', $this->anyomes]);
+            
+
+            
 
         return $dataProvider;
     }

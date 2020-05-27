@@ -122,9 +122,7 @@ use kartik\date\DatePicker;
                     ]) ?>
             </div>
 
-            <div class="col-xs-12">
-                <?= $form->field($modelservicios, 'corte')->textInput(['maxlength' => true]) ?>
-            </div>
+
 
             <div class="col-xs-6">
                 <?= $form->field($modelservicios, 'nombreestado')
@@ -137,21 +135,6 @@ use kartik\date\DatePicker;
             </div>
         </div>
 
-        <div class="panel-heading">Agregar trabajo de instalación</div>
-        <div class="panel-body">
-
-            <div class="col-xs-12">
-                <?= $form->field($modelservicios, 'trabajopendiente')
-                    ->widget(Select2::classname(), [
-                        'data' =>  $pendientes,
-                        'options' => ['tag' => true, 'placeholder' => 'Seleccione si debe de realizar una instalación.'],
-                        'pluginOptions' => ['allowClear' => true,],
-
-                    ]) ?>
-            </div>
-
-
-        </div>
     </div>
 
 
@@ -174,8 +157,9 @@ $script = <<< JS
         if ( this.value == '1') {
             
             clientenew.style.display =  "block";      
+            nombrezona.value = '';
             }
-            else {
+            else {  
                 nombrezona.value = 'Escribe aca . . .';
                 clientenew.style.display =  "none";
             }

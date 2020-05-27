@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Cobros */
 
-$this->title = 'Create Cobros';
+$this->title = 'Agregar cobro';
 $this->params['breadcrumbs'][] = ['label' => 'Cobros', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -15,6 +15,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
+        'serviciocliente' => $serviciocliente,
+        'cobropormes' => $cobropormes,
     ]) ?>
 
 </div>

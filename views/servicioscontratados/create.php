@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Servicioscontratados */
 
-$this->title = 'Create Servicioscontratados';
+$this->title = 'Contrato:';
 $this->params['breadcrumbs'][] = ['label' => 'Servicioscontratados', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
       'servicios' => $servicios,
       'clientes' => $clientes,
       'tarifas' => $tarifas,
-      'pendientes' => $pendientes,
+      
 
       'model' => $model,
       'zonas' => $zonas,

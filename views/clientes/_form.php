@@ -38,6 +38,7 @@ use kartik\select2\Select2;
             <div class="col-xs-12"><?= $form->field($model, 'direccion')->textarea(['rows' => 2]) ?></div>
             <div class="col-xs-4"><?= $form->field($model, 'telefono1')->textInput(['maxlength' => true]) ?></div>
             <div class="col-xs-4"><?= $form->field($model, 'telefono2')->textInput(['maxlength' => true]) ?></div>
+            <div class="col-xs-4"><?= $form->field($model, 'mail')->textInput(['maxlength' => true]) ?></div>
             <div class="col-xs-12"><?= $form->field($model, 'referencias')->textarea(['rows' => 2]) ?></div>
         </div>
 

@@ -4,12 +4,14 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Cobros;
+use app\models\Clientes;
 use app\models\Cobropormes;
 use app\models\CobrosSearch;
 use app\models\Servicioscontratados;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\Json;
 
 /**
  * CobrosController implements the CRUD actions for Cobros model.
@@ -40,7 +42,7 @@ class CobrosController extends Controller
      * Lists all Cobros models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex() 
     {
         $searchModel = new CobrosSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -113,14 +115,35 @@ class CobrosController extends Controller
     {
         $model = new Cobros();
 
+        $serviciocliente = Servicioscontratados::getIdserviciocliente();
+
+        $model->anyomes = $this->getAnyomes();
+        $model->fecha = date("Y-m-d");
+        $cobropormes = Cobropormes::getListado();
+
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->idcobro]);
         }
 
         return $this->render('create', [
             'model' => $model,
+
+            'serviciocliente' => $serviciocliente,
+            'cobropormes' => $cobropormes,
+            
         ]);
     }
+
+    public function actionGetinfocontrato($id){
+        $infocontrato = Servicioscontratados::findOne($id);
+            echo Json::encode($infocontrato);
+      //echo 'hola';
+
+    }
+
+    
+
 
     /**
      * Updates an existing Cobros model.

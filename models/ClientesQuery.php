@@ -23,6 +23,8 @@ class ClientesQuery extends \yii\db\ActiveQuery
         return parent::all($db);
     }
 
+    
+
     /**
      * {@inheritdoc}
      * @return Clientes|array|null

@@ -14,16 +14,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Create Cobros', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
-    <p>
-        <?= ($mesanyo)? Html::a('Generar cobros del mes'.$mesanyo, ['cobrosmes'], ['class' => 'btn btn-success']): "" ?>
-    </p>
 
     <?php Pjax::begin(); ?>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); 
+    ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -42,12 +36,24 @@ $this->params['breadcrumbs'][] = $this->title;
             'contrasenya',
             'zona',
             'anyomes',
-            'total',
+            'mesesporcobrar',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 
     <?php Pjax::end(); ?>
+
+    <div class="panel panel-primary">
+        <div class="panel-body">
+            <?= Html::a('Agregar cobro', ['create'], ['class' => 'btn btn-block btn-success']) ?>
+
+            <?= ($mesanyo) ? Html::a('Generar cobros del mes: ' . $mesanyo, ['cobrosmes'], ['class' => 'btn  btn-block btn-success']) : "" ?>
+        </div>
+    </div>
+
+
+
+
 
 </div>

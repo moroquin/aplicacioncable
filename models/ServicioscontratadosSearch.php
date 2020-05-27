@@ -5,6 +5,7 @@ namespace app\models;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Servicioscontratados;
+use phpDocumentor\Reflection\Types\Boolean;
 
 /**
  * ServicioscontratadosSearch represents the model behind the search form of `app\models\Servicioscontratados`.
@@ -17,6 +18,8 @@ class ServicioscontratadosSearch extends Servicioscontratados
     public $primerapelldio;
     public $segundoapellido;
     public $correlativo;
+
+    
     /**
      * {@inheritdoc}
      */
@@ -25,9 +28,35 @@ class ServicioscontratadosSearch extends Servicioscontratados
         return [
             [['mesesnopagados', 'idcliente', 'idservicio', 'duracioncontrato', 'idservicioscontratados'], 'integer'],
             [['subtotal', 'cobropactado'], 'number'],
-            [['contratonumero', 'fechainicio', 'nombreestado', 'primernombre', 'correlativo', 'segundonombre', 'primerapelldio', 'segundoapellido', 'corte'], 'safe'],
+            [['contratonumero', 'fechainicio', 'nombreestado', 'primernombre', 'correlativo', 'segundonombre', 'primerapelldio', 'segundoapellido', 'nombrezona'], 'safe'],
         ];
     }
+
+    public function iniEstadocontrato(){
+
+        if (!isset($this->nombreestado))
+            $this->nombreestado = 'Aprobado';
+        
+    }
+
+    
+/*
+    public function setEstadocontrato($estado){
+        $this->nombreestado =  $estado;
+    }
+
+    public function getEstadocontrato(){
+        return $this->nombreestado;
+    }
+
+    public function iniEstadocontrato(){
+
+        if (!isset($this->nombreestado))
+            $this->nombreestado = 'Aprobado';
+        
+    }
+
+  */  
 
     /**
      * {@inheritdoc}
@@ -91,8 +120,9 @@ class ServicioscontratadosSearch extends Servicioscontratados
 
             
 
-            ->andFilterWhere(['like', 'corte', $this->corte]);
+            ->andFilterWhere(['like', 'nombrezona', $this->nombrezona]);
 
         return $dataProvider;
     }
 }
+

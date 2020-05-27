@@ -57,4 +57,4 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-xs-12"><?= Html::a(Yii::t('app', (($searchModel->disponible) ? 'Mostrar servicios <strong>de baja</strong>.' : 'Mostrar servicios <strong>de alta</strong>.')), ['servicios/indexx', 'disponible' => $searchModel->disponible], ['class' => ($searchModel->disponible) ? 'btn btn-block btn-danger' : 'btn btn-block btn-warning']) ?></div>
     </div>
 
-</div>
+</div> 
