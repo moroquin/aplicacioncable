@@ -39,7 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'fechainicio',
             'nombreestado',
             'idservicioscontratados',
-            'corte',
+            'nombrezona',
         ],
     ]) ?>
 

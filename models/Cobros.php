@@ -62,17 +62,17 @@ class Cobros extends \yii\db\ActiveRecord
             'numerofactura' => 'Numerofactura',
             'idempleado' => 'Idempleado',
             'fecha' => 'Fecha',
-            'totalporcobrar' => 'Debe cobrar',
+            'totalporcobrar' => 'Monto por cobrar',
             'totalcobrado' => 'Cobro',
             
             'idservicioscontratados' => 'Idservicioscontratados',
             'tipo' => 'Tipo',
             'factura' => 'Factura',
-            'contrasenya' => 'Contrasenya',
+            'contrasenya' => 'Contraseñaa',
             'zona' => 'Zona',
-            'anyomes' => 'Anyomes',
-            'mesespagados'=>'mesespagados',
-            'mesesporcobrar'=>'mesesporcobrar',
+            'anyomes' => 'Año - Mes',
+            'mesespagados'=>'Meses pagados',
+            'mesesporcobrar'=>'Meses por pagar',
         ];
     }
 

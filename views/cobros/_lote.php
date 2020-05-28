@@ -80,28 +80,7 @@ use kartik\select2\Select2;
 
 <?php
 $script = <<< JS
-$('#cobros-idservicioscontratados').change( function(){
-    var id =  $(this).val();
-    $.get('getinfocontrato', { id : id } ,function(data){
-        data = $.parseJSON(data);
-        $('#cobros-totalporcobrar').attr('value',data.cobropactado);
-        $('#cobros-mesesporcobrar').attr('value',data.mesesnopagados);  
-        $('#cobros-zona').attr('value',data.nombrezona);  
-    });
-});
 
-const totalcobrado = document.querySelector('#cobros-totalcobrado');
-
-$('#cobros-mesespagados').change( function(){            
-    var mesesmax =  $('#cobros-mesesporcobrar').val();
-    /*if ($(this).val() > mesesmax){
-    alert('No puede cobrar más meses de los que el usuario debe. ');
-    $(this).attr('value',mesesmax);
-    }*/
-    var xcobrado =  $(this).val()*$('#cobros-totalporcobrar').val();
-    //$('#cobros-totalcobrado').attr('value',xcobrado);
-    totalcobrado.value = xcobrado;
-});
-JS;
+  JS;
 $this->registerJs($script);
 ?>

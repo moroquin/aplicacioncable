@@ -71,7 +71,7 @@ class Estado extends \yii\db\ActiveRecord
     /**
      * @return ArrayEstados returns an array of zones 
      */
-    public function listadoEstados()
+    public static function listadoEstados()
     {
         $result = Estado::find()->all();
 

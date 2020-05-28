@@ -78,7 +78,7 @@ class Servicios extends \yii\db\ActiveRecord
      * {@inheritdoc}
      * @return servicios Array de salida de servicios prestados
      */
-    public function listadoServicios($activo){
+    public static function listadoServicios($activo){
         $result = Servicios::find()->all();
 
         $servicios = [];
@@ -105,7 +105,7 @@ class Servicios extends \yii\db\ActiveRecord
      * {@inheritdoc}
      * @return costos Array de salida de servicios prestados
      */
-    public function listadoTarifas($activo){
+    public static function listadoTarifas($activo){
         $result = Servicios::find()->all();
 
         $costos = [];

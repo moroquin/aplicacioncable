@@ -29,15 +29,20 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'idcobro',
-            'numerofactura',
-            'idempleado',
-            'fecha',
-            'total',
-            'idservicioscontratados',
-            'tipo',
-            'factura',
+          //  'idcobro',
             'contrasenya',
+            'factura',
+            //'idempleado',
+            'fecha',
+            'totalporcobrar',
+            'mesesporcobrar',
+            'totalcobrado',
+            'mesespagados',
+
+
+
+           
+            
             'zona',
             'anyomes',
         ],

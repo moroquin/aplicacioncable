@@ -80,13 +80,13 @@ AppAsset::register($this);
 
                     '<li class="divider"></li>',
                      '<li class="dropdown-header">Principal</li>',
-                     ['label' => 'Cobros general', 'url' => '/cobros'],
+                     
                      ['label' => 'Nuevo cobro', 'url' => '/cobros/create'],
                      
                      
                      '<li class="divider"></li>',
                      '<li class="dropdown-header">Listado de cobro</li>',
-                     ['label' => 'Listado por sector', 'url' => '/servicios'],
+                     ['label' => 'Cobros general', 'url' => '/cobros'],
                      
                 ],
             ],

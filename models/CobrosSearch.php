@@ -11,6 +11,12 @@ use app\models\Cobros;
  */
 class CobrosSearch extends Cobros
 {
+    public $primernombre;
+    public $segundonombre;
+    public $primerapelldio;
+    public $segundoapellido;
+
+     
     /**
      * {@inheritdoc}
      */
@@ -18,7 +24,7 @@ class CobrosSearch extends Cobros
     {
         return [
             [['idcobro', 'idempleado', 'idservicioscontratados', 'mesesporcobrar','mesespagados'], 'integer'],
-            [['numerofactura', 'fecha', 'tipo', 'factura', 'contrasenya', 'zona', 'anyomes'], 'safe'],
+            [['numerofactura', 'fecha', 'tipo', 'factura', 'contrasenya', 'zona', 'anyomes','primernombre',  'segundonombre', 'primerapelldio', 'segundoapellido', ], 'safe'],
             [['totalporcobrar', 'totalcobrado'], 'number'],
         ];
     }
@@ -71,6 +77,9 @@ class CobrosSearch extends Cobros
             ->andFilterWhere(['like', 'tipo', $this->tipo])
             ->andFilterWhere(['like', 'factura', $this->factura])
             ->andFilterWhere(['like', 'contrasenya', $this->contrasenya])
+
+         
+
             ->andFilterWhere(['like', 'zona', $this->zona])
             ->andFilterWhere(['like', 'anyomes', $this->anyomes]);
             

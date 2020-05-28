@@ -153,7 +153,7 @@ class Clientes extends \yii\db\ActiveRecord
      /**
      * @return clientes returns an array of zones 
      */
-    public function listadoClientes()
+    public static function listadoClientes()
     {
         $result = Clientes::find()->all();
 

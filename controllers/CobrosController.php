@@ -18,6 +18,8 @@ use yii\helpers\Json;
  */
 class CobrosController extends Controller
 {
+
+
     /**
      * {@inheritdoc}
      */
@@ -116,13 +118,14 @@ class CobrosController extends Controller
         $model = new Cobros();
 
         $serviciocliente = Servicioscontratados::getIdserviciocliente();
-
         $model->anyomes = $this->getAnyomes();
         $model->fecha = date("Y-m-d");
         $cobropormes = Cobropormes::getListado();
 
-
+        $model->idempleado = 1;
+        
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            
             return $this->redirect(['view', 'id' => $model->idcobro]);
         }
 

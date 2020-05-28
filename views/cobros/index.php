@@ -23,10 +23,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+         
 
             //'idcobro',
-            'numerofactura',
+            'factura',
             //'idempleado',
             //'fecha',
             //
@@ -37,6 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'zona',
             'anyomes',
             'mesesporcobrar',
+            'mesespagados',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

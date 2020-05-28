@@ -275,7 +275,7 @@ INSERT INTO `servicioscontratados` VALUES (0,0,3,1,'2',NULL,18,'2020-05-18',2,''
 /*!40000 ALTER TABLE `servicioscontratados` ENABLE KEYS */;
 UNLOCK TABLES;
 
-
+/var/www/html/aplicacioncable/general/backup.sql
 
 DROP TABLE IF EXISTS `user`;
 

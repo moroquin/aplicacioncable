@@ -9,7 +9,9 @@ tabla servicios
 
     alter table servicioscontratados add `trabajopendiente` TINYINT NULL;
 
-alter table servicioscontratados add `zona` VARCHAR(45) NULL;
+
+
+alter table servicioscontratados add `nombrezona` VARCHAR(45) NULL;
   alter table servicioscontratados add `anyomes` VARCHAR(6) NULL;
 
 
@@ -72,3 +74,5 @@ insert into estado values ('Pendiente', ' . . . ',10 );
 insert into estado values ('Aprobado', ' . . . ',0);
 insert into estado values ('Finalizado', ' . . . ',0);
 insert into estado values ('Por renovar', ' . . . ',0);
+insert into puesto(nombre,descripcion,nivel) values('puesto 1', 'hola mundo ', 10);
+insert into empleados (nombre,apellido,telefono,direccion,puestos_idpuestos) values('empleado 1', 'empleado 1' , 'telefono','direccion',1);

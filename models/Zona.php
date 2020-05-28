@@ -65,7 +65,7 @@ class Zona extends \yii\db\ActiveRecord
     /**
      * @return ArrayZonas returns an array of zones 
      */
-    public function listadoZonas()
+    public static function listadoZonas()
     {
         $result = Zona::find()->all();
 

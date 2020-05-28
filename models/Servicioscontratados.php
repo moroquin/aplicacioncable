@@ -185,9 +185,9 @@ class Servicioscontratados extends \yii\db\ActiveRecord
     public function guardar($model)
     {
         $this->idcliente = $model->getIdcliente();
-        $this->nombrezona = $model->nombrezona;
+        $this->nombrezona = $model->getZona();
         
-        return $this->save();
+        return $this->save();  
     }
 
 

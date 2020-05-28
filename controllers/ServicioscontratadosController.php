@@ -18,6 +18,9 @@ use yii\filters\VerbFilter;
  */
 class ServicioscontratadosController extends Controller
 {
+   
+
+
     /**
      * {@inheritdoc}
      */
@@ -107,6 +110,7 @@ class ServicioscontratadosController extends Controller
                     return $this->redirect(['view', 'id' => $modelservicios->idservicioscontratados]);
             }
             else{
+                $modelservicios->nombrezona = Clientes::findOne($modelservicios->idcliente)->getZona();
                 if ($modelservicios->save())
                     return $this->redirect(['view', 'id' => $modelservicios->idservicioscontratados]);
             }

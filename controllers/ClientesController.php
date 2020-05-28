@@ -15,6 +15,14 @@ use yii\filters\VerbFilter;
  */
 class ClientesController extends Controller
 {
+
+  /*  public function beforeAction($action)
+    {
+       // if (Yii::$app->user->getIsGuest())
+         //   $this->redirect(Yii::$app->urlManager->createUrl('site/login'));
+    }
+*/
+
     /**
      * {@inheritdoc}
      */
@@ -37,8 +45,8 @@ class ClientesController extends Controller
     public function actionIndex()
     {
         $searchModel = new ClientesSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,false);
-        $dataProvider->pagination->pageSize=5;
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, false);
+        $dataProvider->pagination->pageSize = 5;
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -88,7 +96,7 @@ class ClientesController extends Controller
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
-     */ 
+     */
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
