@@ -53,7 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 'urlCreator' => function ($action, $model, $key, $index) {
                     if ($action === 'update') {
-                        $url = 'clientes/update?id=' . $model->idcliente;
+                        $url = 'update?id=' . $model->idcliente;
                         return $url;
                     }
                 }
@@ -74,7 +74,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 'urlCreator' => function ($action, $model, $key, $index) {
                     if ($action === 'view') {
-                        $url = 'clientes/view?id=' . $model->idcliente;
+                        $url = 'view?id=' . $model->idcliente;
                         return $url;
                     }
                 }
