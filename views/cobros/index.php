@@ -39,6 +39,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'mesesporcobrar',
             'mesespagados',
 
+            //adios
+
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
