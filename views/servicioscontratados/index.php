@@ -85,6 +85,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             //'idservicioscontratados',
             //'corte',
+            'nombrezona',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

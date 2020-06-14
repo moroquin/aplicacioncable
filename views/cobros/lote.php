@@ -14,9 +14,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('_lote', [
-        'model' => $model,
-        'serviciocliente' => $serviciocliente,
-        'cobropormes' => $cobropormes,
+       'serviciocliente' => $serviciocliente,
+       'lote' => $lote,
     ]) ?>
 
 </div>

@@ -111,6 +111,8 @@ class Servicioscontratados extends \yii\db\ActiveRecord
         return $this->hasOne(Clientes::className(), ['idcliente' => 'idcliente']);
     }
 
+    
+
     public static function getIdserviciocliente(){
         $result = Servicioscontratados::find()
                 ->where(['nombreestado'=>'Aprobado'])
@@ -124,6 +126,31 @@ class Servicioscontratados extends \yii\db\ActiveRecord
         foreach ($result as $record){
                 $cliente = $record->getCliente();
                 $servicios[$record->idservicioscontratados] = $cliente->getNombres() . '. ' . $serviciosgeneral[$record->idservicio];
+            }
+        
+        return $servicios;
+    }
+
+
+    
+
+    public static function getIdservicioclientecompleto(){
+        $result = Servicioscontratados::find()
+                ->where(['nombreestado'=>'Aprobado'])
+                ->all();
+
+        $serviciosgeneral = Servicios::listadoServicioscompleto();
+
+
+        $servicios = [];
+
+        foreach ($result as $record){
+                $cliente = $record->getCliente();
+                $servicios[$record->idservicioscontratados] = [
+                    'nombre'=>$cliente->getNombres() . '. ' . $serviciosgeneral[$record->idservicio],
+                    'mesesporpagar'=>$record->mesesnopagados,
+                    'cobropactado'=>$record->cobropactado,
+                ];
             }
         
         return $servicios;

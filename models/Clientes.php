@@ -169,5 +169,47 @@ class Clientes extends \yii\db\ActiveRecord
         return $this->idcliente;
     }
 
+    public function actualizar($zona)
+    {
+
+        $salida = FALSE;
+        $connection = \Yii::$app->db;
+        $transaction = $connection->beginTransaction();
+        try {
+            
+            if ($this->nombrezona === '0'){
+                $zona->save();
+                $this->nombrezona = $zona->getNombrezona();
+            }
+            $salida = $this->save();
+
+            Servicioscontratados::updateAll(['nombrezona' => $this->nombrezona],['idcliente' => $this->idcliente]);
+
+
+            //Cobros::updateAll(['nombrezona' => $this->nombrezona],['idcliente' => $this->idcliente]);
+            
+
+
+            /*$this->nombrezona = strtoupper($this->nombrezona);
+
+            if ($this->nombrezona != '0') {
+                $this->nom
+                $salida = $this->save();
+            }
+            else{
+                if ($zona->save())
+                    $this->nombrezona = $zona->getNombrezona0();
+                    $salida = $this->save();
+            }*/
+            $transaction->commit();
+        } catch (\Exception $e) {
+            $transaction->rollBack();
+            throw $e;
+        } catch (\Throwable $e) {
+            $transaction->rollBack();
+            throw $e;
+        }
+        return $salida;
+    }
 
 }

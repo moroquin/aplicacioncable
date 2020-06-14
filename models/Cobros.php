@@ -104,4 +104,27 @@ class Cobros extends \yii\db\ActiveRecord
     {
         return new CobrosQuery(get_called_class());
     }
+
+    public static function getCobros($zona, $anyomes){
+
+        $result = Cobros::find()
+                ->where(['anyomes'=>$anyomes, 'zona'=>$zona])
+                ->all();
+              
+        return $result;
+
+
+    }
+
+    public function guardar(){
+        $result1 = Cobros::findOne($this->idcobro);
+        $result1->mesespagados = $this->mesespagados;
+        $result1->totalcobrado = $this->totalcobrado;
+        $result1->save();
+
+        $result = Servicioscontratados::findOne($this->idservicioscontratados);
+        $result->mesesnopagados = $result->mesesnopagados - $this->mesespagados;
+        $result->save();
+        $this->save();
+    }
 }

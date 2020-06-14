@@ -90,7 +90,7 @@ class Servicios extends \yii\db\ActiveRecord
         return $servicios;
     }
 
-    public function listadoServicioscompleto(){
+    public static function listadoServicioscompleto(){
         $result = Servicios::find()->all();
 
         $servicios = [];

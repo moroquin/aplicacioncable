@@ -104,7 +104,7 @@ class ClientesController extends Controller
         $zona = new Zona();
         $zona->nombrezona = "Escribe aqui . . .";
 
-        if ($model->load(Yii::$app->request->post()) && $zona->load(Yii::$app->request->post()) && $model->guardar($zona)) {
+        if ($model->load(Yii::$app->request->post()) && $zona->load(Yii::$app->request->post()) && $model->actualizar($zona)) {
             return $this->redirect(['view', 'id' => $model->idcliente]);
         }
 

@@ -76,3 +76,18 @@ insert into estado values ('Finalizado', ' . . . ',0);
 insert into estado values ('Por renovar', ' . . . ',0);
 insert into puesto(nombre,descripcion,nivel) values('puesto 1', 'hola mundo ', 10);
 insert into empleados (nombre,apellido,telefono,direccion,puestos_idpuestos) values('empleado 1', 'empleado 1' , 'telefono','direccion',1);
+
+
+
+
+
+
+CREATE TABLE IF NOT EXISTS `controlServicios`.`lote` (
+  `idlote` INT NOT NULL AUTO_INCREMENT,
+  `fecha` DATETIME NULL DEFAULT now(),
+  `totalcobrado` DOUBLE NULL,
+  `anyomes` VARCHAR(7) NULL,
+  PRIMARY KEY (`idlote`))
+ENGINE = InnoDB;
+
+alter table cobros add `lote_idlote` INT NULL;

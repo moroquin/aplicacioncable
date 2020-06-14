@@ -77,30 +77,38 @@ class CobrosController extends Controller
     public function actionCobrosmes()
     {
         $anyomes = $this->getAnyomes();
+
         if ((Cobropormes::find()->where(['cobrosmes' => $anyomes])->count()) == 0) {
             $model2 = new Cobropormes();
             $model2->cobrosmes = $anyomes;
             $model2->generado = 1;
             $model2->save();
-            $servicioscontratados = Servicioscontratados::find()->where(['nombreestado' => 'Servicio Aprobado'])->all();
+            $servicioscontratados = Servicioscontratados::find()->where(['nombreestado' => 'Aprobado'])->all();
             
 
             foreach ($servicioscontratados as $serviciocontratado) {
                 
                 $serviciocontratado->setMesnopagado();
+
                 $model = new Cobros();
-                //$model->mesespagados = $serviciocontratado->getMesnopagado();
-                $model->total = $serviciocontratado->getDeuda();
+                //$model->mesespagados = ;
+                $model->mesesporcobrar = $serviciocontratado->getMesnopagado();
+                $model->totalporcobrar = $serviciocontratado->getDeuda();
                 $model->zona = $serviciocontratado->getZona();
                 $model->idempleado = 1;
                 $model->anyomes = $anyomes;
                 $model->idservicioscontratados = $serviciocontratado->getId();
+                $model->mesespagados = 0;
+                $model->totalcobrado = 0;
+                $model->contrasenya = '';
+                $model->factura = '';
 
                 //meses por pagar
 
                 $model->save();
                     
             }
+
             return $this->redirect(['index']);
         }
 
@@ -135,6 +143,48 @@ class CobrosController extends Controller
             'serviciocliente' => $serviciocliente,
             'cobropormes' => $cobropormes,
             
+        ]);
+    }
+
+
+    /**
+     * Creates a new Cobros model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function actionLote()
+    {
+        $zona = 'Barrio cenizal';
+        $anyomes = $this->getAnyomes();
+
+        $lote = Cobros::getCobros($zona, $anyomes);
+        $serviciocliente = Servicioscontratados::getIdservicioclientecompleto();
+
+        
+        if (Yii::$app->request->post() ) {
+          // $lote = Yii::$app->request->post('lote');
+            var_dump(Yii::$app->request->bodyParams);
+            /*foreach ($lote as $cobro) {
+
+
+                $result1 = Cobros::findOne($cobro->idcobro);
+                $result1->mesespagados = $cobro->mesespagados;
+                $result1->totalcobrado = $cobro->totalcobrado;
+                $result1->save();
+
+                $result = Servicioscontratados::findOne($cobro->idservicioscontratados);
+                $result->mesesnopagados = $result->mesesnopagados - $cobro->mesespagados;
+                $result->save();
+                $result->save();
+               // $cobro->guardar();
+            }
+            return $this->redirect(['index']);
+            */
+        }else
+
+        return $this->render('lote', [
+            'serviciocliente' => $serviciocliente,
+            'lote' => $lote,
         ]);
     }
 
