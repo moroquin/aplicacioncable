@@ -28,7 +28,8 @@ $this->params['breadcrumbs'][] = $this->title;
             //'idcobro',
             'factura',
             //'idempleado',
-            //'fecha',
+            'fecha',
+        
             //
             //'idservicioscontratados',
             //'tipo',
