@@ -11,17 +11,20 @@ use Yii;
  * @property string|null $numerofactura
  * @property int $idempleado
  * @property string|null $fecha
- * @property float|null $total
+ * @property float|null $totalcobrado
  * @property int $idservicioscontratados
  * @property string|null $tipo
  * @property string|null $factura
  * @property string|null $contrasenya
  * @property string|null $zona
  * @property string|null $anyomes
- * @property int $mesesporcobrar
- * @property int $mesespagados
+ * @property int|null $mesespagados
+ * @property float|null $totalporcobrar
+ * @property int|null $mesesporcobrar
+ * @property int|null $lote_idlote
  *
  * @property Empleados $idempleado0
+ * @property Lote $loteIdlote
  * @property Servicioscontratados $idservicioscontratados0
  */
 class Cobros extends \yii\db\ActiveRecord
@@ -48,6 +51,7 @@ class Cobros extends \yii\db\ActiveRecord
             [['tipo', 'factura', 'contrasenya', 'zona'], 'string', 'max' => 45],
             [['anyomes'], 'string', 'max' => 7],
             [['idempleado'], 'exist', 'skipOnError' => true, 'targetClass' => Empleados::className(), 'targetAttribute' => ['idempleado' => 'idempleado']],
+            [['lote_idlote'], 'exist', 'skipOnError' => true, 'targetClass' => Lote::className(), 'targetAttribute' => ['lote_idlote' => 'idlote']],
             [['idservicioscontratados'], 'exist', 'skipOnError' => true, 'targetClass' => Servicioscontratados::className(), 'targetAttribute' => ['idservicioscontratados' => 'idservicioscontratados']],
         ];
     }
@@ -84,6 +88,18 @@ class Cobros extends \yii\db\ActiveRecord
     public function getIdempleado0()
     {
         return $this->hasOne(Empleados::className(), ['idempleado' => 'idempleado']);
+    }
+
+    
+
+    /**
+     * Gets query for [[LoteIdlote]].
+     *
+     * @return \yii\db\ActiveQuery|LoteQuery
+     */
+    public function getLoteIdlote()
+    {
+        return $this->hasOne(Lote::className(), ['idlote' => 'lote_idlote']);
     }
 
     /**

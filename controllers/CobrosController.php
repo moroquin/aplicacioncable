@@ -4,7 +4,11 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Cobros;
+use app\models\Zona;
 use app\models\Clientes;
+use app\models\Lote;
+use app\models\LoteSearch;
+use app\models\LoteForm;
 use app\models\Cobropormes;
 use app\models\CobrosSearch;
 use app\models\Servicioscontratados;
@@ -146,45 +150,77 @@ class CobrosController extends Controller
         ]);
     }
 
+    public function actionIndexlote(){
+        $searchModel = new LoteSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        $zona = new Zona;
+        $listadozonas = Zona::getArrayzonas();
+
+        $anyomes = $this->getAnyomes();
+
+        if ($zona->load(Yii::$app->request->post()) ) {
+            return $this->redirect(['lote','zona'=>$listadozonas[$zona->nombrezona],'anyomes'=>$anyomes]);
+        }
+
+
+        return $this->render('indexlote', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+
+            'zona' => $zona,
+            'listadozonas' => $listadozonas,
+            'anyomes' => $anyomes, 
+        ]);
+
+    }
+
 
     /**
      * Creates a new Cobros model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionLote()
+    public function actionLote($zona, $anyomes)
     {
-        $zona = 'Barrio cenizal';
-        $anyomes = $this->getAnyomes();
 
-        $lote = Cobros::getCobros($zona, $anyomes);
+    //    $zona = 'Barrio cenizal';
+     //   $anyomes = $this->getAnyomes();
         $serviciocliente = Servicioscontratados::getIdservicioclientecompleto();
 
+        $model = new LoteForm();
+        $model->lote = new Lote();
+        $model->lote->loadDefaultValues();
         
-        if (Yii::$app->request->post() ) {
-          // $lote = Yii::$app->request->post('lote');
-            var_dump(Yii::$app->request->bodyParams);
-            /*foreach ($lote as $cobro) {
+        $model->cargarCobros($zona, $anyomes);
+        $model->lote->anyomes=$anyomes;
+        $model->lote->zona=$zona;
+        $model->lote->totalcobrado=0;
+        $loteForm=Yii::$app->request->post('LoteForm');
+        $model->setAttributes(Yii::$app->request->post());
+        
+       // $model->cobros->setAttributes(Yii::$app->request->post());
+        
+
+        if (Yii::$app->request->post() && $model->save() ){
+            
+            Yii::$app->getSession()->setFlash('success', 'Lote de cobros de zona '.$zona. ' registrado correctamente. ');
+       /*     return $this->render('lote', [
+                'serviciocliente' => $serviciocliente,
+                'model' => $model,
+            ]);
+*/
+            return $this->redirect(['indexlote']);
+            //return $this->redirect(['index']);
+        }
 
 
-                $result1 = Cobros::findOne($cobro->idcobro);
-                $result1->mesespagados = $cobro->mesespagados;
-                $result1->totalcobrado = $cobro->totalcobrado;
-                $result1->save();
 
-                $result = Servicioscontratados::findOne($cobro->idservicioscontratados);
-                $result->mesesnopagados = $result->mesesnopagados - $cobro->mesespagados;
-                $result->save();
-                $result->save();
-               // $cobro->guardar();
-            }
-            return $this->redirect(['index']);
-            */
-        }else
 
         return $this->render('lote', [
             'serviciocliente' => $serviciocliente,
-            'lote' => $lote,
+            'model' => $model,
+            'zona' => $zona,
         ]);
     }
 
@@ -195,6 +231,24 @@ class CobrosController extends Controller
 
     }
 
+
+    public function actionVerlote($id){
+        $lote = Lote::findOne($id);
+
+        $searchModel = new CobrosSearch();
+        $searchModel->idlote = $lote->idlote;
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->query->where(['lote_idlote'=>$lote->idlote]);
+        
+
+        return $this->render('viewlote', [
+            'lote' => $lote,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+
+
+    }
     
 
 

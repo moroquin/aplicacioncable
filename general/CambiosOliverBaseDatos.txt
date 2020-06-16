@@ -91,3 +91,12 @@ CREATE TABLE IF NOT EXISTS `controlServicios`.`lote` (
 ENGINE = InnoDB;
 
 alter table cobros add `lote_idlote` INT NULL;
+
+
+alter table lote add `zona` VARCHAR(45) NULL;
+
+alter table cobros add CONSTRAINT `fk_cobros_lote1`
+    FOREIGN KEY (`lote_idlote`)
+    REFERENCES `controlServicios`.`lote` (`idlote`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION;

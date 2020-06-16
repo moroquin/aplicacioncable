@@ -16,14 +16,14 @@ class CobrosSearch extends Cobros
     public $primerapelldio;
     public $segundoapellido;
 
-     
+     public $idlote;
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['idcobro', 'idempleado', 'idservicioscontratados', 'mesesporcobrar','mesespagados'], 'integer'],
+            [['lote_idlote','idcobro', 'idempleado', 'idservicioscontratados', 'mesesporcobrar','mesespagados'], 'integer'],
             [['numerofactura', 'fecha', 'tipo', 'factura', 'contrasenya', 'zona', 'anyomes','primernombre',  'segundonombre', 'primerapelldio', 'segundoapellido', ], 'safe'],
             [['totalporcobrar', 'totalcobrado'], 'number'],
         ];
@@ -49,6 +49,8 @@ class CobrosSearch extends Cobros
     {
         $query = Cobros::find();
 
+        
+
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
@@ -71,6 +73,7 @@ class CobrosSearch extends Cobros
             'mesesporcobrar' => $this->mesesporcobrar,
             'mesespagados' => $this->mesespagados,
             'idservicioscontratados' => $this->idservicioscontratados,
+            'lote_idlote' => $this->lote_idlote,
         ]);
 
         $query->andFilterWhere(['like', 'numerofactura', $this->numerofactura])
@@ -83,9 +86,11 @@ class CobrosSearch extends Cobros
             ->andFilterWhere(['like', 'zona', $this->zona])
             ->andFilterWhere(['like', 'anyomes', $this->anyomes]);
             
+            
 
             
 
         return $dataProvider;
     }
+    
 }

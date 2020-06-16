@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Cobros */
 
-$this->title = 'Cobro por Zona';
+$this->title = 'Cobro de la Zona '. $zona . '. '.$model->lote->anyomes;
 $this->params['breadcrumbs'][] = ['label' => 'Cobros', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_lote', [
        'serviciocliente' => $serviciocliente,
-       'lote' => $lote,
+       'model' => $model,
     ]) ?>
 
 </div>

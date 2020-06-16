@@ -82,6 +82,7 @@ AppAsset::register($this);
                      '<li class="dropdown-header">Principal</li>',
                      
                      ['label' => 'Nuevo cobro', 'url' => '/cobros/create'],
+                     ['label' => 'Cobro por zona', 'url' => '/cobros/indexlote'],
                      
                      
                      '<li class="divider"></li>',

@@ -81,4 +81,19 @@ class Zona extends \yii\db\ActiveRecord
     {
         return $this->nombrezona;
     }
+
+    public static function getArrayzonas(){
+
+        $resultados = Zona::find()->All();
+        $arr = [];
+        $cont = 0;
+        foreach ($resultados as $resul) {
+            if ($resul->nombrezona !== '0'){
+                $cont++;
+                $arr[$cont] = $resul->nombrezona;
+            }
+            # code...
+        }
+        return $arr;
+    }
 }

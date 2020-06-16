@@ -38,6 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'anyomes',
             'mesesporcobrar',
             'mesespagados',
+            'totalcobrado',
 
             //adios
 
