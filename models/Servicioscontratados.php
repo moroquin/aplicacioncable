@@ -218,6 +218,17 @@ class Servicioscontratados extends \yii\db\ActiveRecord
     }
 
 
+
+
+    public function beforeSave($insert) {
+        if ($this->mesesnopagados>3)
+            $this->nombreestado = 'Moroso';
+        else if (($this->mesesnopagados<=3))
+            $this->nombreestado = 'Aprobado';
+    
+        return parent::beforeSave($insert);
+    }
+
     /**
      * {@inheritdoc}
      * @return ServicioscontratadosQuery the active query used by this AR class.

@@ -91,7 +91,7 @@ CREATE TABLE IF NOT EXISTS `controlServicios`.`lote` (
 ENGINE = InnoDB;
 
 alter table cobros add `lote_idlote` INT NULL;
-
+insert into estado values ( 'Moroso','', 0);
 
 alter table lote add `zona` VARCHAR(45) NULL;
 
