@@ -5,6 +5,7 @@ use yii\grid\GridView;
 use yii\widgets\Pjax;
 use yii\widgets\ActiveForm;
 use kartik\select2\Select2;
+use yii\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\CobrosSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -13,6 +14,18 @@ $this->title = 'Listado de cobros por zona';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="cobros-index">
+
+
+
+<?php 
+        if ($generarReporte==1)
+            $this->registerJs( 
+            '$(function(){
+                  window.open("'.Url::toRoute(['cobros/reporte', 'zona' => $impzona,'anyomes'=>$anyomes]).'","_blank");
+              });' );
+    
+    ?>
+
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -75,17 +88,43 @@ $this->params['breadcrumbs'][] = $this->title;
                         'class' => 'yii\grid\ActionColumn',
                         'header' => 'Ver',
                         'headerOptions' => ['style' => 'color:#337ab7'],
-                        'template' => '{view}',
+                        'template' => '{update}',
                         'buttons' => [
                             'update' => function ($url, $model) {
                                 return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, [
+                                    'title' => Yii::t('app', 'lead-update'),
+                                ]);
+                            },
+                       
+                        ],
+                        'urlCreator' => function ($action, $model, $key, $index) {
+                            if ($action === 'update') {
+                                $url = 'verlote?id=' . $model->idlote;
+                                return $url;
+                            }
+
+                    
+                        }
+                    ],
+
+
+                    [
+                        'class' => 'yii\grid\ActionColumn',
+                        'header' => 'Imprimir',
+                        'headerOptions' => ['style' => 'color:#337ab7'],
+                        'template' => '{view}',
+                        'buttons' => [
+                            
+                            'view' => function ($url, $model) {
+                                return Html::a('<span class="glyphicon glyphicon-print"></span>', $url, [
                                     'title' => Yii::t('app', 'lead-view'),
                                 ]);
                             },
                         ],
                         'urlCreator' => function ($action, $model, $key, $index) {
+                            
                             if ($action === 'view') {
-                                $url = 'verlote?id=' . $model->idlote;
+                                $url = 'indexlote?reporte=1&impzona='.$model->zona.'&impanyomes='.$model->anyomes;
                                 return $url;
                             }
                         }

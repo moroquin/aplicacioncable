@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'mesesporcobrar',
             'mesespagados',
             'totalcobrado',
-
+            'mesesporcobrardet',
             //adios
 
             ['class' => 'yii\grid\ActionColumn'],

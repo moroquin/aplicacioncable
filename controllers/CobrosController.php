@@ -24,6 +24,12 @@ class CobrosController extends Controller
 {
 
 
+
+    private static $nombreMes = array( 1 => 'Enero', 2 => 'Febrero', 3 => 'Marzo',
+                            4 => 'Abril', 5 => 'Mayo', 6 => 'Junio',
+                            7 => 'Julio', 8 => 'Agosto', 9 => 'Septiembre',
+                            10 => 'Octubre', 11 => 'Noviembre', 12 => 'Diciembre');
+
     /**
      * {@inheritdoc}
      */
@@ -41,7 +47,41 @@ class CobrosController extends Controller
 
     private function getAnyomes()
     {
-        return date("Y-m");
+        $y = date("Y");
+        $m = date ("m");
+
+        if ($m == 1){
+            $m = 12;
+            $y--;
+        }
+        else
+            $m --;
+
+        return $y."-".$m;
+
+    }
+
+    private static function componerMes($mes){
+        if ($mes < 0){
+            $mes = 12 - $mes;
+        }
+
+
+
+        return $mes;
+
+
+    }
+
+    public static function getMesesAtrazados($anyomes, $meses){
+
+        list($y,$m) = explode('-',$anyomes);
+        $result = '';
+        for ($i=0; $i < $meses ; $i++) {  
+            $result =(($result === '')? '': $result. ', ' )  . CobrosController::$nombreMes[CobrosController::componerMes($m-($meses - $i))];
+        }
+
+        return $result;
     }
 
     /**
@@ -93,12 +133,15 @@ class CobrosController extends Controller
             foreach ($servicioscontratados as $serviciocontratado) {
                 
                 $serviciocontratado->setMesnopagado();
+                $serviciocontratado->detmesesporpagar = CobrosController::getMesesAtrazados($anyomes,$serviciocontratado->getMesnopagado());
+                $serviciocontratado->save();
 
                 $model = new Cobros();
                 //$model->mesespagados = ;
                 $model->mesesporcobrar = $serviciocontratado->getMesnopagado();
+                $model->mesesporcobrardet = $serviciocontratado->detmesesporpagar;
                 $model->totalporcobrar = $serviciocontratado->getDeuda();
-                $model->zona = $serviciocontratado->getZona();
+                $model->zona = $serviciocontratado->getZona(); 
                 $model->idempleado = 1;
                 $model->anyomes = $anyomes;
                 $model->idservicioscontratados = $serviciocontratado->getId();
@@ -148,12 +191,19 @@ class CobrosController extends Controller
             'cobropormes' => $cobropormes,
             
         ]);
+    
+    
     }
 
-    public function actionIndexlote(){
+
+
+
+
+    public function actionIndexlote($reporte = 0, $impzona = '', $impanyomes = ''){
+
+
         $searchModel = new LoteSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
         $zona = new Zona;
         $listadozonas = Zona::getArrayzonas();
 
@@ -167,12 +217,57 @@ class CobrosController extends Controller
         return $this->render('indexlote', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-
+            'generarReporte' => $reporte,
             'zona' => $zona,
+            'impzona'=>$impzona,
+            'impanyomes' => $impanyomes,
             'listadozonas' => $listadozonas,
             'anyomes' => $anyomes, 
         ]);
 
+    }
+
+
+    public function actionReporte($zona, $anyomes=''){
+        return 'zona: '.$zona." anyomes $anyomes ";
+
+
+        /*
+        
+    $tmporden=Orden::find()->where(['id_orden'=>$id])->one();
+    if ($tmporden->resultado_completo==0){
+        $tmporden->resultado_completo=1;
+        $tmporden->save();
+    }
+
+    $c = new \Jaspersoft\Client\Client(
+            "http://localhost:8080/jasperserver",
+            "jasperadmin",
+            "jasperadmin"
+          );    
+    $c->setRequestTimeout(60);    
+
+    if ($tipo==1)
+      $nomjasperreport='/labcastillo/pm_resultado_examen';
+    else
+      $nomjasperreport='/labcastillo/seg_resultado_examen';
+
+
+    $inputControls = array(
+                'pr_id_orden' => $id,
+                'SUBREPORT_DIR' => '/labcastillo/',
+                'ext' => '',
+            );
+
+    $nomrepo = 'Resultados-'.$id.'_'.date("Y-m-d H:i:s").'.pdf';
+    $report = $c->reportService()->runReport($nomjasperreport, 'pdf', null, null, $inputControls);
+
+    $options = ['Content-Type'=>'application/pdf','inline'=>true,'Content-Disposition'=> 'inline'];
+    Yii::$app->response->setDownloadHeaders($nomrepo,'application/pdf',true);
+
+    return Yii::$app->response->sendContentAsFile( $report,$nomrepo,$options);
+
+        */
     }
 
 

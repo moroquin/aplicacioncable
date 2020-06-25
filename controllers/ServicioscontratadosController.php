@@ -94,6 +94,8 @@ class ServicioscontratadosController extends Controller
 
 
         $modelservicios = new Servicioscontratados();
+
+        $modelservicios-> detmesesporpagar= "";
         $servicios = Servicios::listadoServicios(TRUE);
         $tarifas = Servicios::listadoTarifas(TRUE);
         $clientes = Clientes::listadoClientes();

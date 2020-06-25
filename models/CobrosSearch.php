@@ -24,7 +24,7 @@ class CobrosSearch extends Cobros
     {
         return [
             [['lote_idlote','idcobro', 'idempleado', 'idservicioscontratados', 'mesesporcobrar','mesespagados'], 'integer'],
-            [['numerofactura', 'fecha', 'tipo', 'factura', 'contrasenya', 'zona', 'anyomes','primernombre',  'segundonombre', 'primerapelldio', 'segundoapellido', ], 'safe'],
+            [['numerofactura', 'fecha', 'tipo', 'factura', 'contrasenya', 'zona', 'anyomes','primernombre',  'segundonombre', 'primerapelldio', 'segundoapellido','mesesporcobrardet' ], 'safe'],
             [['totalporcobrar', 'totalcobrado'], 'number'],
         ];
     }
@@ -80,7 +80,8 @@ class CobrosSearch extends Cobros
             ->andFilterWhere(['like', 'tipo', $this->tipo])
             ->andFilterWhere(['like', 'factura', $this->factura])
             ->andFilterWhere(['like', 'contrasenya', $this->contrasenya])
-
+            ->andFilterWhere(['like', 'mesesporcobrardet', $this->mesesporcobrardet])
+            
          
 
             ->andFilterWhere(['like', 'zona', $this->zona])

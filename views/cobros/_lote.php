@@ -36,7 +36,7 @@ use kartik\select2\Select2;
                         <?php foreach ($model->cobros as $key => $cobro) { ?>
                             <tr>
                                 <th scope="row"><?= $serviciocliente[$cobro->idservicioscontratados]['nombre'] ?></th>
-                                <th><?= $serviciocliente[$cobro->idservicioscontratados]['mesesporpagar'] ?></th>
+                                <th><?= $serviciocliente[$cobro->idservicioscontratados]['mesesporpagar'] ?> meses:  <?= $cobro->mesesporcobrardet ?></th>
                                 <th>
                                     <div id="cobropactado<?= $cobro->idservicioscontratados ?>"><?= $serviciocliente[$cobro->idservicioscontratados]['cobropactado'] ?></div>
                                 </th>
@@ -63,7 +63,10 @@ use kartik\select2\Select2;
 
                                         ])->label(false) ?></th>
                                 <th><?= $form->field($cobro, 'totalcobrado')
-                                        ->textInput(['readonly' => true, 'id' => "Cobros{$key}_totalcobrado", 'name' => "Cobros[$key][totalcobrado]"])->label(false) ?></th>
+                                        ->textInput(['readonly' => false, 'id' => "Cobros{$key}_totalcobrado", 'name' => "Cobros[$key][totalcobrado]"
+                                        
+                                        
+                                        ])->label(false) ?></th>
                                 
                             </tr>
                         <?php } ?>

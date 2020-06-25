@@ -36,6 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'fecha',
             'totalporcobrar',
             'mesesporcobrar',
+            'mesesporcobrardet',
             'totalcobrado',
             'mesespagados',
 

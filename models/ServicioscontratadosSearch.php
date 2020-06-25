@@ -28,7 +28,7 @@ class ServicioscontratadosSearch extends Servicioscontratados
         return [
             [['mesesnopagados', 'idcliente', 'idservicio', 'duracioncontrato', 'idservicioscontratados'], 'integer'],
             [['subtotal', 'cobropactado'], 'number'],
-            [['contratonumero', 'fechainicio', 'nombreestado', 'primernombre', 'correlativo', 'segundonombre', 'primerapelldio', 'segundoapellido', 'nombrezona'], 'safe'],
+            [['contratonumero', 'fechainicio', 'nombreestado', 'primernombre', 'correlativo', 'segundonombre', 'primerapelldio', 'segundoapellido', 'nombrezona', 'detmesesporpagar'], 'safe'],
         ];
     }
 
@@ -117,9 +117,10 @@ class ServicioscontratadosSearch extends Servicioscontratados
             ->andFilterWhere(['like', 'clientes.primerapelldio', $this->primerapelldio])
             ->andFilterWhere(['like', 'clientes.segundoapellido', $this->segundoapellido])
             ->andFilterWhere(['like', 'clientes.correlativo', $this->correlativo])
-
             
 
+            
+            ->andFilterWhere(['like', 'detmesesporpagar', $this->detmesesporpagar])
             ->andFilterWhere(['like', 'nombrezona', $this->nombrezona]);
 
         return $dataProvider;

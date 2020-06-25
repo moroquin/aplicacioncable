@@ -18,6 +18,7 @@ use Yii;
  * @property int $idservicioscontratados
  * @property string|null $nombrezona
  * @property string $nombreestado
+ * @property string $detmesesporpagar
  * @property int|null $trabajopendiente
  *
  * @property Cobros[] $cobros
@@ -46,7 +47,7 @@ class Servicioscontratados extends \yii\db\ActiveRecord
             [['subtotal', 'cobropactado'], 'number'],
             [['idcliente', 'idservicio', 'contratonumero', 'nombreestado'], 'required'],
             [['fechainicio'], 'safe'],
-            [['nombrezona','contratonumero', 'nombreestado'], 'string', 'max' => 45],
+            [['nombrezona','contratonumero', 'nombreestado', 'detmesesporpagar'], 'string', 'max' => 45],
             //[['nombrezona'], 'string', 'max' => 45],
             //[['idcliente'], 'unique'],
             //[['idservicio'], 'unique'],
@@ -71,17 +72,18 @@ class Servicioscontratados extends \yii\db\ActiveRecord
             'segundoapellido' => '2do apellido',
 
 
-            'mesesnopagados' => 'Mesesnopagados',
-            'subtotal' => 'Subtotal',
+            'mesesnopagados' => 'Meses no pagados',
+            'subtotal' => 'Sub total',
             'idcliente' => 'Idcliente',
             'idservicio' => 'Idservicio',
-            'contratonumero' => 'Contratonumero',
-            'cobropactado' => 'Cobropactado',
-            'duracioncontrato' => 'Duracioncontrato',
-            'fechainicio' => 'Fechainicio',
+            'contratonumero' => 'Número contrato',
+            'cobropactado' => 'Cobro pactado',
+            'duracioncontrato' => 'Duracion de contrato',
+            'fechainicio' => 'Fecha inicio',
             'idservicioscontratados' => 'Idservicioscontratados',
             'nombrezona' => 'Zona agrupación',
-            'nombreestado' => 'Nombreestado',
+            'nombreestado' => 'Estado',
+            'detmesesporpagar' => 'Meses por pagar',
             
         ];
     }
@@ -136,7 +138,7 @@ class Servicioscontratados extends \yii\db\ActiveRecord
 
     public static function getIdservicioclientecompleto(){
         $result = Servicioscontratados::find()
-                ->where(['nombreestado'=>'Aprobado'])
+                ->where(['nombreestado'=>['Aprobado', 'Moroso', 'Por renovar']])
                 ->all();
 
         $serviciosgeneral = Servicios::listadoServicioscompleto();
@@ -262,6 +264,11 @@ class Servicioscontratados extends \yii\db\ActiveRecord
 
     public function getId(){
         return $this->idservicioscontratados;
+    }
+
+    public function setMesesporpagardet($meses){
+        $this->detmesesporpagar = $meses;
+
     }
 
     

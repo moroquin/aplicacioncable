@@ -18,6 +18,7 @@ use Yii;
  * @property string|null $contrasenya
  * @property string|null $zona
  * @property string|null $anyomes
+ * @property string|null $mesesporcobrardet
  * @property int|null $mesespagados
  * @property float|null $totalporcobrar
  * @property int|null $mesesporcobrar
@@ -48,7 +49,7 @@ class Cobros extends \yii\db\ActiveRecord
             [['fecha'], 'safe'],
             [['totalporcobrar', 'totalcobrado'], 'number'],
             [['numerofactura'], 'string', 'max' => 100],
-            [['tipo', 'factura', 'contrasenya', 'zona'], 'string', 'max' => 45],
+            [['tipo', 'factura', 'contrasenya', 'zona', 'mesesporcobrardet'], 'string', 'max' => 45],
             [['anyomes'], 'string', 'max' => 7],
             [['idempleado'], 'exist', 'skipOnError' => true, 'targetClass' => Empleados::className(), 'targetAttribute' => ['idempleado' => 'idempleado']],
             [['lote_idlote'], 'exist', 'skipOnError' => true, 'targetClass' => Lote::className(), 'targetAttribute' => ['lote_idlote' => 'idlote']],
@@ -77,6 +78,7 @@ class Cobros extends \yii\db\ActiveRecord
             'anyomes' => 'Año - Mes',
             'mesespagados'=>'Meses pagados',
             'mesesporcobrar'=>'Meses por pagar',
+            'mesesporcobrardet' => 'Meses por pagar'
         ];
     }
 

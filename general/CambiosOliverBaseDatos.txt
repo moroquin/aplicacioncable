@@ -100,3 +100,12 @@ alter table cobros add CONSTRAINT `fk_cobros_lote1`
     REFERENCES `controlServicios`.`lote` (`idlote`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION;
+
+
+
+
+
+
+    alter table servicioscontratados add `detmesesporpagar` VARCHAR(45) NULL;
+
+    alter table cobros add `mesesporcobrardet` VARCHAR(45) NULL;
