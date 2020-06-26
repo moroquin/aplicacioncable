@@ -73,6 +73,19 @@ AppAsset::register($this);
                 ],
             ],
 
+            [
+                'label' => 'Reportes',
+                'items' => [
+
+                    '<li class="divider"></li>',
+                     '<li class="dropdown-header">Reportes generales</li>',
+                     ['label' => 'Reportes', 'url' => '/reporte/index'],
+                     
+                     
+                     
+                ],
+            ],
+
 
             [
                 'label' => 'Cobros',
