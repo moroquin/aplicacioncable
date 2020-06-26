@@ -17,15 +17,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 
-<?php 
-        if ($generarReporte==1)
-            $this->registerJs( 
-            '$(function(){
-                  window.open("'.Url::toRoute(['cobros/reporte', 'zona' => $impzona,'anyomes'=>$anyomes]).'","_blank");
-              });' );
-    
-    ?>
-
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -93,6 +84,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'update' => function ($url, $model) {
                                 return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, [
                                     'title' => Yii::t('app', 'lead-update'),
+                                    'data-pjax' => 0, 'target' => "_blank"
                                 ]);
                             },
                        
@@ -118,13 +110,14 @@ $this->params['breadcrumbs'][] = $this->title;
                             'view' => function ($url, $model) {
                                 return Html::a('<span class="glyphicon glyphicon-print"></span>', $url, [
                                     'title' => Yii::t('app', 'lead-view'),
+                                    'data-pjax' => 0, 'target' => "_blank"
                                 ]);
                             },
                         ],
                         'urlCreator' => function ($action, $model, $key, $index) {
                             
                             if ($action === 'view') {
-                                $url = 'indexlote?reporte=1&impzona='.$model->zona.'&impanyomes='.$model->anyomes;
+                                $url = 'reporte?zona='.$model->zona.'&anyomes='.$model->anyomes;
                                 return $url;
                             }
                         }

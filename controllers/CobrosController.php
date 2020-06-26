@@ -199,7 +199,7 @@ class CobrosController extends Controller
 
 
 
-    public function actionIndexlote($reporte = 0, $impzona = '', $impanyomes = ''){
+    public function actionIndexlote(){
 
 
         $searchModel = new LoteSearch();
@@ -217,10 +217,9 @@ class CobrosController extends Controller
         return $this->render('indexlote', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'generarReporte' => $reporte,
+            
             'zona' => $zona,
-            'impzona'=>$impzona,
-            'impanyomes' => $impanyomes,
+            
             'listadozonas' => $listadozonas,
             'anyomes' => $anyomes, 
         ]);
