@@ -26,10 +26,10 @@ use kartik\select2\Select2;
 
         <div class="panel-heading">Nombres y apellidos</div>
         <div class="panel-body">
-            <div class="col-xs-3"><?= $form->field($model, 'primernombre')->textInput(['maxlength' => true]) ?></div>
-            <div class="col-xs-3"><?= $form->field($model, 'segundonombre')->textInput(['maxlength' => true]) ?></div>
-            <div class="col-xs-3"><?= $form->field($model, 'primerapelldio')->textInput(['maxlength' => true]) ?></div>
-            <div class="col-xs-3"><?= $form->field($model, 'segundoapellido')->textInput(['maxlength' => true]) ?></div>
+            <div class="col-xs-6"><?= $form->field($model, 'primernombre')->textInput(['maxlength' => true]) ?></div>
+            
+            <div class="col-xs-6"><?= $form->field($model, 'primerapelldio')->textInput(['maxlength' => true]) ?></div>
+            
         </div>
 
 

@@ -109,3 +109,83 @@ alter table cobros add CONSTRAINT `fk_cobros_lote1`
     alter table servicioscontratados add `detmesesporpagar` VARCHAR(45) NULL;
 
     alter table cobros add `mesesporcobrardet` VARCHAR(45) NULL;
+
+
+    una hora telus
+
+
+
+
+challenge despues del almuerzo 
+
+
+jouse 
+
+    sistemas de seguridad y la nube
+
+    bio informática 
+
+
+challenge evaluación de test en línea 
+te inscribes 
+java 
+python
+sql
+
+
+
+
+
+
+
+
+
+
+
+
+
+SELECT `controlServicios`.clientes.primernombre,
+	`controlServicios`.clientes.primerapelldio,
+	`controlServicios`.clientes.direccion,
+	`controlServicios`.zona.nombrezona,
+	`controlServicios`.servicioscontratados.subtotal,
+	`controlServicios`.servicioscontratados.mesesnopagados
+FROM `controlServicios`.zona
+	inner join `controlServicios`.clientes ON 
+	 `controlServicios`.zona.nombrezona = `controlServicios`.clientes.nombrezona 
+	inner join `controlServicios`.servicioscontratados ON 
+	 `controlServicios`.clientes.idcliente = `controlServicios`.servicioscontratados.idcliente 
+WHERE 
+	 `controlServicios`.clientes.nombrezona =  'barrio garibaldi'
+	 AND `controlServicios`.servicioscontratados.nombreestado = 'Aprobado';
+
+
+     `controlServicios`.servicioscontratados.detmesesporpagar, 
+
+
+
+     SELECT `controlServicios`.clientes.primernombre,
+	`controlServicios`.clientes.segundonombre,
+	`controlServicios`.clientes.primerapelldio,
+	`controlServicios`.cobros.fecha,
+	`controlServicios`.cobros.totalcobrado
+FROM `controlServicios`.clientes
+	INNER JOIN `controlServicios`.servicioscontratados ON 
+	  ( 
+	 `controlServicios`.clientes.idcliente = `controlServicios`.servicioscontratados.idcliente) 
+	INNER JOIN `controlServicios`.cobros ON 
+	  ( 
+	 `controlServicios`.cobros.idservicioscontratados = `controlServicios`.servicioscontratados.idservicioscontratados) 
+WHERE 
+	 `controlServicios`.cobros.fecha =  ' 2020-07-14';
+
+
+
+
+
+
+
+
+
+
+     

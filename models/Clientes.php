@@ -63,8 +63,8 @@ class Clientes extends \yii\db\ActiveRecord
             'correlativo' => 'Correlativo',
             'primernombre' => '1er. nombre',
             'segundonombre' => '2do. nombre',
-            'primerapelldio' => '1er. apelldio',
-            'segundoapellido' => '2do. apellido',
+            'primerapelldio' => 'Nombres',
+            'segundoapellido' => 'Apellidos',
             'direccion' => 'Dirección',
             'dpi' => 'Dpi',
             'referencias' => 'Referencias',
@@ -160,7 +160,7 @@ class Clientes extends \yii\db\ActiveRecord
         $clientes = [];
 
         foreach ($result as $record)
-            $clientes[$record->idcliente] = ($record->idcliente != '1') ? ($record->primernombre . ' ' . $record->segundonombre . ' ' . $record->primerapelldio . ' ' . $record->segundoapellido . '. Agrupación cobro: ' . $record->nombrezona . '. DPI: '. $record->dpi . '. Nit: '. $record->nit) : 'Ingrese nuevo usuario';
+            $clientes[$record->idcliente] = ($record->idcliente != '1') ? ($record->primernombre . ' ' . $record->primerapelldio . '. Agrupación cobro: ' . $record->nombrezona . '. DPI: '. $record->dpi . '. Nit: '. $record->nit) : 'Ingrese nuevo usuario';
 
         return $clientes;
     }

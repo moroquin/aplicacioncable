@@ -13,7 +13,7 @@ use kartik\date\DatePicker;
 <div class="servicioscontratados-form">
 
     <?php $form = ActiveForm::begin(); ?>
-
+ 
     <div class="panel panel-success">
 
         <div class="panel-heading">Datos del cliente</div>
@@ -46,10 +46,10 @@ use kartik\date\DatePicker;
 
                 <div class="panel-heading">Nombres y apellidos</div>
                 <div class="panel-body">
-                    <div class="col-xs-3"><?= $form->field($model, 'primernombre')->textInput(['maxlength' => true]) ?></div>
-                    <div class="col-xs-3"><?= $form->field($model, 'segundonombre')->textInput(['maxlength' => true]) ?></div>
-                    <div class="col-xs-3"><?= $form->field($model, 'primerapelldio')->textInput(['maxlength' => true]) ?></div>
-                    <div class="col-xs-3"><?= $form->field($model, 'segundoapellido')->textInput(['maxlength' => true]) ?></div>
+                    <div class="col-xs-6"><?= $form->field($model, 'primernombre')->textInput(['maxlength' => true]) ?></div>
+                    
+                    <div class="col-xs-6"><?= $form->field($model, 'primerapelldio')->textInput(['maxlength' => true]) ?></div>
+                    
                 </div>
 
 
@@ -132,6 +132,9 @@ use kartik\date\DatePicker;
                         'pluginOptions' => ['allowClear' => true,],
 
                     ]) ?>
+            </div>
+            <div class="col-xs-4">
+                <?= $form->field($modelservicios, 'mesesnopagados')->textInput(['type' => 'number']) ?>
             </div>
         </div>
 

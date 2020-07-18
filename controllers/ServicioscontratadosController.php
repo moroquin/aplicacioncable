@@ -104,8 +104,17 @@ class ServicioscontratadosController extends Controller
 
 
         if ($modelservicios->load(Yii::$app->request->post())) {
+            
             $modelservicios->cobropactado = Servicios::getTarifa($modelservicios->idservicio);
-            $modelservicios->mesesnopagados = 1;
+
+            if (! isset($modelservicios->mesesnopagados))
+                $modelservicios->mesesnopagados = 1;
+
+            $anyomes = CobrosController::getAnyomes();
+
+            $modelservicios->detmesesporpagar = CobrosController::getMesesAtrazados($anyomes,$modelservicios->mesesnopagados);
+
+
             if ($modelservicios->idcliente == 1){
 
                 if ($model->load(Yii::$app->request->post()) && $zona->load(Yii::$app->request->post()) && $model->guardar($zona) && $modelservicios->guardar($model))

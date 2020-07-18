@@ -44,7 +44,7 @@ use kartik\select2\Select2;
                 <?= $form->field($model, 'fecha')->textInput(['readonly' => true]) ?>
             </div>
 
-            <div class="col-xs-6"><?= $form->field($model, 'mesesporcobrar')->textInput(['readonly' => true]) ?></div>
+            <div class="col-xs-6"><?= $form->field($model, 'mesesporcobrardet')->textInput(['readonly' => true]) ?></div>
             <div class="col-xs-6"><?= $form->field($model, 'totalporcobrar')->textInput(['readonly' => true]) ?></div>
             <div class="col-xs-6">
                 <?= $form->field($model, 'mesespagados')
@@ -85,7 +85,7 @@ $('#cobros-idservicioscontratados').change( function(){
     $.get('getinfocontrato', { id : id } ,function(data){
         data = $.parseJSON(data);
         $('#cobros-totalporcobrar').attr('value',data.cobropactado);
-        $('#cobros-mesesporcobrar').attr('value',data.mesesnopagados);  
+        $('#cobros-mesesporcobrardet').attr('value',data.detmesesporpagar);  
         $('#cobros-zona').attr('value',data.nombrezona);  
     });
 });

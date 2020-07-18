@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\models\Datosgen;
 use app\models\Zona;
 use app\models\Servicios;
+use mPDF;
 use Yii;
 
 class ReporteController extends \yii\web\Controller
@@ -12,7 +13,7 @@ class ReporteController extends \yii\web\Controller
     public function actionIndex()
     {
         $servicios = Servicios::listadoServicios(TRUE);
-        $zonas = Zona::listadoZonas();
+        $zonas = Zona::listadoZonasreporte();
 
 
 
@@ -35,8 +36,8 @@ class ReporteController extends \yii\web\Controller
 
 
         $fecha = (isset($_POST['fecha'])) ? $_POST['fecha'] : '';
-        $zona = (isset($_POST['zona'])&&(($_POST['zona'])!=='')) ? $_POST['zona'] : '*';
-        $servicio = (isset($_POST['servicio'])&&(($_POST['servicio'])!=='')) ? $_POST['servicio'] : '*';
+        $zona = (isset($_POST['zona']) && (($_POST['zona']) !== '')) ? $_POST['zona'] : '*';
+        $servicio = (isset($_POST['servicio']) && (($_POST['servicio']) !== '')) ? $_POST['servicio'] : '*';
 
         if (isset($_POST['ingresospordia']))
             return $this->ingresopordia($fecha, $zona, $servicio);
@@ -56,63 +57,59 @@ class ReporteController extends \yii\web\Controller
 
     public function ingresopordia($fecha, $zona, $servicio)
     {
-
-        return "ingreso diafecha: $fecha. zona: $zona. Servicio: $servicio.";
-        /*
-        
-    $tmporden=Orden::find()->where(['id_orden'=>$id])->one();
-    if ($tmporden->resultado_completo==0){
-        $tmporden->resultado_completo=1;
-        $tmporden->save();
-    }
-
-    $c = new \Jaspersoft\Client\Client(
-            "http://localhost:8080/jasperserver",
-            "jasperadmin",
-            "jasperadmin"
-          );    
-    $c->setRequestTimeout(60);    
-
-    if ($tipo==1)
-      $nomjasperreport='/labcastillo/pm_resultado_examen';
-    else
-      $nomjasperreport='/labcastillo/seg_resultado_examen';
-
-
-    $inputControls = array(
-                'pr_id_orden' => $id,
-                'SUBREPORT_DIR' => '/labcastillo/',
-                'ext' => '',
-            );
-
-    $nomrepo = 'Resultados-'.$id.'_'.date("Y-m-d H:i:s").'.pdf';
-    $report = $c->reportService()->runReport($nomjasperreport, 'pdf', null, null, $inputControls);
-
-    $options = ['Content-Type'=>'application/pdf','inline'=>true,'Content-Disposition'=> 'inline'];
-    Yii::$app->response->setDownloadHeaders($nomrepo,'application/pdf',true);
-
-    return Yii::$app->response->sendContentAsFile( $report,$nomrepo,$options);
-
-        */
+        $nomjasperreport = '/reports/ingdiarios/controlServicios1';
+        $inputControls = array(
+            'empleado_id' => 1,
+            'fecha' => $fecha,
+        );
+        $nomrepo = 'IngresosDiarios-' . $fecha . '.pdf';
+        return $this->generarReporte($nomjasperreport,$inputControls, $nomrepo);
     }
 
     public function ingresopormes($fecha, $zona, $servicio)
     {
+        $fecha = substr($fecha,0,-6);
+        $nomjasperreport = '/reports/reporte2/controlServicios2';
+        $inputControls = array(
+            'id_empleado' => 1,
+            'fecha' => $fecha,
+        );
+        $nomrepo = 'IngresosMes-' . $fecha . '.pdf';
+        return $this->generarReporte($nomjasperreport,$inputControls, $nomrepo);
 
-        return "ingreso mes fecha: $fecha. zona: $zona. Servicio: $servicio.";
+        
     }
 
     public function activosmes($fecha, $zona, $servicio)
     {
+        $zona = ($zona!='0')?$zona:'*';
 
-        return "activos fecha: $fecha. zona: $zona. Servicio: $servicio.";
+        $nomjasperreport = '/reports/reporte3/controlServicios3';
+        $inputControls = array(
+            'id_usuario' => 1,
+            'nombreZona' => $zona,
+            'estado' => 'Aprobado'
+        );
+        $nomrepo = 'ActivosMes-' . date("Y-m-d H:i:s") . '.pdf';
+        return $this->generarReporte($nomjasperreport,$inputControls, $nomrepo);
     }
 
+    
 
     public function morososmes($fecha, $zona, $servicio)
     {
 
-        return "morosos fecha: $fecha. zona: $zona. Servicio: $servicio.";
+        $zona = ($zona!='0')?$zona:'*';
+
+        $nomjasperreport = '/reports/reporte3/controlServicios3';
+        $inputControls = array(
+            'id_usuario' => 1,
+            'nombreZona' => $zona,
+            'estado' => 'Moroso'
+        );
+        $nomrepo = 'ActivosMes-' . date("Y-m-d H:i:s") . '.pdf';
+        return $this->generarReporte($nomjasperreport,$inputControls, $nomrepo);
+        
     }
 
     public function debaja($fecha, $zona, $servicio)
@@ -122,5 +119,20 @@ class ReporteController extends \yii\web\Controller
     }
 
 
-    
+    private function generarReporte($nomjasperreport,$inputControls, $nomrepo){
+        $c = new \Jaspersoft\Client\Client(
+            "http://localhost:8080/jasperserver",
+            "jasperadmin",
+            "jasperadmin"
+        );
+        $c->setRequestTimeout(60);
+        $report = $c->reportService()->runReport($nomjasperreport, 'pdf', null, null, $inputControls);
+        
+        $options = ['Content-Type' => 'application/pdf', 'inline' => true, 'Content-Disposition' => 'inline'];
+        Yii::$app->response->setDownloadHeaders($nomrepo, 'application/pdf', true);
+
+        return Yii::$app->response->sendContentAsFile($report, $nomrepo, $options);
+
+    }
+
 }

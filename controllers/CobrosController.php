@@ -45,7 +45,7 @@ class CobrosController extends Controller
         ];
     }
 
-    private function getAnyomes()
+    public static function getAnyomes()
     {
         $y = date("Y");
         $m = date ("m");
@@ -62,8 +62,11 @@ class CobrosController extends Controller
     }
 
     private static function componerMes($mes){
+
+               
+
         if ($mes < 0){
-            $mes = 12 - $mes;
+            $mes = 12 + $mes;
         }
 
 
@@ -73,16 +76,20 @@ class CobrosController extends Controller
 
     }
 
+    
     public static function getMesesAtrazados($anyomes, $meses){
 
         list($y,$m) = explode('-',$anyomes);
-        $result = '';
-        for ($i=0; $i < $meses ; $i++) {  
-            $result =(($result === '')? '': $result. ', ' )  . CobrosController::$nombreMes[CobrosController::componerMes($m-($meses - $i))];
+        $result = 'Año: '+$y+' ';
+        for ($i=1; $i <= $meses ; $i++) {  
+            $result =(($result === '')? '': $result. ', ' ) 
+                 . CobrosController::$nombreMes[CobrosController::componerMes($m-($meses - $i))];
         }
 
         return $result;
     }
+
+   
 
     /**
      * Lists all Cobros models.
@@ -167,7 +174,7 @@ class CobrosController extends Controller
      * Creates a new Cobros model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
-     */
+     */ 
     public function actionCreate()
     {
         $model = new Cobros();
@@ -229,6 +236,8 @@ class CobrosController extends Controller
 
     public function actionReporte($zona, $anyomes=''){
         return 'zona: '.$zona." anyomes $anyomes ";
+
+
 
 
         /*

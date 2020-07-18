@@ -77,6 +77,18 @@ class Zona extends \yii\db\ActiveRecord
         return $zonas;
     }
 
+    public static function listadoZonasreporte()
+    {
+        $result = Zona::find()->all();
+
+        $zonas = [];
+
+        foreach ($result as $record)
+            $zonas[$record->nombrezona] = ($record->nombrezona != '0') ? $record->nombrezona : 'Todas las agrupaciones';
+
+        return $zonas;
+    }
+
     public function getNombrezona()
     {
         return $this->nombrezona;

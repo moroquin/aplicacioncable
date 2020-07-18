@@ -55,7 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?= Select2::widget([
                         'name' => 'zona',
                         'id' => 'zona',
-                        'value' => '',
+                        'value' => '0',
                         'data' => $zonas,
                         'options' => ['multiple' => false, 'placeholder' => 'Seleccione la zona']
                     ])
@@ -86,7 +86,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <div class="row"><?= Html::submitButton('Ingresos por día', ['class' => 'btn btn-primary btn-block', 'name' => 'ingresospordia', 'value' => 'ingresospordia']) ?></div>
                 <p></p>
-                <div class="row"><?= Html::submitButton('Ingresos por mes', ['class' => 'btn btn-primary btn-block', 'name' => 'ingresopormes', 'value' => 'ingresopormes']) ?></div>
+                <div class="row"><?= Html::submitButton('Ingresos por mes', ['class' => 'btn btn-primary btn-block', 'name' => 'ingresospormes', 'value' => 'ingresospormes']) ?></div>
                 <p></p>
                 <div class="row"><?= Html::submitButton('Contratos activos del mes', ['class' => 'btn btn-info btn-block', 'name' => 'activosmes', 'value' => 'activosmes']) ?></div>
                 <p></p>
