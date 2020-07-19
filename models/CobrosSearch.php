@@ -11,10 +11,13 @@ use app\models\Cobros;
  */
 class CobrosSearch extends Cobros
 {
+
     public $primernombre;
     public $segundonombre;
     public $primerapelldio;
     public $segundoapellido;
+    public $correlativo;
+    public $contratonumero;
 
      public $idlote;
     /**
@@ -24,7 +27,7 @@ class CobrosSearch extends Cobros
     {
         return [
             [['lote_idlote','idcobro', 'idempleado', 'idservicioscontratados', 'mesesporcobrar','mesespagados'], 'integer'],
-            [['numerofactura', 'fecha', 'tipo', 'factura', 'contrasenya', 'zona', 'anyomes','primernombre',  'segundonombre', 'primerapelldio', 'segundoapellido','mesesporcobrardet' ], 'safe'],
+            [['numerofactura', 'fecha', 'tipo', 'factura', 'contratonumero' ,'contrasenya', 'zona', 'anyomes', 'correlativo', 'primernombre',  'segundonombre', 'primerapelldio', 'segundoapellido','mesesporcobrardet', 'mesespagadosdet' ], 'safe'],
             [['totalporcobrar', 'totalcobrado'], 'number'],
         ];
     }
@@ -47,7 +50,10 @@ class CobrosSearch extends Cobros
      */
     public function search($params)
     {
-        $query = Cobros::find();
+        $query = Cobros::find()
+        ->joinWith(['servicioscontratados'])
+        ->joinWith(['clientes'])
+        ;
 
         
 
@@ -81,8 +87,18 @@ class CobrosSearch extends Cobros
             ->andFilterWhere(['like', 'factura', $this->factura])
             ->andFilterWhere(['like', 'contrasenya', $this->contrasenya])
             ->andFilterWhere(['like', 'mesesporcobrardet', $this->mesesporcobrardet])
+
+            ->andFilterWhere(['like', 'servicioscontratados.contratonumero', $this->contratonumero])
+
+
+            ->andFilterWhere(['like', 'clientes.primernombre', $this->primernombre])
+
+            ->andFilterWhere(['like', 'clientes.primerapelldio', $this->primerapelldio])
+
+            ->andFilterWhere(['like', 'clientes.correlativo', $this->correlativo])
             
-         
+
+            
 
             ->andFilterWhere(['like', 'zona', $this->zona])
             ->andFilterWhere(['like', 'anyomes', $this->anyomes]);

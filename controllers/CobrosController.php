@@ -80,8 +80,22 @@ class CobrosController extends Controller
     public static function getMesesAtrazados($anyomes, $meses){
 
         list($y,$m) = explode('-',$anyomes);
-        $result = 'Año: '+$y+' ';
+        $result = '';
+        $m = $m +0;
         for ($i=1; $i <= $meses ; $i++) {  
+            $result =(($result === '')? '': $result. ', ' ) 
+                 . CobrosController::$nombreMes[CobrosController::componerMes(($m-($meses - $i)))];
+        }
+
+        return $result;
+    }
+
+
+    public static function getMesesPagados($anyomes, $meses, $cant){
+
+        list($y,$m) = explode('-',$anyomes);
+        $result = '';
+        for ($i=1; $i <= $cant ; $i++) {  
             $result =(($result === '')? '': $result. ', ' ) 
                  . CobrosController::$nombreMes[CobrosController::componerMes($m-($meses - $i))];
         }
@@ -202,7 +216,7 @@ class CobrosController extends Controller
 
         $model->idempleado = 1;
         
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->guardarnuevo()) {
             
             return $this->redirect(['view', 'id' => $model->idcobro]);
         }

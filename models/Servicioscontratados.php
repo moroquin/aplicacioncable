@@ -65,11 +65,11 @@ class Servicioscontratados extends \yii\db\ActiveRecord
         return [
 
 
-            'primernombre' => '1er nombre',
-            'segundonombre' => '2do nombre',
+            'primernombre' => 'Nombres',
+            'segundonombre' => ' ',
 
-            'primerapelldio' => '1er apellido',
-            'segundoapellido' => '2do apellido',
+            'primerapelldio' => 'Apellidos',
+            'segundoapellido' => ' ',
 
 
             'mesesnopagados' => 'Meses no pagados',
@@ -118,6 +118,7 @@ class Servicioscontratados extends \yii\db\ActiveRecord
     public static function getIdserviciocliente(){
         $result = Servicioscontratados::find()
                 ->where(['nombreestado'=>'Aprobado'])
+                ->orWhere(['nombreestado'=>'Moroso'])
                 ->all();
 
         $serviciosgeneral = Servicios::listadoServicioscompleto();

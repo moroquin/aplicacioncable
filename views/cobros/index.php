@@ -23,8 +23,26 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-         
+            [
+                'attribute' => 'correlativo',
+                'value' => 'clientes.correlativo',
+            ],
 
+            [
+                'attribute' => 'primernombre',
+                'value' => 'clientes.primernombre',
+            ],
+
+
+            [
+                'attribute' => 'primerapelldio',
+                'value' => 'clientes.primerapelldio',
+            ],
+
+            [
+                'attribute' => 'contratonumero',
+                'value' => 'servicioscontratados.contratonumero',
+            ],
             //'idcobro',
             'factura',
             //'idempleado',
@@ -38,9 +56,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'zona',
             'anyomes',
             'mesesporcobrar',
-            'mesespagados',
-            'totalcobrado',
             'mesesporcobrardet',
+            'mesespagados',
+            'mesespagadosdet',
+            'totalcobrado',
+            
             //adios
 
             ['class' => 'yii\grid\ActionColumn'],

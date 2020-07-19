@@ -29,16 +29,18 @@ $this->params['breadcrumbs'][] = $this->title;
 
             //'idcliente',
             'correlativo',
-            'primernombre',
-            'segundonombre',
-            'primerapelldio',
-            'segundoapellido',
-            //'direccion:ntext',
             'dpi',
-            //'referencias:ntext',
-            //'telefono1',
-            //'telefono2',
             'nit',
+            'primernombre',
+            //'segundonombre',
+            'primerapelldio',
+            //'segundoapellido',
+            'direccion:ntext',
+            
+            'referencias:ntext',
+            'telefono1',
+            //'telefono2',
+            
             'nombrezona',
 
             ['class' => 'yii\grid\ActionColumn','template' => '{update}{view}',],

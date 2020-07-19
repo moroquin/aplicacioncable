@@ -184,8 +184,40 @@ WHERE
 
 
 
+  alter table cobros add `idcliente` INT NOT NULL;
+
+alter table cobros add CONSTRAINT `fk_cobros_clientes1`
+    FOREIGN KEY (`idcliente`)
+    REFERENCES `controlServicios`.`clientes` (`idcliente`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION;
+
+
+     /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return [
+            'idcobro' => 'Idcobro',
+            'numerofactura' => 'Numerofactura',
+            'idempleado' => 'Idempleado',
+            'fecha' => 'Fecha',
+            'totalporcobrar' => 'Monto por cobrar',
+            'totalcobrado' => 'Cobro',
+            
+            'idservicioscontratados' => 'Idservicioscontratados',
+            'tipo' => 'Tipo',
+            'factura' => 'Factura',
+            'contrasenya' => 'Contraseñaa',
+            'zona' => 'Zona',
+            'anyomes' => 'Año - Mes',
+            'mesespagados'=>'Meses pagados',
+            'mesesporcobrar'=>'Meses por pagar',
+            'mesesporcobrardet' => 'Meses por pagar'
+        ];
+    }
 
 
 
-
-     
+    

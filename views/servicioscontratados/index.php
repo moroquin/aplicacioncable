@@ -32,31 +32,24 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             //  ['class' => 'yii\grid\SerialColumn'],
+            [
+                'attribute' => 'correlativo',
+                'value' => 'clientes.correlativo',
+            ],
 
             [
                 'attribute' => 'primernombre',
                 'value' => 'clientes.primernombre',
             ],
 
-            [
-                'attribute' => 'segundonombre',
-                'value' => 'clientes.segundonombre',
-            ],
 
             [
                 'attribute' => 'primerapelldio',
                 'value' => 'clientes.primerapelldio',
             ],
 
-            [
-                'attribute' => 'segundoapellido',
-                'value' => 'clientes.segundoapellido',
-            ],
 
-            [
-                'attribute' => 'correlativo',
-                'value' => 'clientes.correlativo',
-            ],
+            
 
             [
                 'attribute' => 'nombreestado',
@@ -75,6 +68,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             //'clientes.primernombre',
             'mesesnopagados',
+            'detmesesporpagar',
             //'subtotal',
             //'idcliente',
             //'idservicio',

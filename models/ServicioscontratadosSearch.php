@@ -13,11 +13,12 @@ use phpDocumentor\Reflection\Types\Boolean;
 class ServicioscontratadosSearch extends Servicioscontratados
 {
 
-    public $primernombre;
+    public $primernombre; 
     public $segundonombre;
     public $primerapelldio;
     public $segundoapellido;
     public $correlativo;
+    
 
     
     /**

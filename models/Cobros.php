@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use app\controllers\CobrosController;
 
 /**
  * This is the model class for table "cobros".
@@ -18,12 +19,15 @@ use Yii;
  * @property string|null $contrasenya
  * @property string|null $zona
  * @property string|null $anyomes
- * @property string|null $mesesporcobrardet
+ * @property string|null $mesespagadosdet
  * @property int|null $mesespagados
  * @property float|null $totalporcobrar
  * @property int|null $mesesporcobrar
  * @property int|null $lote_idlote
+ * @property string|null $mesesporcobrardet
+ * @property int $idcliente
  *
+ * @property Clientes $idcliente0
  * @property Empleados $idempleado0
  * @property Lote $loteIdlote
  * @property Servicioscontratados $idservicioscontratados0
@@ -45,12 +49,13 @@ class Cobros extends \yii\db\ActiveRecord
     {
         return [
             [['idempleado', 'idservicioscontratados'], 'required'],
-            [['idempleado', 'idservicioscontratados', 'mesesporcobrar','mesespagados'], 'integer'],
+            [['idempleado', 'idservicioscontratados', 'mesespagados', 'mesesporcobrar', 'lote_idlote', 'idcliente'], 'integer'],
             [['fecha'], 'safe'],
-            [['totalporcobrar', 'totalcobrado'], 'number'],
+            [['totalcobrado', 'totalporcobrar'], 'number'],
             [['numerofactura'], 'string', 'max' => 100],
-            [['tipo', 'factura', 'contrasenya', 'zona', 'mesesporcobrardet'], 'string', 'max' => 45],
+            [['tipo', 'factura', 'contrasenya', 'zona', 'mesesporcobrardet', 'mesespagadosdet'], 'string', 'max' => 45],
             [['anyomes'], 'string', 'max' => 7],
+            [['idcliente'], 'exist', 'skipOnError' => true, 'targetClass' => Clientes::className(), 'targetAttribute' => ['idcliente' => 'idcliente']],
             [['idempleado'], 'exist', 'skipOnError' => true, 'targetClass' => Empleados::className(), 'targetAttribute' => ['idempleado' => 'idempleado']],
             [['lote_idlote'], 'exist', 'skipOnError' => true, 'targetClass' => Lote::className(), 'targetAttribute' => ['lote_idlote' => 'idlote']],
             [['idservicioscontratados'], 'exist', 'skipOnError' => true, 'targetClass' => Servicioscontratados::className(), 'targetAttribute' => ['idservicioscontratados' => 'idservicioscontratados']],
@@ -69,6 +74,8 @@ class Cobros extends \yii\db\ActiveRecord
             'fecha' => 'Fecha',
             'totalporcobrar' => 'Monto por cobrar',
             'totalcobrado' => 'Cobro',
+
+            'mesespagadosdet' => 'meses pagados',
             
             'idservicioscontratados' => 'Idservicioscontratados',
             'tipo' => 'Tipo',
@@ -78,26 +85,35 @@ class Cobros extends \yii\db\ActiveRecord
             'anyomes' => 'Año - Mes',
             'mesespagados'=>'Meses pagados',
             'mesesporcobrar'=>'Meses por pagar',
-            'mesesporcobrardet' => 'Meses por pagar'
+            'mesesporcobrardet' => 'Meses por pagar',
+            'idcliente' => 'Idcliente',
         ];
+    }
+
+    /**
+     * Gets query for [[Idcliente0]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getIdcliente0()
+    {
+        return $this->hasOne(Clientes::className(), ['idcliente' => 'idcliente']);
     }
 
     /**
      * Gets query for [[Idempleado0]].
      *
-     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery
      */
     public function getIdempleado0()
     {
         return $this->hasOne(Empleados::className(), ['idempleado' => 'idempleado']);
     }
 
-    
-
     /**
      * Gets query for [[LoteIdlote]].
      *
-     * @return \yii\db\ActiveQuery|LoteQuery
+     * @return \yii\db\ActiveQuery
      */
     public function getLoteIdlote()
     {
@@ -107,20 +123,21 @@ class Cobros extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Idservicioscontratados0]].
      *
-     * @return \yii\db\ActiveQuery|ServicioscontratadosQuery
+     * @return \yii\db\ActiveQuery
      */
     public function getIdservicioscontratados0()
     {
         return $this->hasOne(Servicioscontratados::className(), ['idservicioscontratados' => 'idservicioscontratados']);
     }
 
-    /**
-     * {@inheritdoc}
-     * @return CobrosQuery the active query used by this AR class.
-     */
-    public static function find()
+    public function getServicioscontratados()
     {
-        return new CobrosQuery(get_called_class());
+        return $this->hasOne(Servicioscontratados::className(), ['idservicioscontratados' => 'idservicioscontratados']);
+    }
+
+    public function getClientes()
+    {
+        return $this->hasOne(Clientes::className(), ['idcliente' => 'idcliente']);
     }
 
     public static function getCobros($zona, $anyomes){
@@ -135,14 +152,73 @@ class Cobros extends \yii\db\ActiveRecord
     }
 
     public function guardar(){
+        
         $result1 = Cobros::findOne($this->idcobro);
+        $result = Servicioscontratados::findOne($this->idservicioscontratados);
+
+        
         $result1->mesespagados = $this->mesespagados;
         $result1->totalcobrado = $this->totalcobrado;
+        $result1->idcliente = $result->idcliente;
         $result1->save();
 
-        $result = Servicioscontratados::findOne($this->idservicioscontratados);
+        
         $result->mesesnopagados = $result->mesesnopagados - $this->mesespagados;
         $result->save();
-        $this->save();
+        return true;
     }
+
+
+    public function guardarnuevo(){
+                
+        $result = Servicioscontratados::findOne($this->idservicioscontratados);
+
+        $anyomes = CobrosController::getAnyomes();
+
+        $this->mesesporcobrardet = $result->detmesesporpagar;
+
+        if ($this->mesespagados == $result->mesesnopagados)
+            $this->mesespagadosdet = CobrosController::getMesesAtrazados($anyomes,$result->mesesnopagados);
+        else
+            $this->mesespagadosdet = CobrosController::getMesesPagados($anyomes,$result->mesesnopagados,$this->mesespagados);
+        
+
+
+
+         /*if ($result->mesesnopagados = 0 )
+            $this->mesesporcobrardet = "Al día";
+        else if ($this->mesesporcobrardet > 0)
+        $this->mesesporcobrardet = CobrosController::getMesesAtrazados($anyomes,$this->mesesporcobrar);
+        else {
+            
+            $this->mesesporcobrardet ="Adelantado:". CobrosController::getMesesAtrazados($anyomes,-$this->mesesporcobrar);
+        }*/
+
+        //actualizando meses restantes de pago 
+        $this->mesesporcobrar = $result->mesesnopagados;
+        $result->mesesnopagados = $result->mesesnopagados - $this->mesespagados;
+
+        if ($result->mesesnopagados == 0)
+            $result->detmesesporpagar= "Al día";
+        else if ($result->mesesnopagados > 0)
+            $result->detmesesporpagar= CobrosController::getMesesAtrazados($anyomes,$result->mesesnopagados);
+        else
+            $result->detmesesporpagar= "Pagos adelantados ". (-$result->mesesnopagados);
+            
+        if ($result->mesesnopagados < 4)
+            $result->nombreestado = 'Aprobado';
+
+        $this->idcliente = $result->idcliente;
+        $this->save();
+ 
+      
+        $result->save();
+        
+
+        return true;
+        
+    }
+
+
+
 }

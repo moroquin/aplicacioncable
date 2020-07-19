@@ -58,6 +58,7 @@ use kartik\date\DatePicker;
                     <div class="col-xs-12"><?= $form->field($model, 'direccion')->textarea(['rows' => 1]) ?></div>
                     <div class="col-xs-4"><?= $form->field($model, 'telefono1')->textInput(['maxlength' => true]) ?></div>
                     <div class="col-xs-4"><?= $form->field($model, 'telefono2')->textInput(['maxlength' => true]) ?></div>
+                    <div class="col-xs-4"><?= $form->field($model, 'mail')->textInput(['maxlength' => true]) ?></div>
                     <div class="col-xs-12"><?= $form->field($model, 'referencias')->textarea(['rows' => 1]) ?></div>
                 </div>
 

@@ -61,9 +61,9 @@ class Clientes extends \yii\db\ActiveRecord
         return [
             'idcliente' => 'Idcliente',
             'correlativo' => 'Correlativo',
-            'primernombre' => '1er. nombre',
+            'primernombre' => 'Nombres',
             'segundonombre' => '2do. nombre',
-            'primerapelldio' => 'Nombres',
+            'primerapelldio' => 'Apellidos',
             'segundoapellido' => 'Apellidos',
             'direccion' => 'Dirección',
             'dpi' => 'Dpi',
