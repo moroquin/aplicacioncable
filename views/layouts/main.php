@@ -105,7 +105,11 @@ AppAsset::register($this);
                 ],
             ],
 
-
+            ['label' => 'Usuarios', 
+            'items' =>[
+                ['label' => 'Registrar', 'url' => '/site/registrar'],
+                ['label' => 'Administrar Cuentas', 'url' => '/empleados/index']
+            ]],
 
 
 

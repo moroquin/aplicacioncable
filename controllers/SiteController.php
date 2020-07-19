@@ -9,10 +9,13 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\SignupForm;
+use app\models\Empleados;
+use app\models\User;
+use app\models\Puesto;
 
 class SiteController extends Controller
 {
-
     /**
      * {@inheritdoc}
      */
@@ -62,7 +65,6 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        
         return $this->render('index');
     }
 
@@ -125,6 +127,82 @@ class SiteController extends Controller
      */
     public function actionAbout()
     {
-        return $this->render('about');
+        if (!Yii::$app->user->isGuest) {
+           $model1 = User::findOne(Yii::$app->user->id);
+           $model2 = Empleados::findOne($model1->empleados_idempleado);
+           echo $model2->nombre;
+        }else{
+            return $this->render('about');
+        }
+
+    }
+    
+    public function actionAddAdmin() {
+        $model = User::find()->where(['username' => 'admin'])->one();
+        if (empty($model)) {
+            $user = new User();
+            $user->username = 'admin';
+            $user->email = 'admin@devreadwrite.com';
+            $user->empleados_idempleado = 1;
+            $user->setPassword('admin');
+            $user->generateAuthKey();
+            if ($user->save()) {
+                echo 'good';
+            }
+        }
+    }
+    public function actionRegistrar()
+    {
+
+ 
+        $model = new Empleados();
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $puesto = Puesto::findOne($model->puestos_idpuestos);
+            return $this->redirect(['signup', 'id' => $model->idempleado, 'acceso' => $puesto->nivel]);
+        }
+        $puestos = [];
+        $tmp = Puesto::find()->all();
+        foreach($tmp as $puest){
+
+            $puestos[$puest->idpuestos] ="Puesto: ".$puest->nombre; 
+        }
+        return $this->render('/empleados/create', [
+            'model' => $model,
+            'puestos' => $puestos,
+        ]);
+ 
+    }
+    public function actionSignup($id, $acceso)
+    {
+        $model = new SignupForm();
+        $model->idempleado = $id;
+        $model->permiso = $acceso;
+        $model->estado = 1;
+        if ($model->load(Yii::$app->request->post())) {
+            $user = $model->signup();
+            
+            return $this->goHome();
+                
+        }
+        
+        return $this->render('signup', [
+            'model' => $model,
+        ]);
+    }
+    public function actionActualizarcontra($id){
+        $model = new SignupForm();
+        $model1 = User::findOne($id);
+        $model2 = Empleados::findOne($model1->empleados_idempleado);
+        if ($model->load(Yii::$app->request->post())){
+            $model1->setPassword($model->password);
+            $model1->save(); 
+            return $this->redirect(['/empleados/view', 'id' => $model1->empleados_idempleado]);
+        }
+        
+        return $this->render('actualizar', [
+            'model' => $model,
+            'model2' => $model2,
+        ]);
     }
 }
