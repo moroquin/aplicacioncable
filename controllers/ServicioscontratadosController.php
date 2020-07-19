@@ -42,6 +42,10 @@ class ServicioscontratadosController extends Controller
      */
     public function actionIndex()
     {
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
         $searchModel = new ServicioscontratadosSearch();
         $searchModel->iniEstadocontrato();
         
@@ -69,6 +73,10 @@ class ServicioscontratadosController extends Controller
      */
     public function actionView($id)
     {
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -81,6 +89,9 @@ class ServicioscontratadosController extends Controller
      */
     public function actionCreate()
     {
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
 
 
         $model = new Clientes();
@@ -156,6 +167,10 @@ class ServicioscontratadosController extends Controller
      */
     public function actionUpdate($id)
     {
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
         $modelservicios = $this->findModel($id);
 
 

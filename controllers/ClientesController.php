@@ -44,6 +44,9 @@ class ClientesController extends Controller
      */
     public function actionIndex()
     {
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
         $searchModel = new ClientesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams, false);
         $dataProvider->pagination->pageSize = 5;
@@ -62,6 +65,9 @@ class ClientesController extends Controller
      */
     public function actionView($id)
     {
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -74,6 +80,9 @@ class ClientesController extends Controller
      */
     public function actionCreate()
     {
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
         $model = new Clientes();
         $zonas = Zona::listadoZonas();
         $zona = new Zona();
@@ -99,6 +108,10 @@ class ClientesController extends Controller
      */
     public function actionUpdate($id)
     {
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
         $model = $this->findModel($id);
         $zonas = Zona::listadoZonas();
         $zona = new Zona();
@@ -124,6 +137,7 @@ class ClientesController extends Controller
      */
     public function actionDelete($id)
     {
+        
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);

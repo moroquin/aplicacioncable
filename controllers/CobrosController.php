@@ -97,6 +97,10 @@ class CobrosController extends Controller
      */
     public function actionIndex() 
     {
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
         $searchModel = new CobrosSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -120,6 +124,10 @@ class CobrosController extends Controller
      */
     public function actionView($id)
     {
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -127,6 +135,10 @@ class CobrosController extends Controller
 
     public function actionCobrosmes()
     {
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
         $anyomes = $this->getAnyomes();
 
         if ((Cobropormes::find()->where(['cobrosmes' => $anyomes])->count()) == 0) {
@@ -177,6 +189,10 @@ class CobrosController extends Controller
      */ 
     public function actionCreate()
     {
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
         $model = new Cobros();
 
         $serviciocliente = Servicioscontratados::getIdserviciocliente();

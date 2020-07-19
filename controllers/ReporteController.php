@@ -12,6 +12,10 @@ class ReporteController extends \yii\web\Controller
 {
     public function actionIndex()
     {
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
         $servicios = Servicios::listadoServicios(TRUE);
         $zonas = Zona::listadoZonasreporte();
 
@@ -33,6 +37,9 @@ class ReporteController extends \yii\web\Controller
 
     public function actionGeneral()
     {
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
 
 
         $fecha = (isset($_POST['fecha'])) ? $_POST['fecha'] : '';

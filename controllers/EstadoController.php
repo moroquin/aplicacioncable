@@ -38,6 +38,10 @@ class EstadoController extends Controller
      */
     public function actionIndex()
     {
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
         $searchModel = new EstadoSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -55,6 +59,10 @@ class EstadoController extends Controller
      */
     public function actionView($id)
     {
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -67,6 +75,10 @@ class EstadoController extends Controller
      */
     public function actionCreate()
     {
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
         $model = new Estado();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -87,6 +99,10 @@ class EstadoController extends Controller
      */
     public function actionUpdate($id)
     {
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -107,6 +123,10 @@ class EstadoController extends Controller
      */
     public function actionDelete($id)
     {
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
@@ -121,6 +141,10 @@ class EstadoController extends Controller
      */
     protected function findModel($id)
     {
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
         if (($model = Estado::findOne($id)) !== null) {
             return $model;
         }
