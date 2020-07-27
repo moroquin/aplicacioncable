@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.2.final using JasperReports Library version 6.12.2-75c5e90a222ab406e416cbf590a5397028a52de3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="pm_resultado_examen_hijo_01" language="groovy" pageWidth="1008" pageHeight="612" orientation="Landscape" columnWidth="968" leftMargin="20" rightMargin="20" topMargin="3" bottomMargin="3" uuid="d61b0457-7b5a-45b9-a10f-342a90dcf844">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="control servicios"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="PieChartDataset" uuid="e8bb5134-2120-4493-99b4-ddbfba57e53f"/>
+	<parameter name="nombrezona" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<parameter name="anyomes" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[ SELECT 
+ idcobro,
+   `controlServicios`.clientes.correlativo 
+	anyomes,
+	concat( mesesporcobrardet,'(',totalporcobrar,' Q.)') AS porcobrar,
+	concat( mesespagadosdet,' (',totalcobrado,' Q.)') AS pagado,
+	concat( contrasenya,' - ',factura) AS documento,
+	concat( primernombre,' ',primerapelldio) AS nombre,
+	concat ( direccion,' - ',referencias,' . Tel: ',telefono1,' - ',telefono2) AS dirgen
+FROM cobros
+	inner join clientes ON 
+	 cobros.idcliente = clientes.idcliente
+	 where 
+	 	anyomes = $P{anyomes}
+	 	and 
+	 	nombrezona = $P{nombrezona}]]>
+	</queryString>
+	<field name="nombre" class="java.lang.String"/>
+	<field name="pagado" class="java.lang.String"/>
+	<field name="documento" class="java.lang.String"/>
+	<field name="porcobrar" class="java.lang.String"/>
+	<field name="dirgen" class="java.lang.String"/>
+	<field name="correlativo" class="java.lang.String"/>
+	<group name="nombrezona_grupo">
+		<groupExpression><![CDATA[$F{nombrezona}]]></groupExpression>
+		<groupHeader>
+			<band height="110">
+				<frame>
+					<reportElement mode="Opaque" x="100" y="30" width="572" height="34" forecolor="#B89F7D" backcolor="#70A9C6" uuid="01f932fd-05a8-4cd6-9a18-855ec29d3014"/>
+					<textField>
+						<reportElement x="40" y="4" width="550" height="30" uuid="3e4c5e88-8d3e-4b66-a7f9-1a5838be6739"/>
+						<textElement>
+							<font size="20"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$P{nombrezona}]]></textFieldExpression>
+					</textField>
+				</frame>
+			</band>
+		</groupHeader>
+	</group>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<detail>
+		<band height="280" splitType="Stretch">
+			<line>
+				<reportElement x="200" y="200" width="572" height="1" forecolor="#666666" uuid="975ca262-ba31-4ff2-8e58-39171d0aa35d"/>
+			</line>
+			<staticText>
+				<reportElement mode="Opaque" x="649" y="140" width="123" height="23" forecolor="#006699" backcolor="#E6E6E6" uuid="86640804-75d4-493a-ad3a-91cc4694272f"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Anotaciones]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="354" y="140" width="195" height="23" forecolor="#006699" backcolor="#E6E6E6" uuid="95128ee0-ee98-4cfb-816e-d52d1b0c4add"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Resultado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="599" y="140" width="47" height="23" forecolor="#006699" backcolor="#E6E6E6" uuid="c4efbdac-3cff-40fe-9495-af5043996577"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor Normal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="552" y="140" width="44" height="23" forecolor="#006699" backcolor="#E6E6E6" uuid="4bfca472-97da-40ab-94ff-ec23142c4526"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Unidad
+Medida]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="200" y="140" width="151" height="23" forecolor="#006699" backcolor="#E6E6E6" uuid="6079b2e7-338f-47c1-85d7-d238802475f0"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Examen]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="200" y="159" width="572" height="1" uuid="2835cafb-c267-4423-9042-4eb1022b877f"/>
+			</line>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement x="649" y="159" width="123" height="20" uuid="96d6ce4a-6aed-41bd-b535-f966f6434b5b"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dirgen}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement x="200" y="163" width="151" height="20" uuid="c822972c-df12-41f2-ba44-fa8c91b1a195"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement x="360" y="163" width="195" height="20" uuid="9c0758cb-9fcc-4210-a993-c318b9f14f50"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{correlativo}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement x="552" y="163" width="44" height="20" uuid="9e2db8bc-ba68-4cdb-a2cd-d7d45c95f00e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{porcobrar}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement x="599" y="163" width="47" height="20" uuid="26823450-8f26-48d9-85ca-999338e8b1e7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pagado}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

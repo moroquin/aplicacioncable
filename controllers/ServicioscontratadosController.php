@@ -18,7 +18,7 @@ use yii\filters\VerbFilter;
  */
 class ServicioscontratadosController extends Controller
 {
-   
+
 
 
     /**
@@ -48,7 +48,7 @@ class ServicioscontratadosController extends Controller
 
         $searchModel = new ServicioscontratadosSearch();
         $searchModel->iniEstadocontrato();
-        
+
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $servicios = Servicios::listadoServicios(TRUE);
 
@@ -100,13 +100,13 @@ class ServicioscontratadosController extends Controller
         $zona->nombrezona = "Escribe aqui . . .";
         $model->nombrezona = '0';
 
-        
-        
+
+
 
 
         $modelservicios = new Servicioscontratados();
 
-        $modelservicios-> detmesesporpagar= "";
+        $modelservicios->detmesesporpagar = "";
         $servicios = Servicios::listadoServicios(TRUE);
         $tarifas = Servicios::listadoTarifas(TRUE);
         $clientes = Clientes::listadoClientes();
@@ -115,23 +115,25 @@ class ServicioscontratadosController extends Controller
 
 
         if ($modelservicios->load(Yii::$app->request->post())) {
-            
+
             $modelservicios->cobropactado = Servicios::getTarifa($modelservicios->idservicio);
 
-            if (! isset($modelservicios->mesesnopagados))
+            if ($modelservicios->mesesnopagados == null || $modelservicios->mesesnopagados == '')
                 $modelservicios->mesesnopagados = 1;
 
             $anyomes = CobrosController::getAnyomes();
 
-            $modelservicios->detmesesporpagar = CobrosController::getMesesAtrazados($anyomes,$modelservicios->mesesnopagados);
+            if ($modelservicios->mesesnopagados <= 0)
+                $modelservicios->detmesesporpagar = "Adelantado " . $modelservicios->mesesnopagados;
+            else
+                $modelservicios->detmesesporpagar = CobrosController::getMesesAtrazados($anyomes, $modelservicios->mesesnopagados);
 
 
-            if ($modelservicios->idcliente == 1){
+            if ($modelservicios->idcliente == 1) {
 
                 if ($model->load(Yii::$app->request->post()) && $zona->load(Yii::$app->request->post()) && $model->guardar($zona) && $modelservicios->guardar($model))
                     return $this->redirect(['view', 'id' => $modelservicios->idservicioscontratados]);
-            }
-            else{
+            } else {
                 $modelservicios->nombrezona = Clientes::findOne($modelservicios->idcliente)->getZona();
                 if ($modelservicios->save())
                     return $this->redirect(['view', 'id' => $modelservicios->idservicioscontratados]);
@@ -139,7 +141,7 @@ class ServicioscontratadosController extends Controller
 
 
             // && 
-            
+
         }
 
         return $this->render('create', [
@@ -147,7 +149,7 @@ class ServicioscontratadosController extends Controller
             'servicios' => $servicios,
             'clientes' => $clientes,
             'tarifas' => $tarifas,
-        
+
 
 
             'model' => $model,
@@ -182,7 +184,7 @@ class ServicioscontratadosController extends Controller
 
 
 
-        
+
         $servicios = Servicios::listadoServicios(TRUE);
         $tarifas = Servicios::listadoTarifas(TRUE);
         $clientes = Clientes::listadoClientes();
@@ -191,8 +193,18 @@ class ServicioscontratadosController extends Controller
 
 
 
-        if ($modelservicios->load(Yii::$app->request->post()) && $modelservicios->save()) {
-            return $this->redirect(['view', 'id' => $modelservicios->idservicioscontratados]);
+        if ($modelservicios->load(Yii::$app->request->post())) {
+
+
+            $anyomes = CobrosController::getAnyomes();
+
+            if ($modelservicios->mesesnopagados <= 0)
+                $modelservicios->detmesesporpagar = "Adelantado " . (-$modelservicios->mesesnopagados);
+            else
+                $modelservicios->detmesesporpagar = CobrosController::getMesesAtrazados($anyomes, $modelservicios->mesesnopagados);
+
+            if ($modelservicios->save())                
+                return $this->redirect(['view', 'id' => $modelservicios->idservicioscontratados]);
         }
 
         return $this->render('update', [
@@ -240,4 +252,3 @@ class ServicioscontratadosController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 }
-

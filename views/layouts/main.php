@@ -57,7 +57,7 @@ AppAsset::register($this);
             ],
 
             [
-                'label' => 'Servicios',
+                'label' => 'Contratos',
                 'items' => [
 
                     '<li class="divider"></li>',

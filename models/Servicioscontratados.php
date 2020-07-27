@@ -20,6 +20,11 @@ use Yii;
  * @property string $nombreestado
  * @property string $detmesesporpagar
  * @property int|null $trabajopendiente
+ * @property string|null $fechareconexion
+ * @property string|null $fechasuspension
+ * @property string|null $descripcionreconexion
+ * @property string|null $descripcionsuspension
+ * @property float|null $cobroreconexion
  *
  * @property Cobros[] $cobros
  * @property Clientes $idcliente0
@@ -44,10 +49,11 @@ class Servicioscontratados extends \yii\db\ActiveRecord
     {
         return [
             [['mesesnopagados', 'idcliente', 'idservicio', 'duracioncontrato'], 'integer'],
-            [['subtotal', 'cobropactado'], 'number'],
+            [['subtotal', 'cobropactado','cobroreconexion'], 'number'],
             [['idcliente', 'idservicio', 'contratonumero', 'nombreestado'], 'required'],
-            [['fechainicio'], 'safe'],
+            [['fechainicio','fechasuspension', 'fechareconexion'], 'safe'],
             [['nombrezona','contratonumero', 'nombreestado', 'detmesesporpagar'], 'string', 'max' => 45],
+            [['descripcionsuspension','descripcionreconexion'], 'string', 'max' => 255],
             //[['nombrezona'], 'string', 'max' => 45],
             //[['idcliente'], 'unique'],
             //[['idservicio'], 'unique'],
@@ -84,6 +90,13 @@ class Servicioscontratados extends \yii\db\ActiveRecord
             'nombrezona' => 'Zona agrupación',
             'nombreestado' => 'Estado',
             'detmesesporpagar' => 'Meses por pagar',
+
+            'fechareconexion'=> 'Fecha re conexión',
+            'fechasuspension' =>'Fecha de suspensión',
+            'descripcionsuspension' => 'Descripción suspensión',
+            'descripcionreconexion'=>'Descripción re conexión',
+
+            'cobroreconexion'=> 'Cobro de Reconexión'
             
         ];
     }
@@ -117,8 +130,9 @@ class Servicioscontratados extends \yii\db\ActiveRecord
 
     public static function getIdserviciocliente(){
         $result = Servicioscontratados::find()
-                ->where(['nombreestado'=>'Aprobado'])
+                ->where(['nombreestado'=>'Activo'])
                 ->orWhere(['nombreestado'=>'Moroso'])
+                ->orWhere(['nombreestado'=>'Suspendido'])
                 ->all();
 
         $serviciosgeneral = Servicios::listadoServicioscompleto();
@@ -139,7 +153,7 @@ class Servicioscontratados extends \yii\db\ActiveRecord
 
     public static function getIdservicioclientecompleto(){
         $result = Servicioscontratados::find()
-                ->where(['nombreestado'=>['Aprobado', 'Moroso', 'Por renovar']])
+                ->where(['nombreestado'=>['Activo', 'Moroso', 'Suspendido']])
                 ->all();
 
         $serviciosgeneral = Servicios::listadoServicioscompleto();
@@ -162,7 +176,8 @@ class Servicioscontratados extends \yii\db\ActiveRecord
 
     public static function getIdserviciozona(){
         $result = Servicioscontratados::find()
-                ->where(['nombreestado'=>'Aprobado'])
+                ->where(['nombreestado'=>'Activo'])
+                ->orWhere(['nombreestado'=>'Moroso'])
                 ->all();
 
         
@@ -224,10 +239,13 @@ class Servicioscontratados extends \yii\db\ActiveRecord
 
 
     public function beforeSave($insert) {
-        if ($this->mesesnopagados>3)
+        if (isset($this->nombreestado) && (($this->nombreestado=='Finalizado')|| ($this->nombreestado=='Suspendido')))
+            return parent::beforeSave($insert);
+
+        if ($this->mesesnopagados>1)
             $this->nombreestado = 'Moroso';
         else if (($this->mesesnopagados<=3))
-            $this->nombreestado = 'Aprobado';
+            $this->nombreestado = 'Activo';
     
         return parent::beforeSave($insert);
     }

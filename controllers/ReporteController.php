@@ -73,6 +73,10 @@ class ReporteController extends \yii\web\Controller
         return $this->generarReporte($nomjasperreport,$inputControls, $nomrepo);
     }
 
+    
+
+
+
     public function ingresopormes($fecha, $zona, $servicio)
     {
         $fecha = substr($fecha,0,-6);

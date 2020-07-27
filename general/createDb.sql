@@ -2,29 +2,35 @@
 -- lun 18 may 2020 23:28:07
 -- Model: New Model    Version: 1.0
 -- MySQL Workbench Forward Engineering
+SET
+  @OLD_UNIQUE_CHECKS = @ @UNIQUE_CHECKS,
+  UNIQUE_CHECKS = 0;
 
-SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
-SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+SET
+  @OLD_FOREIGN_KEY_CHECKS = @ @FOREIGN_KEY_CHECKS,
+  FOREIGN_KEY_CHECKS = 0;
+
+SET
+  @OLD_SQL_MODE = @ @SQL_MODE,
+  SQL_MODE = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
 -- Schema controlServicios
 -- -----------------------------------------------------
-
 -- -----------------------------------------------------
 -- Schema controlServicios
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `controlServicios` ;
-USE `controlServicios` ;
+CREATE SCHEMA IF NOT EXISTS `controlServicios`;
+
+USE `controlServicios`;
 
 -- -----------------------------------------------------
 -- Table `controlServicios`.`zona`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `controlServicios`.`zona` (
   `nombrezona` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`nombrezona`))
-ENGINE = InnoDB;
-
+  PRIMARY KEY (`nombrezona`)
+) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `controlServicios`.`clientes`
@@ -45,14 +51,9 @@ CREATE TABLE IF NOT EXISTS `controlServicios`.`clientes` (
   `nombrezona` VARCHAR(45) NOT NULL,
   `mail` VARCHAR(45) NULL,
   PRIMARY KEY (`idcliente`),
-  INDEX `fk_clientes_zona1_idx` (`nombrezona` ASC) ,
-  CONSTRAINT `fk_clientes_zona1`
-    FOREIGN KEY (`nombrezona`)
-    REFERENCES `controlServicios`.`zona` (`nombrezona`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
+  INDEX `fk_clientes_zona1_idx` (`nombrezona` ASC),
+  CONSTRAINT `fk_clientes_zona1` FOREIGN KEY (`nombrezona`) REFERENCES `controlServicios`.`zona` (`nombrezona`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `controlServicios`.`puesto`
@@ -62,9 +63,8 @@ CREATE TABLE IF NOT EXISTS `controlServicios`.`puesto` (
   `nombre` VARCHAR(75) NULL,
   `descripcion` TEXT NULL,
   `nivel` INT NULL,
-  PRIMARY KEY (`idpuestos`))
-ENGINE = InnoDB;
-
+  PRIMARY KEY (`idpuestos`)
+) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `controlServicios`.`empleados`
@@ -77,14 +77,9 @@ CREATE TABLE IF NOT EXISTS `controlServicios`.`empleados` (
   `direccion` VARCHAR(45) NULL,
   `puestos_idpuestos` INT NOT NULL,
   PRIMARY KEY (`idempleado`),
-  INDEX `fk_empleados_puestos_idx` (`puestos_idpuestos` ASC) ,
-  CONSTRAINT `fk_empleados_puestos`
-    FOREIGN KEY (`puestos_idpuestos`)
-    REFERENCES `controlServicios`.`puesto` (`idpuestos`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
+  INDEX `fk_empleados_puestos_idx` (`puestos_idpuestos` ASC),
+  CONSTRAINT `fk_empleados_puestos` FOREIGN KEY (`puestos_idpuestos`) REFERENCES `controlServicios`.`puesto` (`idpuestos`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `controlServicios`.`servicios`
@@ -96,9 +91,8 @@ CREATE TABLE IF NOT EXISTS `controlServicios`.`servicios` (
   `descripcion` TEXT NULL,
   `tiposervicio` VARCHAR(45) NULL,
   `disponible` TINYINT NULL DEFAULT 1,
-  PRIMARY KEY (`idservicio`))
-ENGINE = InnoDB;
-
+  PRIMARY KEY (`idservicio`)
+) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `controlServicios`.`estado`
@@ -107,9 +101,8 @@ CREATE TABLE IF NOT EXISTS `controlServicios`.`estado` (
   `nombre` VARCHAR(45) NOT NULL,
   `descripcion` TEXT NULL,
   `nivelautorizacion` INT NULL,
-  PRIMARY KEY (`nombre`))
-ENGINE = InnoDB;
-
+  PRIMARY KEY (`nombre`)
+) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `controlServicios`.`servicioscontratados`
@@ -127,26 +120,13 @@ CREATE TABLE IF NOT EXISTS `controlServicios`.`servicioscontratados` (
   `corte` VARCHAR(4) NULL,
   `nombreestado` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`idservicioscontratados`),
-  INDEX `fk_servicioscontratados_clientes1_idx` (`idcliente` ASC) ,
-  INDEX `fk_servicioscontratados_servicios1_idx` (`idservicio` ASC) ,
-  INDEX `fk_servicioscontratados_estado1_idx` (`nombreestado` ASC) ,
-  CONSTRAINT `fk_servicioscontratados_clientes1`
-    FOREIGN KEY (`idcliente`)
-    REFERENCES `controlServicios`.`clientes` (`idcliente`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_servicioscontratados_servicios1`
-    FOREIGN KEY (`idservicio`)
-    REFERENCES `controlServicios`.`servicios` (`idservicio`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_servicioscontratados_estado1`
-    FOREIGN KEY (`nombreestado`)
-    REFERENCES `controlServicios`.`estado` (`nombre`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
+  INDEX `fk_servicioscontratados_clientes1_idx` (`idcliente` ASC),
+  INDEX `fk_servicioscontratados_servicios1_idx` (`idservicio` ASC),
+  INDEX `fk_servicioscontratados_estado1_idx` (`nombreestado` ASC),
+  CONSTRAINT `fk_servicioscontratados_clientes1` FOREIGN KEY (`idcliente`) REFERENCES `controlServicios`.`clientes` (`idcliente`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_servicioscontratados_servicios1` FOREIGN KEY (`idservicio`) REFERENCES `controlServicios`.`servicios` (`idservicio`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_servicioscontratados_estado1` FOREIGN KEY (`nombreestado`) REFERENCES `controlServicios`.`estado` (`nombre`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `controlServicios`.`cobros`
@@ -167,21 +147,12 @@ CREATE TABLE IF NOT EXISTS `controlServicios`.`cobros` (
   `totalporcobrar` DOUBLE NULL,
   `mesesporcobrar` INT NULL,
   PRIMARY KEY (`idcobro`),
-  INDEX `fk_cobros_empleados1_idx` USING BTREE (`idempleado`) ,
-  INDEX `fecha` USING BTREE (`fecha`) ,
-  INDEX `fk_cobros_servicioscontratados1_idx` (`idservicioscontratados` ASC) ,
-  CONSTRAINT `fk_cobros_empleados1`
-    FOREIGN KEY (`idempleado`)
-    REFERENCES `controlServicios`.`empleados` (`idempleado`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_cobros_servicioscontratados1`
-    FOREIGN KEY (`idservicioscontratados`)
-    REFERENCES `controlServicios`.`servicioscontratados` (`idservicioscontratados`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
+  INDEX `fk_cobros_empleados1_idx` USING BTREE (`idempleado`),
+  INDEX `fecha` USING BTREE (`fecha`),
+  INDEX `fk_cobros_servicioscontratados1_idx` (`idservicioscontratados` ASC),
+  CONSTRAINT `fk_cobros_empleados1` FOREIGN KEY (`idempleado`) REFERENCES `controlServicios`.`empleados` (`idempleado`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_cobros_servicioscontratados1` FOREIGN KEY (`idservicioscontratados`) REFERENCES `controlServicios`.`servicioscontratados` (`idservicioscontratados`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `controlServicios`.`user`
@@ -200,17 +171,12 @@ CREATE TABLE IF NOT EXISTS `controlServicios`.`user` (
   `empleados_idempleado` INT NULL,
   `estado` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_user_empleados1_idx` (`empleados_idempleado` ASC) ,
-  UNIQUE INDEX `username_UNIQUE` (`username` ASC) ,
-  UNIQUE INDEX `password_reset_token_UNIQUE` (`password_reset_token` ASC) ,
-  UNIQUE INDEX `email_UNIQUE` (`email` ASC) ,
-  CONSTRAINT `fk_user_empleados1`
-    FOREIGN KEY (`empleados_idempleado`)
-    REFERENCES `controlServicios`.`empleados` (`idempleado`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
+  INDEX `fk_user_empleados1_idx` (`empleados_idempleado` ASC),
+  UNIQUE INDEX `username_UNIQUE` (`username` ASC),
+  UNIQUE INDEX `password_reset_token_UNIQUE` (`password_reset_token` ASC),
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC),
+  CONSTRAINT `fk_user_empleados1` FOREIGN KEY (`empleados_idempleado`) REFERENCES `controlServicios`.`empleados` (`idempleado`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `controlServicios`.`cobropormes`
@@ -219,10 +185,151 @@ CREATE TABLE IF NOT EXISTS `controlServicios`.`cobropormes` (
   `cobrosmes` VARCHAR(7) NOT NULL,
   `generado` TINYINT NULL DEFAULT 1,
   `fechagenerado` VARCHAR(45) NULL DEFAULT 'now()',
-  PRIMARY KEY (`cobrosmes`))
-ENGINE = InnoDB;
+  PRIMARY KEY (`cobrosmes`)
+) ENGINE = InnoDB;
+
+SET
+  SQL_MODE = @OLD_SQL_MODE;
+
+SET
+  FOREIGN_KEY_CHECKS = @OLD_FOREIGN_KEY_CHECKS;
+
+SET
+  UNIQUE_CHECKS = @OLD_UNIQUE_CHECKS;
+
+SELECT
+  date_format(PM_EXAMEN.`fecha_muestra`, '%d/%m/%Y') AS PM_EXAMEN_fecha_muestra,
+  PM_EXAMEN.`id_tipo_examen` AS PM_EXAMEN_id_tipo_examen,
+  PM_EXAMEN.`id_orden` AS PM_EXAMEN_id_orden,
+  PM_EXAMEN.`hora_muestra` AS PM_EXAMEN_hora_muestra,
+  PM_EXAMEN.`nombre_examen` AS PM_EXAMEN_nombre_examen,
+  PM_SEL.PM_RESULTADO_EXAMEN_id_tipo_examen AS PM_RESULTADO_EXAMEN_id_tipo_examen,
+  PM_SEL.PM_RESULTADO_EXAMEN_id_orden AS PM_RESULTADO_EXAMEN_id_orden,
+  PM_SEL.PM_RESULTADO_EXAMEN_grupo AS PM_RESULTADO_EXAMEN_grupo,
+  PM_SEL.PM_RESULTADO_EXAMEN_id_grupo AS PM_RESULTADO_EXAMEN_id_grupo
+FROM
+  `PM_EXAMEN` PM_EXAMEN
+  INNER JOIN (
+    SELECT
+      TB1.PM_RESULTADO_EXAMEN_id_tipo_examen,
+      TB1.PM_RESULTADO_EXAMEN_id_orden,
+      TB1.PM_RESULTADO_EXAMEN_grupo,
+      TB1.PM_RESULTADO_EXAMEN_id_grupo
+    FROM
+      (
+        SELECT
+          PM_RESULTADO_EXAMEN.`id_tipo_examen` AS PM_RESULTADO_EXAMEN_id_tipo_examen,
+          PM_RESULTADO_EXAMEN.`id_orden` AS PM_RESULTADO_EXAMEN_id_orden,
+          PM_RESULTADO_EXAMEN.`grupo` AS PM_RESULTADO_EXAMEN_grupo,
+          PM_RESULTADO_EXAMEN.`id_grupo` AS PM_RESULTADO_EXAMEN_id_grupo
+        FROM
+          `PM_RESULTADO_EXAMEN` PM_RESULTADO_EXAMEN
+        WHERE
+          PM_RESULTADO_EXAMEN.`id_orden` = $ P { pp_id_orden }
+          AND PM_RESULTADO_EXAMEN.`resultado_texto` != ''
+      ) TB1
+    GROUP BY
+      TB1.PM_RESULTADO_EXAMEN_id_tipo_examen,
+      TB1.PM_RESULTADO_EXAMEN_id_grupo
+  ) PM_SEL ON PM_EXAMEN.`id_tipo_examen` = PM_SEL.PM_RESULTADO_EXAMEN_id_tipo_examen
+  AND PM_EXAMEN.`id_orden` = PM_SEL.PM_RESULTADO_EXAMEN_id_orden
+ORDER BY
+  PM_EXAMEN_id_tipo_examen,
+  PM_SEL.PM_RESULTADO_EXAMEN_id_grupo ASC
 
 
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+select
+  idcobro,
+  mesespagados,
+  correlativo,
+  anyomes,
+  nombrezona,
+  concat(mesesporcobrardet , '(',totalporcobrar,' Q.)') as porcobrar,
+  concat(mesespagadosdet , ' (',totalcobrado,' Q.)') as pagado,
+  concat(  contrasenya, ' - ' , factura) as documento,
+  concat(primernombre, ' ', primerapelldio) as nombre ,
+  concat (direccion, ' - ',referencias, ' . Tel: ' , telefono1 , ' - ',telefono2) as dirgen
+from
+  cobros
+  inner join clientes on cobros.idcliente = clientes.idcliente;
+
+
+  SELECT 
+ idcobro,
+   `controlServicios`.clientes.correlativo 
+	anyomes,
+	concat( mesesporcobrardet,'(',totalporcobrar,' Q.)') AS porcobrar,
+	concat( mesespagadosdet,' (',totalcobrado,' Q.)') AS pagado,
+	concat( contrasenya,' - ',factura) AS documento,
+	concat( primernombre,' ',primerapelldio) AS nombre,
+	concat ( direccion,' - ',referencias,' . Tel: ',telefono1,' - ',telefono2) AS dirgen
+FROM cobros
+	inner join clientes ON 
+	 cobros.idcliente = clientes.idcliente
+	 where 
+	 	anyomes = $P{anyomes}
+	 	and 
+	 	nombrezona = $P{nombrezona}
+
+
+
+
+     selec
+
+
+     SELECT 
+ idcobro,
+   `controlServicios`.clientes.correlativo 
+	anyomes,
+  correlativo,
+  nombrezona,
+	concat( mesesporcobrardet,'(',totalporcobrar,' Q.)') AS porcobrar,
+	concat( mesespagadosdet,' (',totalcobrado,' Q.)') AS pagado,
+	concat( contrasenya,' - ',factura) AS documento,
+	concat( primernombre,' ',primerapelldio) AS nombre,
+	concat ( direccion,' - ',referencias,' . Tel: ',telefono1,' - ',telefono2) AS dirgen
+FROM cobros
+	inner join clientes ON 
+	 cobros.idcliente = clientes.idcliente
+	 where 
+	 	anyomes = $P{anyomes}
+
+
+
+
+
+
+
+
+
+
+     SELECT 
+ idcobro,
+   
+	anyomes,
+  correlativo,
+  nombrezona
+	
+FROM cobros
+	inner join clientes ON 
+	 cobros.idcliente = clientes.idcliente
+	 where 
+	 	anyomes = '2020-07';
+
+select
+contratonumero,
+detmesesporpagar,
+concat(fechasuspension,' - ', descripcionsuspension),
+concat(fechareconexion,' - ', descripcionreconexion),
+cobroreconexion,
+concat( primernombre,' ',primerapelldio) AS nombre,
+concat ( direccion,' - ',referencias,' . Tel: ',telefono1,' - ',telefono2) AS dirgen
+
+from servicioscontratados
+inner join clientes 
+on servicioscontratados.idcliente = clientes.idcliente
+where estado='Suspendido'
+
+
+
+

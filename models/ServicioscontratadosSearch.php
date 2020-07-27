@@ -36,7 +36,7 @@ class ServicioscontratadosSearch extends Servicioscontratados
     public function iniEstadocontrato(){
 
         if (!isset($this->nombreestado))
-            $this->nombreestado = 'Aprobado';
+            $this->nombreestado = 'Activo';
         
     }
 

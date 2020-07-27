@@ -13,7 +13,7 @@ use kartik\date\DatePicker;
 <div class="servicioscontratados-form">
 
     <?php $form = ActiveForm::begin(); ?>
- 
+
     <div class="panel panel-success">
 
         <div class="panel-heading">Datos del cliente</div>
@@ -47,9 +47,9 @@ use kartik\date\DatePicker;
                 <div class="panel-heading">Nombres y apellidos</div>
                 <div class="panel-body">
                     <div class="col-xs-6"><?= $form->field($model, 'primernombre')->textInput(['maxlength' => true]) ?></div>
-                    
+
                     <div class="col-xs-6"><?= $form->field($model, 'primerapelldio')->textInput(['maxlength' => true]) ?></div>
-                    
+
                 </div>
 
 
@@ -141,10 +141,58 @@ use kartik\date\DatePicker;
 
     </div>
 
-
     <div class="form-group">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-block btn-success']) ?>
     </div>
+
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">SUSPENSIÓN</div>
+        <div class="panel-body">
+            <div class="col-xs-4">
+                <?= $form->field($modelservicios, 'fechasuspension')
+                    ->widget(DatePicker::classname(), [
+                        'options' => ['placeholder' => 'Ingrese fecha suspensión'],
+                        'pluginOptions' => [
+                            'autoclose' => true,
+                            'todayHighlight' => true,
+                            'format' => 'yyyy-mm-dd',
+                        ]
+                    ]) ?>
+            </div>
+
+            <div class="col-xs-12">
+                <?= $form->field($modelservicios, 'descripcionsuspension')->textInput(['maxlength' => true]) ?>
+            </div>
+
+
+        </div>
+        <div class="panel-heading">RECONEXIÓN</div>
+
+        <div class="panel-body">
+            <div class="col-xs-4">
+                <?= $form->field($modelservicios, 'fechareconexion')
+                    ->widget(DatePicker::classname(), [
+                        'options' => ['placeholder' => 'Ingrese fecha reconexión'],
+                        'pluginOptions' => [
+                            'autoclose' => true,
+                            'todayHighlight' => true,
+                            'format' => 'yyyy-mm-dd',
+                        ]
+                    ]) ?>
+            </div>
+            <div class="col-xs-4">
+                <?= $form->field($modelservicios, 'cobroreconexion')->textInput(['maxlength' => true]) ?>
+            </div>
+            <div class="col-xs-12">
+                <?= $form->field($modelservicios, 'descripcionreconexion')->textInput(['maxlength' => true]) ?>
+            </div>
+            
+        </div>
+    </div>
+
+
+    
 
     <?php ActiveForm::end(); ?>
 

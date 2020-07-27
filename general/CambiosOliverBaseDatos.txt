@@ -220,4 +220,8 @@ alter table cobros add CONSTRAINT `fk_cobros_clientes1`
 
 
 
-    
+     alter table servicioscontratados add `fechasuspension` DATE NULL;
+  alter table servicioscontratados add `fechareconexion` DATE NULL;
+  alter table servicioscontratados add `descripcionreconexion` VARCHAR(255) NULL;
+  alter table servicioscontratados add `descripcionsuspension` VARCHAR(255) NULL;
+  alter table servicioscontratados add `cobroreconexion` DOUBLE NULL;
