@@ -54,10 +54,16 @@ class ReporteController extends \yii\web\Controller
             return $this->activosmes($fecha, $zona, $servicio);
         else if (isset($_POST['morososmes']))
             return $this->morososmes($fecha, $zona, $servicio);
-        else if (isset($_POST['debaja']))
-            return $this->debaja($fecha, $zona, $servicio);
+        else if (isset($_POST['suspendidos']))
+            return $this->suspendidos($fecha, $zona, $servicio);
+        else if (isset($_POST['reconectados']))
+            return $this->reconectados($fecha, $zona, $servicio);
+        else if (isset($_POST['recordatorio']))
+            return $this->recordatorio($fecha, $zona, $servicio);
+        else if (isset($_POST['cobroszonames']))
+            return $this->cobrozonames($fecha, $zona, $servicio);
 
-
+            
 
         return "fecha $fecha";
     }
@@ -99,7 +105,7 @@ class ReporteController extends \yii\web\Controller
         $inputControls = array(
             'id_usuario' => 1,
             'nombreZona' => $zona,
-            'estado' => 'Aprobado'
+            'estado' => 'Activo'
         );
         $nomrepo = 'ActivosMes-' . date("Y-m-d H:i:s") . '.pdf';
         return $this->generarReporte($nomjasperreport,$inputControls, $nomrepo);
@@ -118,15 +124,67 @@ class ReporteController extends \yii\web\Controller
             'nombreZona' => $zona,
             'estado' => 'Moroso'
         );
-        $nomrepo = 'ActivosMes-' . date("Y-m-d H:i:s") . '.pdf';
+        $nomrepo = 'MorososMes-' . date("Y-m-d H:i:s") . '.pdf';
         return $this->generarReporte($nomjasperreport,$inputControls, $nomrepo);
         
     }
 
-    public function debaja($fecha, $zona, $servicio)
+    public function reconectados($fecha, $zona, $servicio)
     {
+        [$anyo,$mes,$dia] = explode('-',$fecha,);
+        $anyo +=0;
+        $mes +=0;
 
-        return "de baja fecha: $fecha. zona: $zona. Servicio: $servicio.";
+        $nomjasperreport = '/reports/contratosreconectados.jrxml';
+        $inputControls = array(
+            'mes' => $mes,
+            'anyo' => $anyo
+        );
+        $nomrepo = 'ReconectadosMes-' . date("Y-m-d H:i:s") . '.pdf';
+        return $this->generarReporte($nomjasperreport,$inputControls, $nomrepo);
+ 
+    }
+
+    public function recordatorio($fecha, $zona, $servicio)
+    {
+        
+
+        $nomjasperreport = '/reports/recordatoriopago.jrxml';
+        $inputControls = array(
+            'anyomes' => $this->getanyomes($fecha)
+        );
+        $nomrepo = 'RecordatoriopagoMes-' . date("Y-m-d H:i:s") . '.pdf';
+        return $this->generarReporte($nomjasperreport,$inputControls, $nomrepo);
+    }
+
+    public function cobrozonames($fecha, $zona, $servicio)
+    {
+        
+
+        $nomjasperreport = '/reports/repocobroszonames.jrxml';
+        $inputControls = array(
+            'anyomes' => $this->getanyomes($fecha)
+        );
+        $nomrepo = 'CobroZonaMes-' . date("Y-m-d H:i:s") . '.pdf';
+        return $this->generarReporte($nomjasperreport,$inputControls, $nomrepo);
+    }
+
+    
+
+    public function suspendidos($fecha, $zona, $servicio)
+    {  
+
+        $nomjasperreport = '/reports/contratossupendidos.jrxml';
+        $inputControls = null;
+        $nomrepo = 'SuspendidosMes-' . date("Y-m-d H:i:s") . '.pdf';
+        return $this->generarReporte($nomjasperreport,$inputControls, $nomrepo);
+    }
+
+
+    private function getanyomes($fecha){
+        [$anyo,$mes,$dia] = explode('-',$fecha,);
+        $mes = $mes +0;
+        return $anyo.'-'.$mes;
     }
 
 

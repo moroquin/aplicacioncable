@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.12.2.final using JasperReports Library version 6.12.2-75c5e90a222ab406e416cbf590a5397028a52de3  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Cherry_Landscape_1" language="groovy" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7a5c9b49-9dc5-422a-ac69-e92cf61ef530">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Cherry_Landscape_1" language="groovy" pageWidth="419" pageHeight="201" orientation="Landscape" columnWidth="419" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="7a5c9b49-9dc5-422a-ac69-e92cf61ef530">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="control servicios"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
@@ -28,6 +26,7 @@
 	concat( mesespagadosdet,' (',totalcobrado,' Q.)') AS pagado,
 	concat( contrasenya,' - ',factura) AS documento,
 	concat( primernombre,' ',primerapelldio) AS nombre,
+	totalporcobrar,
 	concat ( direccion,' - ',referencias,' . Tel: ',telefono1,' - ',telefono2) AS dirgen
 FROM cobros
 	inner join clientes ON 
@@ -58,6 +57,7 @@ FROM cobros
 		<property name="com.jaspersoft.studio.field.label" value="nombrezona"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="clientes"/>
 	</field>
+	<field name="totalporcobrar" class="java.lang.Double"/>
 	<group name="Group1">
 		<groupExpression><![CDATA[$F{nombrezona}]]></groupExpression>
 	</group>
@@ -65,11 +65,11 @@ FROM cobros
 		<band splitType="Stretch"/>
 	</background>
 	<detail>
-		<band height="158" splitType="Stretch">
+		<band height="199" splitType="Stretch">
 			<frame>
-				<reportElement style="Row" mode="Opaque" x="0" y="40" width="580" height="110" uuid="34a2ae4b-4055-476b-8676-d499f6af510b"/>
+				<reportElement style="Row" mode="Opaque" x="0" y="85" width="419" height="90" uuid="34a2ae4b-4055-476b-8676-d499f6af510b"/>
 				<textField textAdjust="StretchHeight">
-					<reportElement style="Detail" positionType="Float" stretchType="RelativeToBandHeight" x="58" y="10" width="190" height="18" uuid="784c0188-4fee-499f-ad9e-ea5a58105eab">
+					<reportElement style="Detail" positionType="Float" stretchType="RelativeToBandHeight" x="58" y="6" width="361" height="18" uuid="784c0188-4fee-499f-ad9e-ea5a58105eab">
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="dbad77b3-1711-49a9-ab69-9a0ddd473248"/>
 					</reportElement>
 					<textElement>
@@ -78,7 +78,7 @@ FROM cobros
 					<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
 				</textField>
 				<textField textAdjust="StretchHeight">
-					<reportElement style="Detail" positionType="Float" stretchType="RelativeToBandHeight" x="188" y="60" width="132" height="18" uuid="ffa13686-731f-4b3e-9a86-cc944462ffe5">
+					<reportElement style="Detail" positionType="Float" stretchType="RelativeToBandHeight" x="59" y="61" width="360" height="18" uuid="ffa13686-731f-4b3e-9a86-cc944462ffe5">
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3d7f1b3b-67de-4b15-abb3-d1fb2ddfede4"/>
 					</reportElement>
 					<textElement>
@@ -87,16 +87,16 @@ FROM cobros
 					<textFieldExpression><![CDATA[$F{porcobrar}]]></textFieldExpression>
 				</textField>
 				<textField textAdjust="StretchHeight">
-					<reportElement style="Detail" positionType="Float" stretchType="RelativeToBandHeight" x="58" y="80" width="502" height="18" uuid="a849389d-d4f3-4688-9343-19bc266b40b1">
+					<reportElement style="Detail" positionType="Float" stretchType="RelativeToBandHeight" x="121" y="42" width="72" height="18" uuid="a849389d-d4f3-4688-9343-19bc266b40b1">
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3971d253-8018-415f-a56a-59d6d710027b"/>
 					</reportElement>
 					<textElement>
 						<font size="10"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{pagado}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{totalporcobrar}]]></textFieldExpression>
 				</textField>
 				<textField textAdjust="StretchHeight">
-					<reportElement style="Detail" positionType="Float" stretchType="RelativeToBandHeight" x="58" y="40" width="294" height="18" uuid="763f9e5b-c4e5-4972-8c81-381edc52b6aa">
+					<reportElement style="Detail" positionType="Float" stretchType="RelativeToBandHeight" x="70" y="24" width="349" height="18" uuid="763f9e5b-c4e5-4972-8c81-381edc52b6aa">
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a6286eb6-4e8a-4564-8821-fa21af2d13d2"/>
 					</reportElement>
 					<textElement>
@@ -106,8 +106,8 @@ FROM cobros
 				</textField>
 			</frame>
 			<textField>
-				<reportElement x="80" y="20" width="333" height="16" uuid="21f97179-7d92-4cf6-9a7a-00a26d9599ee"/>
-				<textFieldExpression><![CDATA[$F{nombrezona}+". "+new java.util.Date()]]></textFieldExpression>
+				<reportElement x="105" y="71" width="314" height="16" uuid="21f97179-7d92-4cf6-9a7a-00a26d9599ee"/>
+				<textFieldExpression><![CDATA[$F{nombrezona}+". "+(new java.text.SimpleDateFormat("EEEEE dd MMMMM yyyy hh:mm aaa",new Locale("es", "ES"))).format(new Date())]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

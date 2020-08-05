@@ -84,15 +84,23 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="col-xs-5">
 
 
-                <div class="row"><?= Html::submitButton('Ingresos por día', ['class' => 'btn btn-primary btn-block', 'name' => 'ingresospordia', 'value' => 'ingresospordia']) ?></div>
+                <div class="row"><?= Html::submitButton('Ingresos por día (día seleccionado)', ['class' => 'btn btn-primary btn-block', 'name' => 'ingresospordia', 'value' => 'ingresospordia']) ?></div>
                 <p></p>
                 <div class="row"><?= Html::submitButton('Ingresos por mes', ['class' => 'btn btn-primary btn-block', 'name' => 'ingresospormes', 'value' => 'ingresospormes']) ?></div>
-                <p></p>
+                <p></p></br></br>
                 <div class="row"><?= Html::submitButton('Contratos activos del mes', ['class' => 'btn btn-info btn-block', 'name' => 'activosmes', 'value' => 'activosmes']) ?></div>
                 <p></p>
-                <div class="row"><?= Html::submitButton('Morosos del mes actual', ['class' => 'btn btn-warning btn-block', 'name' => 'morososmes', 'value' => 'morososmes']) ?></div>
+                <div class="row"><?= Html::submitButton('Morosos del mes actual', ['class' => 'btn btn-info btn-block', 'name' => 'morososmes', 'value' => 'morososmes']) ?></div>
                 <p></p>
-                <div class="row"><?= Html::submitButton('Servicios de baja del mes actual', ['class' => 'btn btn-warning btn-block', 'name' => 'debaja', 'value' => 'debaja']) ?></div>
+                <div class="row"><?= Html::submitButton('Suspendidos a la fecha', ['class' => 'btn btn-info btn-block', 'name' => 'suspendidos', 'value' => 'suspendidos']) ?></div>
+                <p></p>
+                <div class="row"><?= Html::submitButton('Reconectados mes (mes seleccionado)', ['class' => 'btn btn-info btn-block', 'name' => 'reconectados', 'value' => 'reconectados']) ?></div>
+                <p> </p></br></br>
+                
+                <div class="row"><?= Html::submitButton('Recordatorio de cobro (mes seleccionado)', ['class' => 'btn btn-warning btn-block', 'name' => 'recordatorio', 'value' => 'recordatorio']) ?></div>
+                <p> </p>
+                <div class="row"><?= Html::submitButton('Cobros zona mes (mes seleccionado)', ['class' => 'btn btn-warning btn-block', 'name' => 'cobroszonames', 'value' => 'cobroszonames']) ?></div>
+
 
 
             </div>

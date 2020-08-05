@@ -38,7 +38,8 @@ FROM cobros
 	inner join clientes ON 
 	 cobros.idcliente = clientes.idcliente
 	  where 
-	 	anyomes = $P{anyomes}]]>
+	 	anyomes = $P{anyomes}
+	 	order by nombrezona]]>
 	</queryString>
 	<field name="correlativo" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="correlativo"/>
@@ -257,7 +258,7 @@ FROM cobros
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font size="10" isBold="false"/>
 					</textElement>
-					<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de " + $V{PAGE_COUNT}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$V{Group1_COUNT}]]></textFieldExpression>
 				</textField>
 				<textField pattern="EEEEE dd MMMMM yyyy">
 					<reportElement style="Column header" x="2" y="3" width="197" height="20" forecolor="#FFFFFF" uuid="0c9f7e91-d3f5-47f9-82b7-0b2b3a43a5d6"/>
