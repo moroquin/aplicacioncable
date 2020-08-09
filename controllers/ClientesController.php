@@ -65,7 +65,7 @@ class ClientesController extends Controller
      */
     public function actionView($id)
     {
-        if (!Yii::$app->user->isGuest) {
+        if (Yii::$app->user->isGuest) {
             return $this->goHome();
         }
         return $this->render('view', [
@@ -80,7 +80,7 @@ class ClientesController extends Controller
      */
     public function actionCreate()
     {
-        if (!Yii::$app->user->isGuest) {
+        if (Yii::$app->user->isGuest) {
             return $this->goHome();
         }
         $model = new Clientes();
@@ -108,7 +108,7 @@ class ClientesController extends Controller
      */
     public function actionUpdate($id)
     {
-        if (!Yii::$app->user->isGuest) {
+        if (Yii::$app->user->isGuest) {
             return $this->goHome();
         }
 

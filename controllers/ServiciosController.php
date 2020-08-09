@@ -5,6 +5,9 @@ namespace app\controllers;
 use Yii;
 use app\models\Servicios;
 use app\models\ServiciosSearch;
+use app\models\Empleados;
+use app\models\User;
+use app\models\Puestos;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -52,10 +55,9 @@ class ServiciosController extends Controller
      */
     public function actionIndex()
     {
-        if (!Yii::$app->user->isGuest) {
+        if (Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-
         return $this->redirect(['indexx', 'disponible' => 0]);
     }
 
@@ -66,8 +68,8 @@ class ServiciosController extends Controller
      */
     public function actionIndexx($disponible)
     {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['index']);
         }
 
         $searchModel = new ServiciosSearch();
@@ -88,8 +90,8 @@ class ServiciosController extends Controller
      */
     public function actionView($id)
     {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['index']);
         }
 
         return $this->render('view', [
@@ -104,8 +106,8 @@ class ServiciosController extends Controller
      */
     public function actionCreate()
     {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['index']);
         }
 
         $model = new Servicios();
@@ -130,10 +132,17 @@ class ServiciosController extends Controller
      */
     public function actionUpdate($id)
     {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['index']);
         }
 
+        $modelsec1 = User::findOne(Yii::$app->user->id);
+        $modelsec2 = Empleados::findOne($modelsec1->empleados_idempleado);
+        $modelsec3 = Puestos::findOne($modelsec2->puestos_idpuestos);
+        if($modelsec3->nivel > 1 ){
+            return $this->redirect(['index']);
+        }
+        
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -186,8 +195,8 @@ class ServiciosController extends Controller
      */
     public function actionUpdatealta($id)
     {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['index']);
         }
 
         $model = $this->findModel($id);

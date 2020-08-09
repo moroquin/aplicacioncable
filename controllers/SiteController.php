@@ -12,7 +12,9 @@ use app\models\ContactForm;
 use app\models\SignupForm;
 use app\models\Empleados;
 use app\models\User;
+use app\models\Puestos;
 use app\models\Puesto;
+
 
 class SiteController extends Controller
 {
@@ -75,9 +77,6 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
@@ -128,9 +127,8 @@ class SiteController extends Controller
     public function actionAbout()
     {
         if (!Yii::$app->user->isGuest) {
-           $model1 = User::findOne(Yii::$app->user->id);
-           $model2 = Empleados::findOne($model1->empleados_idempleado);
-           echo $model2->nombre;
+            $model1 = User::findOne(Yii::$app->user->id);
+            $model2 = Empleados::findOne($model1->empleados_idempleado);
         }else{
             return $this->render('about');
         }
@@ -153,8 +151,11 @@ class SiteController extends Controller
     }
     public function actionRegistrar()
     {
-
- 
+        /*
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+        */
         $model = new Empleados();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -175,6 +176,11 @@ class SiteController extends Controller
     }
     public function actionSignup($id, $acceso)
     {
+        /*
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+        */   
         $model = new SignupForm();
         $model->idempleado = $id;
         $model->permiso = $acceso;
@@ -191,6 +197,17 @@ class SiteController extends Controller
         ]);
     }
     public function actionActualizarcontra($id){
+        
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+        $modelsec1 = User::findOne(Yii::$app->user->id);
+        $modelsec2 = Empleados::findOne($modelsec1->empleados_idempleado);
+        $modelsec3 = Puestos::findOne($modelsec2->puestos_idpuestos);
+        if($modelsec3->nivel > 1 ){
+            return $this->redirect(['index']);
+        }
+
         $model = new SignupForm();
         $model1 = User::findOne($id);
         $model2 = Empleados::findOne($model1->empleados_idempleado);

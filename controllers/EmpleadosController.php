@@ -8,6 +8,7 @@ use app\models\Puesto;
 use app\models\EmpleadosSearch;
 use app\models\PuestoSearch;
 use app\models\User;
+use app\models\Puestos;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -38,6 +39,9 @@ class EmpleadosController extends Controller
      */
     public function actionIndex()
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
         $searchModel = new EmpleadosSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -55,6 +59,9 @@ class EmpleadosController extends Controller
      */
     public function actionView($id)
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['index']);
+        }
         $model = $this->findModel($id);
         $model1 = Puesto::findOne($model->puestos_idpuestos); 
         $model2 = User::findOne($id);
@@ -72,6 +79,9 @@ class EmpleadosController extends Controller
      */
     public function actionCreate()
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['index']);
+        }
         $model = new Empleados();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -92,6 +102,15 @@ class EmpleadosController extends Controller
      */
     public function actionUpdate($id)
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['index']);
+        }
+        $modelsec1 = User::findOne(Yii::$app->user->id);
+        $modelsec2 = Empleados::findOne($modelsec1->empleados_idempleado);
+        $modelsec3 = Puestos::findOne($modelsec2->puestos_idpuestos);
+        if($modelsec3->nivel > 1 ){
+            return $this->redirect(['index']);
+        }
         $model = $this->findModel($id);
         
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -139,6 +158,9 @@ class EmpleadosController extends Controller
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
     public function actionCambioestado($id, $estado){
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['index']);
+        }
         $model = User::findOne($id);
         $model1 = Empleados::findOne($model->empleados_idempleado);
         $model->estado = $estado;

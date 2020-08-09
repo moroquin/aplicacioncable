@@ -5,6 +5,9 @@ namespace app\controllers;
 use Yii;
 use app\models\Estado;
 use app\models\EstadoSearch;
+use app\models\Empleados;
+use app\models\User;
+use app\models\Puestos;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -38,7 +41,7 @@ class EstadoController extends Controller
      */
     public function actionIndex()
     {
-        if (!Yii::$app->user->isGuest) {
+        if (Yii::$app->user->isGuest) {
             return $this->goHome();
         }
 
@@ -59,8 +62,8 @@ class EstadoController extends Controller
      */
     public function actionView($id)
     {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['index']);
         }
 
         return $this->render('view', [
@@ -75,8 +78,8 @@ class EstadoController extends Controller
      */
     public function actionCreate()
     {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['index']);
         }
 
         $model = new Estado();
@@ -99,10 +102,17 @@ class EstadoController extends Controller
      */
     public function actionUpdate($id)
     {
-        if (!Yii::$app->user->isGuest) {
+        if (Yii::$app->user->isGuest) {
             return $this->goHome();
         }
 
+        $modelsec1 = User::findOne(Yii::$app->user->id);
+        $modelsec2 = Empleados::findOne($modelsec1->empleados_idempleado);
+        $modelsec3 = Puestos::findOne($modelsec2->puestos_idpuestos);
+        if($modelsec3->nivel > 1 ){
+            return $this->redirect(['index']);
+        }
+        
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -123,8 +133,8 @@ class EstadoController extends Controller
      */
     public function actionDelete($id)
     {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['index']);
         }
 
         $this->findModel($id)->delete();
@@ -141,8 +151,8 @@ class EstadoController extends Controller
      */
     protected function findModel($id)
     {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['index']);
         }
 
         if (($model = Estado::findOne($id)) !== null) {

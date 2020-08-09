@@ -12,6 +12,9 @@ use app\models\LoteForm;
 use app\models\Cobropormes;
 use app\models\CobrosSearch;
 use app\models\Servicioscontratados;
+use app\models\Empleados;
+use app\models\User;
+use app\models\Puestos;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -112,7 +115,7 @@ class CobrosController extends Controller
      */
     public function actionIndex()
     {
-        if (!Yii::$app->user->isGuest) {
+        if (Yii::$app->user->isGuest) {
             return $this->goHome();
         }
 
@@ -139,8 +142,8 @@ class CobrosController extends Controller
      */
     public function actionView($id)
     {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['index']);
         }
 
         return $this->render('view', [
@@ -150,8 +153,8 @@ class CobrosController extends Controller
 
     public function actionCobrosmes()
     {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['index']);
         }
 
         $anyomes = $this->getAnyomes();
@@ -221,8 +224,8 @@ class CobrosController extends Controller
      */
     public function actionCreate()
     {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['index']);
         }
 
         $model = new Cobros();
@@ -254,7 +257,9 @@ class CobrosController extends Controller
 
     public function actionIndexlote()
     {
-
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['index']);
+        }
 
         $searchModel = new LoteSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -286,6 +291,9 @@ class CobrosController extends Controller
      */
     public function actionLote($zona, $anyomes)
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['index']);
+        }
 
         //    $zona = 'Barrio cenizal';
         //   $anyomes = $this->getAnyomes();
@@ -329,6 +337,9 @@ class CobrosController extends Controller
 
     public function actionGetinfocontrato($id)
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['index']);
+        }
         $infocontrato = Servicioscontratados::findOne($id);
         echo Json::encode($infocontrato);
         //echo 'hola';
@@ -338,6 +349,9 @@ class CobrosController extends Controller
 
     public function actionVerlote($id)
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['index']);
+        }
         $lote = Lote::findOne($id);
 
         $searchModel = new CobrosSearch();
@@ -364,6 +378,15 @@ class CobrosController extends Controller
      */
     public function actionUpdate($id)
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['index']);
+        }
+        $modelsec1 = User::findOne(Yii::$app->user->id);
+        $modelsec2 = Empleados::findOne($modelsec1->empleados_idempleado);
+        $modelsec3 = Puestos::findOne($modelsec2->puestos_idpuestos);
+        if($modelsec3->nivel > 1 ){
+            return $this->redirect(['index']);
+        }
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {

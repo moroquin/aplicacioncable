@@ -5,6 +5,9 @@ namespace app\controllers;
 use app\models\Datosgen;
 use app\models\Zona;
 use app\models\Servicios;
+use app\models\Empleados;
+use app\models\User;
+use app\models\Puestos;
 use mPDF;
 use Yii;
 
@@ -12,7 +15,7 @@ class ReporteController extends \yii\web\Controller
 {
     public function actionIndex()
     {
-        if (!Yii::$app->user->isGuest) {
+        if (Yii::$app->user->isGuest) {
             return $this->goHome();
         }
 
@@ -37,8 +40,8 @@ class ReporteController extends \yii\web\Controller
 
     public function actionGeneral()
     {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['index']);
         }
 
 
