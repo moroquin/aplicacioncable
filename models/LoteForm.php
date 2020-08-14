@@ -56,6 +56,7 @@ class LoteForm extends Model
         //Guardar lista de cobros
         if (!$this->saveCobros()) {
             $transaction->rollBack();
+            $this->_lote->save();
             return false;
         }
         //Finalizar transacción
@@ -89,6 +90,7 @@ class LoteForm extends Model
 
         // $resultados= Cobrosexamen::getCobrosxamenbyidresultado($this->_id_orden);
         $fecha = date("Y-m-d");
+        $total = 0;
         foreach ($this->_cobros as $key => $resultado) {
 
             if (!($resultado instanceof Cobros)) {
@@ -99,6 +101,7 @@ class LoteForm extends Model
                 $resultado->factura = $resultado->factura;
                 $resultado->contrasenya = $resultado->contrasenya;
                 $resultado->lote_idlote = $this->Lote->idlote;
+                $total = $total + $resultado->totalcobrado;
             }
             if ($resultado->totalcobrado > 0) 
                 $resultado->lote_idlote = $this->_lote->idlote;
@@ -114,6 +117,7 @@ class LoteForm extends Model
                     return false;
             
         }
+        $this->_lote-> totalcobrado =$total;
         return true;
     }
 

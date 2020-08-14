@@ -15,6 +15,7 @@ use app\models\Servicioscontratados;
 use app\models\Empleados;
 use app\models\User;
 use app\models\Puestos;
+use app\models\Puesto;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -52,28 +53,49 @@ class CobrosController extends Controller
 
     public static function getAnyomes()
     {
-        $y = date("Y");
-        $m = date("m");
+        $anyomes = Cobropormes::findOne(['generado' => 1]);
 
-        if ($m == 1) {
-            $m = 12;
-            $y--;
-        } else
-            $m--;
+        return $anyomes->cobrosmes;
+    }
 
-        return $y . "-" . $m;
+    private static function addAnyomes()
+    {
+        $anyomes = Cobropormes::findOne(['generado' => 1]);
+
+
+        list($y, $m) = explode('-', $anyomes->cobrosmes);
+        $m++;
+        if ($m > 12) {
+            $y++;
+            $m = 1;
+        }
+        $anyomes->cobrosmes =  $y . '-' . $m;
+        $anyomes->save();
+
+        return $anyomes->cobrosmes;
+    }
+
+    private static function siguienteAnyomes()
+    {
+        $anyomes = Cobropormes::findOne(['generado' => 1]);
+
+
+        list($y, $m) = explode('-', $anyomes->cobrosmes);
+        $m++;
+        if ($m > 12) {
+            $y++;
+            $m = 1;
+        }
+
+        return $y . '-' . $m;
     }
 
     private static function componerMes($mes)
     {
 
-
-
-        if ($mes < 0) {
+        if ($mes <= 0) {
             $mes = 12 + $mes;
         }
-
-
 
         return $mes;
     }
@@ -84,6 +106,10 @@ class CobrosController extends Controller
 
         list($y, $m) = explode('-', $anyomes);
         $result = '';
+        if ($meses >= 12) {
+            $result = (12 - $meses) . ' meses, ';
+            $meses -= 12;
+        }
         $m = $m + 0;
         for ($i = 1; $i <= $meses; $i++) {
             $result = (($result === '') ? '' : $result . ', ')
@@ -122,9 +148,8 @@ class CobrosController extends Controller
         $searchModel = new CobrosSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        $mesanyo = $this->getAnyomes();
-        if ((Cobropormes::find()->where(['cobrosmes' => $mesanyo])->count()) > 0)
-            $mesanyo = null;
+        $mesanyo = null;
+
 
 
         return $this->render('index', [
@@ -151,70 +176,96 @@ class CobrosController extends Controller
         ]);
     }
 
+    public function actionMes()
+    {
+        $anyomes = $this->siguienteAnyomes();
+        $anyomesant = $this->getAnyomes();
+
+        return $this->render('mes', [
+            'anyomes' => $anyomes,
+            'anyomesant' => $anyomesant,
+        ]);
+    }
+
+
+
     public function actionCobrosmes()
     {
         if (Yii::$app->user->isGuest) {
             return $this->redirect(['index']);
         }
 
-        $anyomes = $this->getAnyomes();
+        $salida = '';
 
-        if ((Cobropormes::find()->where(['cobrosmes' => $anyomes])->count()) == 0) {
-            $model2 = new Cobropormes();
-            $model2->cobrosmes = $anyomes;
-            $model2->generado = 1;
-            $model2->save();
-            $servicioscontratados = Servicioscontratados::find()
-                ->where(['nombreestado' => 'Activo'])
-                ->orWhere(['nombreestado' => 'Moroso'])
-                ->all();
+        $anyomes = $this->addAnyomes();
 
 
-            foreach ($servicioscontratados as $serviciocontratado) {
-
-                $serviciocontratado->setMesnopagado();
-
-                if ($serviciocontratado->mesesnopagados <= 0) {
-                    $serviciocontratado->detmesesporpagar= "Pagos adelantados ". (-$serviciocontratado->mesesnopagados);
-                    $serviciocontratado->save();
-                    
-                } else {
-
-                    $serviciocontratado->detmesesporpagar = CobrosController::getMesesAtrazados($anyomes, $serviciocontratado->getMesnopagado());
-                    $serviciocontratado->save();
-
-                    $model = new Cobros();
-                    //$model->mesespagados = ;
-
-                    $model->zona = $serviciocontratado->getZona();
-                    $model->idempleado = 1;
-                    $model->anyomes = $anyomes;
-                    $model->idservicioscontratados = $serviciocontratado->getId();
-                    $model->mesespagados = 0;
-                    $model->totalcobrado = 0;
-                    $model->contrasenya = '';
-                    $model->factura = '';
+        $model2 = new Cobropormes();
+        $model2->cobrosmes = $anyomes;
+        $model2->generado = 1;
+        $model2->save();
+        $servicioscontratados = Servicioscontratados::find()
+            ->where(['nombreestado' => 'Moroso'])
+            ->orWhere(['nombreestado' => 'Activo'])
+            ->all();
 
 
+        foreach ($servicioscontratados as $serviciocontratado) {
 
-                    //meses por pagar
+            $serviciocontratado->setMesnopagado();
 
-                    $model->mesesporcobrar = $serviciocontratado->getMesnopagado();
+            if ($serviciocontratado->mesesnopagados <= 0)
+                //{
+                $serviciocontratado->detmesesporpagar = "Pagos adelantados " . (-$serviciocontratado->mesesnopagados);
+            //  $serviciocontratado->save();
 
-                    $model->mesesporcobrardet = $serviciocontratado->detmesesporpagar;
-                    $model->totalporcobrar = $serviciocontratado->getDeuda();
-                    if ($model->mesesporcobrar < 0) {
-                        $model->mesespagados = $serviciocontratado->getMesnopagado();
-                        $model->mesesporcobrar = 0;
-                    }
+            //} else {
+            else
+                $serviciocontratado->detmesesporpagar = CobrosController::getMesesAtrazados($anyomes, $serviciocontratado->getMesnopagado());
+
+            $serviciocontratado->save();
+            //   if (!$serviciocontratado->save())
+            //     $salida=$salida .'-error: '.  print_r($serviciocontratado->getErrors());
+
+            $model = new Cobros();
+            //$model->mesespagados = ;
+
+            $model->zona = $serviciocontratado->getZona();
+            $model->idempleado = 1;
+            $model->anyomes = $anyomes;
+            $model->idservicioscontratados = $serviciocontratado->getId();
+            $model->mesespagados = 0;
+            $model->mesespagadosdet = ' ';
+            $model->totalcobrado = 0;
+            $model->contrasenya = '';
+            $model->factura = '';
+            $model->idcliente = $serviciocontratado->idcliente;
 
 
-                    $model->guardarnuevo();
-                }
+
+            //meses por pagar
+
+            $model->mesesporcobrar = $serviciocontratado->getMesnopagado();
+
+            $model->mesesporcobrardet = $serviciocontratado->detmesesporpagar;
+            $model->totalporcobrar = $serviciocontratado->getDeuda();
+            if ($model->mesesporcobrar < 0) {
+                $model->mesespagados = $serviciocontratado->getMesnopagado();
+                $model->mesesporcobrar = 0;
             }
 
-            return $this->redirect(['index']);
+
+
+            $model->save();
+            //if (!$model->save())
+            //  $salida=$salida .'-error: '.  print_r($model->getErrors());
+            //    }
         }
+
+        return $this->redirect(['index']);
+
+
+        // return $salida;
     }
 
     /**
@@ -243,6 +294,49 @@ class CobrosController extends Controller
         }
 
         return $this->render('create', [
+            'model' => $model,
+
+            'serviciocliente' => $serviciocliente,
+            'cobropormes' => $cobropormes,
+
+        ]);
+    }
+
+
+    /**
+     * Updates an existing Cobros model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionUpdate($id)
+    {
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['index']);
+        }
+        $modelsec1 = User::findOne(Yii::$app->user->id);
+        $modelsec2 = Empleados::findOne($modelsec1->empleados_idempleado);
+        $modelsec3 = Puesto::findOne($modelsec2->puestos_idpuestos);
+        if ($modelsec3->nivel > 1) {
+            return $this->redirect(['index']);
+        }
+
+        $model = $this->findModel($id);
+
+        //        $model = new Cobros::findOne([$id]);
+
+        $serviciocliente = Servicioscontratados::getIdserviciocliente();
+        $cobropormes = Cobropormes::getListado();
+
+
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->idcobro]);
+        }
+
+
+        return $this->render('update', [
             'model' => $model,
 
             'serviciocliente' => $serviciocliente,
@@ -369,34 +463,7 @@ class CobrosController extends Controller
 
 
 
-    /**
-     * Updates an existing Cobros model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionUpdate($id)
-    {
-        if (Yii::$app->user->isGuest) {
-            return $this->redirect(['index']);
-        }
-        $modelsec1 = User::findOne(Yii::$app->user->id);
-        $modelsec2 = Empleados::findOne($modelsec1->empleados_idempleado);
-        $modelsec3 = Puestos::findOne($modelsec2->puestos_idpuestos);
-        if($modelsec3->nivel > 1 ){
-            return $this->redirect(['index']);
-        }
-        $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idcobro]);
-        }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
-    }
 
     /**
      * Deletes an existing Cobros model.

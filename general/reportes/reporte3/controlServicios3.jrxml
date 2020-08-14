@@ -16,8 +16,11 @@
     `controlServicios`.zona.nombrezona,
     `controlServicios`.servicioscontratados.subtotal,
     `controlServicios`.servicioscontratados.detmesesporpagar,
+    	concat(     `controlServicios`.servicioscontratados.mesesnopagados,'(',    `controlServicios`.servicioscontratados.detmesesporpagar,' )') AS porcobrar,
+
     `controlServicios`.servicioscontratados.mesesnopagados,
      `controlServicios`.clientes.telefono1 ,
+     concat ( direccion,' - ',referencias,' . Tel: ',telefono1,' - ',telefono2) AS dirgen,
      `controlServicios`.clientes.telefono2 ,
      `controlServicios`.clientes.referencias 
 from
@@ -26,7 +29,8 @@ from
     inner join `controlServicios`.servicioscontratados on `controlServicios`.clientes.idcliente = `controlServicios`.servicioscontratados.idcliente
 where
 	case $P{nombreZona} when  '*'  then  true else (`controlServicios`.clientes.nombrezona = $P{nombreZona}) end
-    AND `controlServicios`.servicioscontratados.nombreestado = $P{estado}]]>
+    AND `controlServicios`.servicioscontratados.nombreestado = $P{estado}
+    order by     `controlServicios`.clientes.primernombre]]>
 	</queryString>
 	<field name="primernombre" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="primernombre"/>
@@ -68,6 +72,8 @@ where
 		<property name="com.jaspersoft.studio.field.label" value="referencias"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="servicioscontratados"/>
 	</field>
+	<field name="porcobrar" class="java.lang.String"/>
+	<field name="dirgen" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -158,28 +164,6 @@ where
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="0" y="40" width="180" height="20" uuid="4ac2e5f1-6f2d-4905-bab7-7dc736799c11"/>
-				<box>
-					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="15" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Cobrador:]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="180" y="40" width="570" height="20" uuid="b08edd9d-f302-4368-b8b3-f699a66498b8"/>
-				<box>
-					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-			</textField>
 			<subreport>
 				<reportElement x="400" y="20" width="350" height="20" uuid="7dabd697-56ae-41fa-8ecc-6c8fc873e6cc"/>
 				<subreportParameter name="idEmpleado">
@@ -209,6 +193,19 @@ where
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA["Año: "  + YEAR( new java.util.Date())]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="20" y="40" width="710" height="20" uuid="1b67aeb3-3334-4ba9-bed9-219ea46b3b54"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Contratos "+$P{estado}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -314,7 +311,7 @@ where
 	</columnHeader>
 	<detail>
 		<band height="41" splitType="Stretch">
-			<textField>
+			<textField textAdjust="StretchHeight">
 				<reportElement x="0" y="0" width="140" height="40" uuid="e2ab1b06-1e56-4e67-9554-9941d80c9fdc"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -326,7 +323,7 @@ where
 				<textFieldExpression><![CDATA[$F{primernombre}+" "+$F{primerapelldio} 
 + " \n "+$F{telefono1}+" "+$F{telefono2}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField textAdjust="StretchHeight">
 				<reportElement x="140" y="0" width="250" height="40" uuid="6eeef39c-ad14-4653-b729-3327c3af45d5"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -335,9 +332,9 @@ where
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{direccion} + "\n" + $F{referencias} ]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{dirgen}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField textAdjust="StretchHeight">
 				<reportElement x="390" y="0" width="80" height="40" uuid="9431a05b-296b-4f7a-8f32-9a7c39952998"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -346,9 +343,9 @@ where
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{mesesnopagados}+". "+$F{detmesesporpagar}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{porcobrar}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField textAdjust="StretchHeight">
 				<reportElement x="550" y="0" width="100" height="40" uuid="d2a77452-2c47-478a-aa61-9560b761abfa"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -359,7 +356,7 @@ where
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{subtotal}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField textAdjust="StretchHeight">
 				<reportElement x="470" y="0" width="80" height="40" uuid="df33eb70-9dd3-4716-a5a4-5238bb6a8c8d"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -369,7 +366,7 @@ where
 				</box>
 				<textFieldExpression><![CDATA[" "]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField textAdjust="StretchHeight">
 				<reportElement x="650" y="0" width="100" height="40" uuid="105ea126-788f-46ec-9c82-51c117ec7745"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>

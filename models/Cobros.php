@@ -53,7 +53,8 @@ class Cobros extends \yii\db\ActiveRecord
             [['fecha'], 'safe'],
             [['totalcobrado', 'totalporcobrar'], 'number'],
             [['numerofactura'], 'string', 'max' => 100],
-            [['tipo', 'factura', 'contrasenya', 'zona', 'mesesporcobrardet', 'mesespagadosdet'], 'string', 'max' => 45],
+            [['tipo', 'factura', 'contrasenya', 'zona'], 'string', 'max' => 45],
+            [['mesesporcobrardet', 'mesespagadosdet'], 'string', 'max' => 500],
             [['anyomes'], 'string', 'max' => 7],
             [['idcliente'], 'exist', 'skipOnError' => true, 'targetClass' => Clientes::className(), 'targetAttribute' => ['idcliente' => 'idcliente']],
             [['idempleado'], 'exist', 'skipOnError' => true, 'targetClass' => Empleados::className(), 'targetAttribute' => ['idempleado' => 'idempleado']],
@@ -209,10 +210,15 @@ class Cobros extends \yii\db\ActiveRecord
             $result->nombreestado = 'Aprobado';
 
         $this->idcliente = $result->idcliente;
-        $this->save();
+
+        $salida = '';
+        if (!$this->save())
+            $salida = $salida . ' ' . print_r($this->getErrors());
  
       
-        $result->save();
+        if (!$result->save())
+            $salida = $salida . ' ' . print_r($result->getErrors());
+            
         
 
         return true;

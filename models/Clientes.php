@@ -76,6 +76,25 @@ class Clientes extends \yii\db\ActiveRecord
         ];
     }
 
+    public function beforeSave($insert) {
+
+        if (!isset($this->direccion))
+            $this->direccion = ' ';
+
+            if (!isset($this->referencias))
+            $this->referencias = ' ';
+
+            if (!isset($this->telefono1))
+            $this->telefono1 = ' ';
+
+            if (!isset($this->telefono2))
+            $this->telefono2 = ' ';
+    
+        return parent::beforeSave($insert);
+    }
+
+
+
     public function guardar($zona)
     {
 

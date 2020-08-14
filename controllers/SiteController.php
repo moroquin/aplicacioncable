@@ -151,11 +151,11 @@ class SiteController extends Controller
     }
     public function actionRegistrar()
     {
-        /*
+        
         if (Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-        */
+        
         $model = new Empleados();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {

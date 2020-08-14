@@ -52,8 +52,9 @@ class Servicioscontratados extends \yii\db\ActiveRecord
             [['subtotal', 'cobropactado','cobroreconexion'], 'number'],
             [['idcliente', 'idservicio', 'contratonumero', 'nombreestado'], 'required'],
             [['fechainicio','fechasuspension', 'fechareconexion'], 'safe'],
-            [['nombrezona','contratonumero', 'nombreestado', 'detmesesporpagar'], 'string', 'max' => 45],
+            [['nombrezona','contratonumero', 'nombreestado'], 'string', 'max' => 45],
             [['descripcionsuspension','descripcionreconexion'], 'string', 'max' => 255],
+            [['detmesesporpagar'], 'string', 'max' => 500],
             //[['nombrezona'], 'string', 'max' => 45],
             //[['idcliente'], 'unique'],
             //[['idservicio'], 'unique'],
@@ -239,13 +240,14 @@ class Servicioscontratados extends \yii\db\ActiveRecord
 
 
     public function beforeSave($insert) {
-        if (isset($this->nombreestado) && (($this->nombreestado=='Finalizado')|| ($this->nombreestado=='Suspendido')))
-            return parent::beforeSave($insert);
+        if (isset($this->nombreestado))
+            if (($this->nombreestado=='Finalizado')|| ($this->nombreestado=='Suspendido'))
+                return parent::beforeSave($insert);
 
-        if ($this->mesesnopagados>1)
-            $this->nombreestado = 'Moroso';
-        else if (($this->mesesnopagados<=3))
+        if ($this->mesesnopagados<=1)
             $this->nombreestado = 'Activo';
+        else 
+            $this->nombreestado = 'Moroso';
     
         return parent::beforeSave($insert);
     }
@@ -265,8 +267,7 @@ class Servicioscontratados extends \yii\db\ActiveRecord
     }
 
     public function setMesnopagado(){
-        $this->mesesnopagados ++;
-        $this->save();
+        $this->mesesnopagados++;
     }
 
     public function getMesnopagado(){

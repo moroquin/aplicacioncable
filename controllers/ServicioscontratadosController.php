@@ -12,6 +12,7 @@ use app\models\ServicioscontratadosSearch;
 use app\models\Empleados;
 use app\models\User;
 use app\models\Puestos;
+use app\models\Puesto;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -163,6 +164,77 @@ class ServicioscontratadosController extends Controller
         ]);
     }
 
+
+
+
+
+
+
+
+
+
+/*
+
+    public function actionImporta()
+    {
+        $servicioscontratados = Servicioscontratados::find()->all();
+
+        $anyomes = CobrosController::getAnyomes();
+
+        $salida = ''; 
+
+        foreach ($servicioscontratados as $serviciocontratado) {
+
+            $cliente = Clientes::findOne($serviciocontratado->idcliente);
+            $serviciocontratado->detmesesporpagar = ' - ';
+            $serviciocontratado->contratonumero = $cliente->correlativo;
+
+
+
+            $serviciocontratado->cobropactado = Servicios::getTarifa($serviciocontratado->idservicio);
+
+            if ($serviciocontratado->mesesnopagados == null || $serviciocontratado->mesesnopagados == '')
+                $serviciocontratado->mesesnopagados = 1;
+
+            
+
+            if ($serviciocontratado->mesesnopagados <= 0)
+                $serviciocontratado->detmesesporpagar = "Adelantado " . $serviciocontratado->mesesnopagados;
+            else
+                $serviciocontratado->detmesesporpagar = CobrosController::getMesesAtrazados($anyomes, $serviciocontratado->mesesnopagados);
+
+            $serviciocontratado->nombrezona = $cliente->getZona();
+
+
+
+            if ($serviciocontratado->validate()) {
+                $serviciocontratado->save();
+                
+            }
+            else
+            $salida=$salida .'-error: '. $cliente->correlativo . ' ' . print_r($serviciocontratado->getErrors());
+
+            
+        }
+        return $salida;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+*/
+
+
+
+
     /**
      * Updates an existing Servicioscontratados model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -178,7 +250,7 @@ class ServicioscontratadosController extends Controller
 
         $modelsec1 = User::findOne(Yii::$app->user->id);
         $modelsec2 = Empleados::findOne($modelsec1->empleados_idempleado);
-        $modelsec3 = Puestos::findOne($modelsec2->puestos_idpuestos);
+        $modelsec3 = Puesto::findOne($modelsec2->puestos_idpuestos);
         if($modelsec3->nivel > 1 ){
             return $this->redirect(['index']);
         }
@@ -213,7 +285,7 @@ class ServicioscontratadosController extends Controller
             else
                 $modelservicios->detmesesporpagar = CobrosController::getMesesAtrazados($anyomes, $modelservicios->mesesnopagados);
 
-            if ($modelservicios->save())                
+            if ($modelservicios->save())
                 return $this->redirect(['view', 'id' => $modelservicios->idservicioscontratados]);
         }
 

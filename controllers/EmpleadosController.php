@@ -59,6 +59,9 @@ class EmpleadosController extends Controller
      */
     public function actionView($id)
     {
+        
+        
+
         if (Yii::$app->user->isGuest) {
             return $this->redirect(['index']);
         }
@@ -105,6 +108,7 @@ class EmpleadosController extends Controller
         if (Yii::$app->user->isGuest) {
             return $this->redirect(['index']);
         }
+        
         $modelsec1 = User::findOne(Yii::$app->user->id);
         $modelsec2 = Empleados::findOne($modelsec1->empleados_idempleado);
         $modelsec3 = Puestos::findOne($modelsec2->puestos_idpuestos);

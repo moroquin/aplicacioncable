@@ -18,3 +18,6 @@ case $P{nombreZona} when  '*'  then  true else `controlServicios`.clientes.nombr
     AND `controlServicios`.servicioscontratados.nombreestado = $P{estado}
 
     AND  year(`controlServicios`.cobros.fecha)  =  $P{fecha} 
+
+
+        	concat(     `controlServicios`.servicioscontratados.mesesnopagados,'(',    `controlServicios`.servicioscontratados.detmesesporpagar,' )') AS porcobrar,

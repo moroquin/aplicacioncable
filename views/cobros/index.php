@@ -19,6 +19,13 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); 
     ?>
 
+    <div class="panel panel-primary">
+        <div class="panel-body">
+            <?= Html::a('Agregar cobro', ['create'], ['class' => 'btn btn-block btn-success']) ?>
+
+        </div>
+    </div>
+
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -47,7 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'factura',
             //'idempleado',
             'fecha',
-        
+
             //
             //'idservicioscontratados',
             //'tipo',
@@ -60,7 +67,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'mesespagados',
             'mesespagadosdet',
             'totalcobrado',
-            
+
             //adios
 
             ['class' => 'yii\grid\ActionColumn'],
@@ -69,13 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php Pjax::end(); ?>
 
-    <div class="panel panel-primary">
-        <div class="panel-body">
-            <?= Html::a('Agregar cobro', ['create'], ['class' => 'btn btn-block btn-success']) ?>
 
-            <?= ($mesanyo) ? Html::a('Generar cobros del mes: ' . $mesanyo, ['cobrosmes'], ['class' => 'btn  btn-block btn-success']) : "" ?>
-        </div>
-    </div>
 
 
 

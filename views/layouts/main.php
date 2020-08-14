@@ -100,7 +100,11 @@ AppAsset::register($this);
                      
                      '<li class="divider"></li>',
                      '<li class="dropdown-header">Listado de cobro</li>',
-                     ['label' => 'Cobros general', 'url' => '/cobros'],
+                     ['label' => 'Listado de cobros', 'url' => '/cobros'],
+
+                     '<li class="divider"></li>',
+                     '<li class="dropdown-header">Generar cobros nuevo mes</li>',
+                     ['label' => 'Cobros para nuevo mes', 'url' => '/cobros/mes'],
                      
                 ],
             ],
@@ -142,9 +146,9 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+        <p class="pull-left">&copy; Cable visión <?= date('Y') ?></p>
 
-        <p class="pull-right"><?= Yii::powered() ?></p>
+        <p class="pull-right"></p>
     </div>
 </footer>
 

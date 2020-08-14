@@ -30,6 +30,7 @@ contratonumero,
 correlativo,
 detmesesporpagar,
 clientes.nombrezona,
+primernombre,
 concat(fechasuspension,' - ', descripcionsuspension) as suspension,
 concat(fechareconexion,' - ', descripcionreconexion) as reconexion,
 cobroreconexion,
@@ -39,7 +40,8 @@ concat ( direccion,' - ',referencias,' . Tel: ',telefono1,' - ',telefono2) AS di
 from servicioscontratados
 inner join clientes 
 on servicioscontratados.idcliente = clientes.idcliente
-where nombreestado='Suspendido']]>
+where nombreestado='Suspendido'
+	 	order by  primernombre]]>
 	</queryString>
 	<field name="correlativo" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="correlativo"/>

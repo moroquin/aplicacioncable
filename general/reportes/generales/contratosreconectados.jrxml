@@ -32,6 +32,7 @@ contratonumero,
 correlativo,
 detmesesporpagar,
 clientes.nombrezona,
+ primernombre,
 concat(fechasuspension,' - ', descripcionsuspension) as suspension,
 concat(fechareconexion,' - ', descripcionreconexion) as reconexion,
 fechareconexion,
@@ -46,8 +47,8 @@ where
  MONTH(fechareconexion) =  $P{mes}  
 AND YEAR(fechareconexion) =  $P{anyo}
 and  
-not fechareconexion<=> null  
-]]>
+not fechareconexion<=> null
+order by  primernombre]]>
 	</queryString>
 	<field name="correlativo" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="correlativo"/>

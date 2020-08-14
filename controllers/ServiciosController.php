@@ -8,6 +8,7 @@ use app\models\ServiciosSearch;
 use app\models\Empleados;
 use app\models\User;
 use app\models\Puestos;
+use app\models\Puesto;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -138,7 +139,7 @@ class ServiciosController extends Controller
 
         $modelsec1 = User::findOne(Yii::$app->user->id);
         $modelsec2 = Empleados::findOne($modelsec1->empleados_idempleado);
-        $modelsec3 = Puestos::findOne($modelsec2->puestos_idpuestos);
+        $modelsec3 = Puesto::findOne($modelsec2->puestos_idpuestos);
         if($modelsec3->nivel > 1 ){
             return $this->redirect(['index']);
         }
@@ -205,3 +206,4 @@ class ServiciosController extends Controller
         return $this->redirect(['update', 'id' => $model->idservicio]);
     }
 }
+

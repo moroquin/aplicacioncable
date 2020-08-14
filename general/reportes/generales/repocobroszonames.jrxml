@@ -39,7 +39,7 @@ FROM cobros
 	 cobros.idcliente = clientes.idcliente
 	  where 
 	 	anyomes = $P{anyomes}
-	 	order by nombrezona]]>
+	 	order by nombrezona, primernombre]]>
 	</queryString>
 	<field name="correlativo" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="correlativo"/>

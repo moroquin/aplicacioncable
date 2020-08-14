@@ -225,3 +225,17 @@ alter table cobros add CONSTRAINT `fk_cobros_clientes1`
   alter table servicioscontratados add `descripcionreconexion` VARCHAR(255) NULL;
   alter table servicioscontratados add `descripcionsuspension` VARCHAR(255) NULL;
   alter table servicioscontratados add `cobroreconexion` DOUBLE NULL;
+
+
+
+
+  ALTER TABLE cobros AUTO_INCREMENT=1;
+  ALTER TABLE clientes AUTO_INCREMENT=1;
+  ALTER TABLE servicioscontratados AUTO_INCREMENT=1;
+
+
+
+  ALTER TABLE cobros MODIFY idcobro UNSIGNED NOT NULL AUTO_INCREMENT;
+
+
+  alter table cobros modify column idcobro INT UNSIGNED NOT NULL AUTO_INCREMENT;
