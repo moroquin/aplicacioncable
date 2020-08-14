@@ -178,6 +178,9 @@ class CobrosController extends Controller
 
     public function actionMes()
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['index']);
+        }
         $anyomes = $this->siguienteAnyomes();
         $anyomesant = $this->getAnyomes();
 
