@@ -111,7 +111,7 @@ FROM cobros
 				<textFieldExpression><![CDATA[$F{nombrezona}+". "+(new java.text.SimpleDateFormat("EEEEE dd MMMMM yyyy hh:mm aaa",new Locale("es", "ES"))).format(new Date())]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="230" y="39" width="170" height="21" uuid="827cf3c2-f29d-46b8-ac7b-6ce9619195e6"/>
+				<reportElement x="230" y="44" width="170" height="21" uuid="827cf3c2-f29d-46b8-ac7b-6ce9619195e6"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{correlativo}]]></textFieldExpression>
 			</textField>
