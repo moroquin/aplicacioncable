@@ -104,7 +104,7 @@ FROM cobros
 			<staticText>
 				<reportElement x="280" y="1" width="500" height="22" uuid="7dd5c4ee-e51b-4c63-a615-fd843a482827"/>
 				<textElement textAlignment="Center">
-					<font size="18" isBold="true"/>
+					<font fontName="SansSerif" size="18" isBold="true"/>
 				</textElement>
 				<text><![CDATA[CABLE VISIÓN]]></text>
 			</staticText>

@@ -205,6 +205,6 @@ class ReporteController extends \yii\web\Controller
 
         return Yii::$app->response->sendContentAsFile($report, $nomrepo, $options);
 
-    }
+    } 
 
 }
