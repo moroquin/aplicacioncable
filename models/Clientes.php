@@ -132,7 +132,7 @@ class Clientes extends \yii\db\ActiveRecord
     }
 
     public function getNombres(){
-        return 'DPI: '. $this->dpi . '. ' . $this->primernombre . ' ' . $this->segundonombre . ' '. $this->primerapelldio . ' ' . $this->segundoapellido;
+        return ' '. $this->correlativo . '. ' . $this->primernombre . ' ' . $this->segundonombre . ' '. $this->primerapelldio . ' ' . $this->segundoapellido;
     }
 
     /**
