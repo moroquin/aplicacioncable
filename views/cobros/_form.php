@@ -49,7 +49,8 @@ use kartik\select2\Select2;
             <div class="col-xs-6">
                 <?= $form->field($model, 'mesespagados')
                     ->widget(Select2::classname(), [
-                        'data' =>  [1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6],
+                        'data' =>  [1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6, 
+                                    7 => 7, 8 => 8, 9 => 9, 10 => 10, 11 => 11,12  => 12, 13 => 13],
                         'options' => ['tag' => true, 'placeholder' => 'Seleccione el cliente para asigar el cobro'],
                         'pluginOptions' => ['allowClear' => true,],
 
@@ -102,6 +103,7 @@ $('#cobros-mesespagados').change( function(){
     //$('#cobros-totalcobrado').attr('value',xcobrado);
     totalcobrado.value = xcobrado;
 });
+
 JS;
 $this->registerJs($script);
 ?>

@@ -179,7 +179,7 @@ class Cobros extends \yii\db\ActiveRecord
         $this->mesesporcobrardet = $result->detmesesporpagar;
 
         if ($this->mesespagados == $result->mesesnopagados)
-            $this->mesespagadosdet = CobrosController::getMesesAtrazados($anyomes,$result->mesesnopagados);
+            $this->mesespagadosdet = $this->mesesporcobrardet;
         else
             $this->mesespagadosdet = CobrosController::getMesesPagados($anyomes,$result->mesesnopagados,$this->mesespagados);
         
@@ -206,8 +206,8 @@ class Cobros extends \yii\db\ActiveRecord
         else
             $result->detmesesporpagar= "Pagos adelantados ". (-$result->mesesnopagados);
             
-        if ($result->mesesnopagados < 4)
-            $result->nombreestado = 'Aprobado';
+        if ($result->mesesnopagados < 2)
+            $result->nombreestado = 'Activo';
 
         $this->idcliente = $result->idcliente;
 

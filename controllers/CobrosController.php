@@ -92,10 +92,10 @@ class CobrosController extends Controller
 
     private static function componerMes($mes)
     {
-
-        if ($mes <= 0) {
+        while ($mes <=0)
             $mes = 12 + $mes;
-        }
+        while ($mes >12)
+            $mes = $mes -12;
 
         return $mes;
     }
@@ -122,13 +122,22 @@ class CobrosController extends Controller
 
     public static function getMesesPagados($anyomes, $meses, $cant)
     {
+        $resto =0;
+        if ($cant > 12){
+            $resto = $cant - 12;
+            $cant = 12;
+        }
 
         list($y, $m) = explode('-', $anyomes);
+        $m = $m + 0;
         $result = '';
         for ($i = 1; $i <= $cant; $i++) {
             $result = (($result === '') ? '' : $result . ', ')
                 . CobrosController::$nombreMes[CobrosController::componerMes($m - ($meses - $i))];
         }
+
+        if ($resto != 0)
+            $result = $result . ', más '. $resto . ' meses. ';
 
         return $result;
     }
@@ -146,6 +155,7 @@ class CobrosController extends Controller
         }
 
         $searchModel = new CobrosSearch();
+        $searchModel->anyomes = $this->getAnyomes();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         $mesanyo = null;
@@ -334,7 +344,7 @@ class CobrosController extends Controller
 
 
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->guardarnuevo()) {
             return $this->redirect(['view', 'id' => $model->idcobro]);
         }
 

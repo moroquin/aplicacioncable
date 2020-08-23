@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\controllers\CobrosController;
 use app\models\Lote;
 use app\models\Cobros;
 
@@ -56,9 +57,9 @@ class LoteForm extends Model
         //Guardar lista de cobros
         if (!$this->saveCobros()) {
             $transaction->rollBack();
-            $this->_lote->save();
             return false;
         }
+        $this->_lote->save();
         //Finalizar transacción
         $transaction->commit();
         return true;
@@ -89,35 +90,55 @@ class LoteForm extends Model
     {
 
         // $resultados= Cobrosexamen::getCobrosxamenbyidresultado($this->_id_orden);
+
         $fecha = date("Y-m-d");
         $total = 0;
         foreach ($this->_cobros as $key => $resultado) {
 
-            if (!($resultado instanceof Cobros)) {
-                $resultado = Cobros::findOne(['idcobro' => $key]);
+            if ($resultado->totalcobrado > 0) {
+                if (!($resultado instanceof Cobros)) {
+                    // $resultado = Cobros::findOne(['idcobro' => $key]);
 
-                $resultado->mesespagados = $resultado->mesespagados;
-                $resultado->totalcobrado = $resultado->totalcobrado;
-                $resultado->factura = $resultado->factura;
-                $resultado->contrasenya = $resultado->contrasenya;
-                $resultado->lote_idlote = $this->Lote->idlote;
+                    /*$resultado->mesespagados = $resultado->mesespagados;
+                     $resultado->totalcobrado = $resultado->totalcobrado;
+                     $resultado->factura = $resultado->factura;
+                     $resultado->contrasenya = $resultado->contrasenya;*/
+                    $resultado->lote_idlote = $this->Lote->idlote;
+                }
+
+                if ($resultado->mesespagados == $resultado->mesesporcobrar)
+                    $resultado->mesespagadosdet = $resultado->mesesporcobrardet;
+                else
+                    $resultado->mesespagadosdet = CobrosController::getMesesPagados($resultado->anyomes, $resultado->mesesporcobrar, $resultado->mesespagados);
                 $total = $total + $resultado->totalcobrado;
-            }
-            if ($resultado->totalcobrado > 0) 
-                $resultado->lote_idlote = $this->_lote->idlote;
-            else
-                $resultado->lote_idlote = '';
-            $resultado->fecha = $fecha;
-            $resultf = Servicioscontratados::findOne($resultado->idservicioscontratados);
-            $resultf->mesesnopagados = $resultf->mesesnopagados - $resultado->mesespagados;
 
-            
-            
+                if ($resultado->totalcobrado > 0)
+                    $resultado->lote_idlote = $this->_lote->idlote;
+                else
+                    $resultado->lote_idlote = '';
+
+                $resultado->fecha = $fecha;
+                $resultf = Servicioscontratados::findOne($resultado->idservicioscontratados);
+                $resultf->mesesnopagados = $resultf->mesesnopagados - $resultado->mesespagados;
+
+
+                if ($resultf->mesesnopagados == 0)
+                    $resultf->detmesesporpagar = "Al día";
+                else if ($resultf->mesesnopagados > 0)
+                    $resultf->detmesesporpagar = CobrosController::getMesesAtrazados($resultado->anyomes, $resultf->mesesnopagados);
+                else
+                    $resultf->detmesesporpagar = "Pagos adelantados " . (-$resultf->mesesnopagados);
+
+                if ($resultf->mesesnopagados < 2)
+                    $resultf->nombreestado = 'Activo';
+                else
+                    $resultf->nombreestado = 'Moroso';
+
                 if ((!$resultado->save()) || (!$resultf->save()))
                     return false;
-            
+            }
         }
-        $this->_lote-> totalcobrado =$total;
+        $this->_lote->totalcobrado = $total;
         return true;
     }
 
