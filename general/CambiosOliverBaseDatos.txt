@@ -235,7 +235,16 @@ alter table cobros add CONSTRAINT `fk_cobros_clientes1`
 
 
 
-  ALTER TABLE cobros MODIFY idcobro UNSIGNED NOT NULL AUTO_INCREMENT;
+sw
+
+  ALTER TABLE clientes ADD CONSTRAINT UNIQUE INDEX `correlativo_UNIQUE` (`correlativo` ASC);
+  ALTER TABLE servicioscontratados ADD CONSTRAINT UNIQUE INDEX `contratonumero_UNIQUE` (`contratonumero` ASC);
+
+
+
+
+
+  `correlativo` VARCHAR(45) NULL 
 
 
   alter table cobros modify column idcobro INT UNSIGNED NOT NULL AUTO_INCREMENT;

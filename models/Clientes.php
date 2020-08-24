@@ -47,8 +47,9 @@ class Clientes extends \yii\db\ActiveRecord
             [['primernombre', 'segundonombre', 'primerapelldio', 'segundoapellido'], 'string', 'max' => 75],
             [['dpi'], 'string', 'max' => 15],
             [['telefono1', 'telefono2'], 'string', 'max' => 40],
-            [['nit', 'nombrezona','mail'], 'string', 'max' => 45],
+            [['nit', 'nombrezona', 'mail'], 'string', 'max' => 45],
             [['nombrezona'], 'required'],
+            [['correlativo'], 'unique'],
             //'exist', 'skipOnError' => true, 'targetClass' => Zona::className(), 'targetAttribute' => ['nombrezona' => 'nombrezona']
         ];
     }
@@ -76,21 +77,41 @@ class Clientes extends \yii\db\ActiveRecord
         ];
     }
 
-    public function beforeSave($insert) {
+    public function beforeSave($insert)
+    {
+        $this->actualizarEspaciosblanco();
+        
+        return parent::beforeSave($insert);
+    }
+
+    public function actualizarEspaciosblanco(){
+        $this->primernombre = trim($this->primernombre);
+        $this->primerapelldio = trim($this->primerapelldio);
+        $this->correlativo = trim($this->correlativo);
+
+
 
         if (!isset($this->direccion))
             $this->direccion = ' ';
+        else
+            $this->direccion = trim($this->direccion);
 
-            if (!isset($this->referencias))
+        if (!isset($this->referencias))
             $this->referencias = ' ';
+        else
+            $this->referencias = trim($this->referencias);
 
-            if (!isset($this->telefono1))
+        if (!isset($this->telefono1))
             $this->telefono1 = ' ';
+        else
+            $this->telefono1 = trim($this->telefono1);
 
-            if (!isset($this->telefono2))
+
+        if (!isset($this->telefono2))
             $this->telefono2 = ' ';
-    
-        return parent::beforeSave($insert);
+        else
+            $this->telefono2 = trim($this->telefono2);
+
     }
 
 
@@ -102,8 +123,8 @@ class Clientes extends \yii\db\ActiveRecord
         $connection = \Yii::$app->db;
         $transaction = $connection->beginTransaction();
         try {
-            
-            if ($this->nombrezona === '0'){
+
+            if ($this->nombrezona === '0') {
                 $zona->save();
                 $this->nombrezona = $zona->getNombrezona();
             }
@@ -131,8 +152,9 @@ class Clientes extends \yii\db\ActiveRecord
         return $salida;
     }
 
-    public function getNombres(){
-        return ' '. $this->correlativo . '. ' . $this->primernombre . ' ' . $this->segundonombre . ' '. $this->primerapelldio . ' ' . $this->segundoapellido;
+    public function getNombres()
+    {
+        return ' ' . $this->correlativo . '. ' . $this->primernombre . ' ' . $this->segundonombre . ' ' . $this->primerapelldio . ' ' . $this->segundoapellido;
     }
 
     /**
@@ -145,7 +167,8 @@ class Clientes extends \yii\db\ActiveRecord
         return $this->hasOne(Zona::className(), ['nombrezona' => 'nombrezona']);
     }
 
-    public function getZona(){
+    public function getZona()
+    {
         return $this->nombrezona;
     }
 
@@ -169,7 +192,7 @@ class Clientes extends \yii\db\ActiveRecord
     }
 
 
-     /**
+    /**
      * @return clientes returns an array of zones 
      */
     public static function listadoClientes()
@@ -179,12 +202,13 @@ class Clientes extends \yii\db\ActiveRecord
         $clientes = [];
 
         foreach ($result as $record)
-            $clientes[$record->idcliente] = ($record->idcliente != '1') ? ($record->primernombre . ' ' . $record->primerapelldio . '. Agrupación cobro: ' . $record->nombrezona . '. DPI: '. $record->dpi . '. Nit: '. $record->nit) : 'Ingrese nuevo usuario';
+            $clientes[$record->idcliente] = ($record->idcliente != '1') ? ($record->primernombre . ' ' . $record->primerapelldio . '. Agrupación cobro: ' . $record->nombrezona . '. DPI: ' . $record->dpi . '. Nit: ' . $record->nit) : 'Ingrese nuevo usuario';
 
         return $clientes;
     }
 
-    public function getIdcliente(){
+    public function getIdcliente()
+    {
         return $this->idcliente;
     }
 
@@ -195,18 +219,18 @@ class Clientes extends \yii\db\ActiveRecord
         $connection = \Yii::$app->db;
         $transaction = $connection->beginTransaction();
         try {
-            
-            if ($this->nombrezona === '0'){
+
+            if ($this->nombrezona === '0') {
                 $zona->save();
                 $this->nombrezona = $zona->getNombrezona();
             }
             $salida = $this->save();
 
-            Servicioscontratados::updateAll(['nombrezona' => $this->nombrezona],['idcliente' => $this->idcliente]);
+            Servicioscontratados::updateAll(['nombrezona' => $this->nombrezona], ['idcliente' => $this->idcliente]);
 
 
             //Cobros::updateAll(['nombrezona' => $this->nombrezona],['idcliente' => $this->idcliente]);
-            
+
 
 
             /*$this->nombrezona = strtoupper($this->nombrezona);
@@ -230,5 +254,4 @@ class Clientes extends \yii\db\ActiveRecord
         }
         return $salida;
     }
-
 }

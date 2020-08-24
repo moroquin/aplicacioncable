@@ -172,11 +172,19 @@ class ServicioscontratadosController extends Controller
 
 
 
-
 /*
+
+
 
     public function actionImporta()
     {
+
+        $clientes = Clientes::find()->all();
+        foreach ($clientes as $cliente){
+            $cliente->actualizarEspaciosblanco();
+            $cliente->save();
+        }
+
         $servicioscontratados = Servicioscontratados::find()->all();
 
         $anyomes = CobrosController::getAnyomes();
@@ -218,7 +226,6 @@ class ServicioscontratadosController extends Controller
         }
         return $salida;
     }
-
 
 
 

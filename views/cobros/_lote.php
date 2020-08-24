@@ -113,29 +113,29 @@ use kartik\select2\Select2;
 
 
 <?php
-        $script = <<< JS
-                let input = document.getElementById("myInput");
-                let table = document.getElementById("myTable");
-                let tr = table.getElementsByTagName("tr");
-                var  filter, td, i, txtValue;
-                
+$script = <<< JS
+        const input = document.getElementById("myInput");
+        const table = document.getElementById("myTable");
+        const tr = table.getElementsByTagName("tr");
+        var  filter, td, i, txtValue;
+        
 
-                $('#myInput').change( function(){
-                    filter = input.value.toUpperCase();
-                    console.log(filter);
-                    
-                    for (i = 0; i < tr.length; i++) {
-                        td = tr[i].getElementsByTagName("th")[0];
-                        if (td) {
-                        txtValue = td.textContent || td.innerText;
-                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                            tr[i].style.display = "";
-                        } else {
-                            tr[i].style.display = "none";
-                        }
-                        }       
-                    }
-                });
-        JS;
-        $this->registerJs($script);
+        $('#myInput').change( function(){
+            filter = input.value.toUpperCase();
+            console.log(filter);
+            
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("th")[0];
+                if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+                }       
+            }
+        });
+JS;
+$this->registerJs($script);
 ?>
