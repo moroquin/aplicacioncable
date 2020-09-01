@@ -6,6 +6,14 @@ use kartik\select2\Select2;
 /* @var $this yii\web\View */
 /* @var $model app\models\Lotes */
 /* @var $form yii\widgets\ActiveForm */
+
+
+/*
+        
+
+
+
+*/
 ?>
 
 <div class="cobros-form">
@@ -22,8 +30,8 @@ use kartik\select2\Select2;
         <div class="panel-heading">Cliente:</div>
         <div class="panel-body">
         
-                <input type="text" id="myInput" placeholder="Buscar por nombres" title="Ingrese el nombre" class="col-xs-12">
         
+        <input type="text" id="myInput" placeholder="Buscar por nombres" title="Ingrese el nombre" class="col-xs-12">
 
         </div>
         <div class="panel-body">
@@ -110,8 +118,6 @@ use kartik\select2\Select2;
 
 </div>
 
-
-
 <?php
 $script = <<< JS
         const input = document.getElementById("myInput");
@@ -135,6 +141,14 @@ $script = <<< JS
                 }
                 }       
             }
+        });
+
+        $('#formid').on('keyup keypress', function(e) {
+        var keyCode = e.keyCode || e.which;
+        if (keyCode === 13) { 
+            e.preventDefault();
+            return false;
+        }
         });
 JS;
 $this->registerJs($script);
