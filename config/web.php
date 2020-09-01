@@ -7,11 +7,15 @@ $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    'language' => 'es-ES',
+    'name'=>'Cable ',
+
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
     'components' => [
+        
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'JQm98sOmAnVXUUoBJ3isyWtSpJS6Zq9W',
@@ -54,7 +58,8 @@ $config = [
     'params' => $params,
 ];
 
-if (YII_ENV_DEV) {
+//if (YII_ENV_DEV) {
+    if (false) {
     // configuration adjustments for 'dev' environment
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = [

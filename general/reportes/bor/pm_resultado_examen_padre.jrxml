@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.2.final using JasperReports Library version 6.12.2-75c5e90a222ab406e416cbf590a5397028a52de3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="pm_resultado_examen_padre" language="javascript" pageWidth="1008" pageHeight="612" orientation="Landscape" columnWidth="968" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="12b0b703-fae7-4898-8d5c-241a023c6ac0">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="257"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="control servicios"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="pr_id_orden" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/home/oliver/ReportesJasper/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ext" class="java.lang.String">
+		<defaultValueExpression><![CDATA[".jasper"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="mesanyo" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select  `controlServicios`.servicioscontratados.nombrezona as nombrezona
+from servicioscontratados
+group by  `controlServicios`.servicioscontratados.nombrezona 
+having  `controlServicios`.servicioscontratados.nombreestado  = 'Activo' or `controlServicios`.servicioscontratados.nombreestado= 'Moroso'
+
+
+]]>
+	</queryString>
+	<field name="nombrezona" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="153" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="466" y="15" width="35" height="15" forecolor="#006699" backcolor="#E6E6E6" uuid="53292de1-5c7d-4402-8937-c7d022fc2be9"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MES:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="198" y="40" width="612" height="1" uuid="56bab5d0-925d-4085-bea0-981990f7b93e"/>
+			</line>
+			<textField textAdjust="StretchHeight">
+				<reportElement style="Detail" stretchType="RelativeToBandHeight" mode="Opaque" x="517" y="15" width="56" height="15" forecolor="#010101" backcolor="#E6E6E6" uuid="f0b2b1ac-9c9b-4919-a7a4-30058beb0b43"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{mesanyo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="445" y="-10" width="157" height="27" uuid="869a7223-4cb0-42f2-82b8-c8c06c615cab"/>
+				<textElement textAlignment="Center">
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[CABLE VISION]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="49" splitType="Stretch">
+			<subreport>
+				<reportElement x="-19" y="0" width="610" height="49" uuid="4754d558-52c2-4bd8-9bbf-bb01a0739c8d"/>
+				<subreportParameter name="nombrezona">
+					<subreportParameterExpression><![CDATA[$P{nombrezona}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["pm_resultado_examen_hijo_01.jrxml"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="16" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="1" y="3" width="571" height="1" uuid="65ea6c1b-f825-43c5-a0b4-4051ea44a0f7"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="27" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-19" y="0" width="612" height="27" forecolor="#D0B48E" backcolor="#F2EBDF" uuid="f598a313-fdd0-4e69-b8a6-5a70add5b487"/>
+				<textField>
+					<reportElement style="Column header" x="263" y="2" width="308" height="17" forecolor="#010101" uuid="400a11d6-6cf6-44b9-92d3-8bea22cda9ae"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Column header" x="21" y="0" width="239" height="12" forecolor="#010101" uuid="b44fad58-d5a2-444d-ab51-31dc92f0afd9"/>
+					<textElement verticalAlignment="Top">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd 'de' MMMM 'de' yyyy", new java.util.Locale("ES")).format(new java.util.Date())]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="571" y="2" width="20" height="17" forecolor="#010101" uuid="9f7785f6-c624-48f6-aed5-5c3ea9c552f4"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

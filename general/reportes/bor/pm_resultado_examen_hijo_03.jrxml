@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="pm_resultado_examen_hijo_02" language="groovy" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="0" rightMargin="40" topMargin="0" bottomMargin="0" uuid="d70e3869-4619-411a-9403-cade8cf593cd">
+	<property name="ireport.zoom" value="1.126972201352368"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="p_id_orden" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_id_tipo_examen" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_id_grupo" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     PM_RESULTADO_EXAMEN.`id_resultado_examen` AS PM_RESULTADO_EXAMEN_id_resultado_examen,
+     PM_RESULTADO_EXAMEN.`anotaciones` AS PM_RESULTADO_EXAMEN_anotaciones,
+     PM_RESULTADO_EXAMEN.`resultado_texto` AS PM_RESULTADO_EXAMEN_resultado_texto,
+     PM_RESULTADO_EXAMEN.`id_tipo_examen` AS PM_RESULTADO_EXAMEN_id_tipo_examen,
+     PM_RESULTADO_EXAMEN.`id_orden` AS PM_RESULTADO_EXAMEN_id_orden,
+     PM_RESULTADO_EXAMEN.`nombre_resultado` AS PM_RESULTADO_EXAMEN_nombre_resultado,
+     PM_RESULTADO_EXAMEN.`id_grupo` AS PM_RESULTADO_EXAMEN_id_grupo,
+     PM_RESULTADO_EXAMEN.`solotexto` AS PM_RESULTADO_EXAMEN_solotexto
+FROM
+     `PM_RESULTADO_EXAMEN` PM_RESULTADO_EXAMEN
+where
+     PM_RESULTADO_EXAMEN.`id_orden` = $P{p_id_orden}
+and
+     PM_RESULTADO_EXAMEN.`id_tipo_examen`=$P{p_id_tipo_examen}
+and
+     PM_RESULTADO_EXAMEN.`id_grupo` = $P{p_id_grupo}
+and
+     PM_RESULTADO_EXAMEN.`solotexto`=1
+and
+     PM_RESULTADO_EXAMEN.`resultado_texto`!=''
+ORDER BY
+     PM_RESULTADO_EXAMEN.`id_resultado_examen` ASC]]>
+	</queryString>
+	<field name="PM_RESULTADO_EXAMEN_id_resultado_examen" class="java.lang.Long"/>
+	<field name="PM_RESULTADO_EXAMEN_anotaciones" class="java.lang.String"/>
+	<field name="PM_RESULTADO_EXAMEN_resultado_texto" class="java.lang.String"/>
+	<field name="PM_RESULTADO_EXAMEN_id_tipo_examen" class="java.lang.Long"/>
+	<field name="PM_RESULTADO_EXAMEN_id_orden" class="java.lang.String"/>
+	<field name="PM_RESULTADO_EXAMEN_nombre_resultado" class="java.lang.String"/>
+	<field name="PM_RESULTADO_EXAMEN_id_grupo" class="java.lang.Integer"/>
+	<field name="PM_RESULTADO_EXAMEN_solotexto" class="java.lang.Boolean"/>
+	<background>
+		<band/>
+	</background>
+	<columnHeader>
+		<band height="28">
+			<line>
+				<reportElement x="0" y="27" width="572" height="1" forecolor="#666666" uuid="7c34fed0-b73a-436c-9366-ed5bd5a37d60"/>
+			</line>
+			<staticText>
+				<reportElement mode="Opaque" x="480" y="1" width="92" height="26" forecolor="#006699" backcolor="#E6E6E6" uuid="f34b5d26-4bb7-4fb1-a914-7def3560b15a"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Anotaciones]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="98" height="27" forecolor="#006699" backcolor="#E6E6E6" uuid="0d65ddfc-3389-44b5-a5e0-17b6dfe08382"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="102" y="0" width="374" height="27" forecolor="#006699" backcolor="#E6E6E6" uuid="020b6020-5810-4b19-9cee-dcd0d150a281"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Resultado]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="50">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="48" width="572" height="1" uuid="d8644a2d-2fc9-4a94-b4d4-8c8ca4910b23"/>
+			</line>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="480" y="0" width="92" height="48" uuid="a330cdab-7731-4658-9e90-a1dc59727a86"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PM_RESULTADO_EXAMEN_anotaciones}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="98" height="48" uuid="ae30ac64-57c8-47c7-ab71-4330a9e157b2"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PM_RESULTADO_EXAMEN_nombre_resultado}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="102" y="0" width="374" height="48" uuid="5921c8c6-4392-4f95-b234-dae2060bf98c"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PM_RESULTADO_EXAMEN_resultado_texto}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>

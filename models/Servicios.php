@@ -11,9 +11,10 @@ use Yii;
  * @property string|null $nombre
  * @property float|null $tarifa
  * @property string|null $descripcion
+ * @property string|null $tiposervicio
+ * @property int|null $disponible
  *
  * @property Servicioscontratados $servicioscontratados
- * @property Clientes[] $idclientes
  */
 class Servicios extends \yii\db\ActiveRecord
 {
@@ -33,7 +34,9 @@ class Servicios extends \yii\db\ActiveRecord
         return [
             [['tarifa'], 'number'],
             [['descripcion'], 'string'],
+            [['disponible'], 'integer'],
             [['nombre'], 'string', 'max' => 100],
+            [['tiposervicio'], 'string', 'max' => 45],
         ];
     }
 
@@ -47,13 +50,15 @@ class Servicios extends \yii\db\ActiveRecord
             'nombre' => 'Nombre',
             'tarifa' => 'Tarifa',
             'descripcion' => 'Descripcion',
+            'tiposervicio' => 'Tiposervicio',
+            'disponible' => 'Disponible',
         ];
     }
 
     /**
      * Gets query for [[Servicioscontratados]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
      */
     public function getServicioscontratados()
     {
@@ -61,12 +66,61 @@ class Servicios extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Idclientes]].
-     *
-     * @return \yii\db\ActiveQuery
+     * {@inheritdoc}
+     * @return ServiciosQuery the active query used by this AR class.
      */
-    public function getIdclientes()
+    public static function find()
     {
-        return $this->hasMany(Clientes::className(), ['idcliente' => 'idcliente'])->viaTable('servicioscontratados', ['idservicio' => 'idservicio']);
+        return new ServiciosQuery(get_called_class());
     }
+
+    /**
+     * {@inheritdoc}
+     * @return servicios Array de salida de servicios prestados
+     */
+    public static function listadoServicios($activo){
+        $result = Servicios::find()->all();
+
+        $servicios = [];
+
+        foreach ($result as $record)
+            if ($activo == $record->disponible)
+                $servicios[$record->idservicio] = $record->nombre . ". Q. " . $record->tarifa;
+        
+        return $servicios;
+    }
+
+    public static function listadoServicioscompleto(){
+        $result = Servicios::find()->all();
+
+        $servicios = [];
+
+        foreach ($result as $record)
+                $servicios[$record->idservicio] = $record->nombre . ". Q. " . $record->tarifa;
+        
+        return $servicios;
+    }
+
+    /**
+     * {@inheritdoc}
+     * @return costos Array de salida de servicios prestados
+     */
+    public static function listadoTarifas($activo){
+        $result = Servicios::find()->all();
+
+        $costos = [];
+
+        foreach ($result as $record)
+            if ($activo == $record->disponible)
+                $costos[$record->idservicio] = $record->tarifa;
+        
+        return $costos;
+
+    }
+
+    public static function getTarifa($id){
+        
+        return Servicios::findOne($id)->tarifa;
+    }
+
 }

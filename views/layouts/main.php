@@ -38,11 +38,88 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
+            
+            [
+                'label' => 'Clientes',
+                'items' => [
+
+                    
+                     
+                     '<li class="divider"></li>',
+                     '<li class="dropdown-header">Nuevo cliente</li>',
+                     ['label' => 'Agregar cliente', 'url' => '/clientes/create'],
+
+                     '<li class="divider"></li>',
+                     '<li class="dropdown-header">Listado de clientes</li>',
+                     ['label' => 'Clientes', 'url' => '/clientes'],
+                     
+                ],
+            ],
+
+            [
+                'label' => 'Contratos',
+                'items' => [
+
+                    '<li class="divider"></li>',
+                     '<li class="dropdown-header">Contratación de servicios</li>',
+                     ['label' => 'Nuevo contrato', 'url' => '/servicioscontratados/create'],
+                     ['label' => 'Listado de Contratos', 'url' => '/servicioscontratados'],
+                     
+                     
+                     '<li class="divider"></li>',
+                     '<li class="dropdown-header">Servicios Prestados</li>',
+                     ['label' => 'Servicios prestados', 'url' => '/servicios'],
+                     
+                ],
+            ],
+
+            [
+                'label' => 'Reportes',
+                'items' => [
+
+                    '<li class="divider"></li>',
+                     '<li class="dropdown-header">Reportes generales</li>',
+                     ['label' => 'Reportes', 'url' => '/reporte/index'],
+                     
+                     
+                     
+                ],
+            ],
+
+
+            [
+                'label' => 'Cobros',
+                'items' => [
+
+                    '<li class="divider"></li>',
+                     '<li class="dropdown-header">Principal</li>',
+                     
+                     ['label' => 'Nuevo cobro', 'url' => '/cobros/create'],
+                     ['label' => 'Cobro por zona', 'url' => '/cobros/indexlote'],
+                     
+                     
+                     '<li class="divider"></li>',
+                     '<li class="dropdown-header">Listado de cobro</li>',
+                     ['label' => 'Listado de cobros', 'url' => '/cobros'],
+
+                     '<li class="divider"></li>',
+                     '<li class="dropdown-header">Generar cobros nuevo mes</li>',
+                     ['label' => 'Cobros para nuevo mes', 'url' => '/cobros/mes'],
+                     
+                ],
+            ],
+
+            ['label' => 'Usuarios', 
+            'items' =>[
+                ['label' => 'Registrar', 'url' => '/site/registrar'],
+                ['label' => 'Administrar Cuentas', 'url' => '/empleados/index']
+            ]],
+
+
+
+            
             Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login']]
+                ['label' => 'Ingresar', 'url' => ['/site/login']]
             ) : (
                 '<li>'
                 . Html::beginForm(['/site/logout'], 'post')
@@ -69,9 +146,9 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+        <p class="pull-left">&copy; Cable visión <?= date('Y') ?></p>
 
-        <p class="pull-right"><?= Yii::powered() ?></p>
+        <p class="pull-right"></p>
     </div>
 </footer>
 

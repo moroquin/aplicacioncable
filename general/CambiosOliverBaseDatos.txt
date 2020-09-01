@@ -1,0 +1,250 @@
+tabla servicios 
+    agregué tipo de servicio, para poder agrupar los resultados
+        internet
+        cable
+
+    alter table servicios add `tiposervicio` VARCHAR(45) NULL;
+    alter table servicios add `disponible` TINYINT NULL DEFAULT 1;
+
+
+    alter table servicioscontratados add `trabajopendiente` TINYINT NULL;
+
+
+
+alter table servicioscontratados add `nombrezona` VARCHAR(45) NULL;
+  alter table servicioscontratados add `anyomes` VARCHAR(6) NULL;
+
+
+    alter table servicios modify column `disponible` TINYINT NULL DEFAULT 1;
+
+    alter table clientes modify column `idcliente`  AUTO_INCREMENT;
+
+
+extra/php-apache 7.4.4-2
+    Apache SAPI for PHP
+php-apcu
+
+    A userland caching module for PHP
+extra/php-apcu-bc 1.0.5-2
+    APCu Backwards Compatibility Module
+
+
+
+
+php-cgi php-dblib php-embed php-enchant php-gd php-imap php-intl 7.4.4-2 php-phpdbg php-pspell php-snmp php-xsl php-imagick php-box 
+
+    
+
+
+por eliminar views servicios
+
+
+
+clientes unique kpi y nit
+
+auto increment
+
+
+
+
+https://getbootstrap.com/docs/3.3/components/#alerts
+
+pannel-primary   -->  registro y actualización de datos 
+
+pannel-info      --> desplegar información 
+
+pannel-warning   --> cosas cuidado
+
+alertas
+
+https://getbootstrap.com/docs/3.3/components/#alerts
+
+
+
+https://getbootstrap.com/docs/3.3/css/#buttons
+
+
+
+
+insert into zona values ('0');
+insert into clientes(nombrezona) values ('0');
+
+
+insert into estado values ('Pendiente', ' . . . ',10 );
+insert into estado values ('Aprobado', ' . . . ',0);
+insert into estado values ('Finalizado', ' . . . ',0);
+insert into estado values ('Por renovar', ' . . . ',0);
+insert into puesto(nombre,descripcion,nivel) values('puesto 1', 'hola mundo ', 10);
+insert into empleados (nombre,apellido,telefono,direccion,puestos_idpuestos) values('empleado 1', 'empleado 1' , 'telefono','direccion',1);
+
+
+
+
+
+
+CREATE TABLE IF NOT EXISTS `controlServicios`.`lote` (
+  `idlote` INT NOT NULL AUTO_INCREMENT,
+  `fecha` DATETIME NULL DEFAULT now(),
+  `totalcobrado` DOUBLE NULL,
+  `anyomes` VARCHAR(7) NULL,
+  PRIMARY KEY (`idlote`))
+ENGINE = InnoDB;
+
+alter table cobros add `lote_idlote` INT NULL;
+insert into estado values ( 'Moroso','', 0);
+
+alter table lote add `zona` VARCHAR(45) NULL;
+
+alter table cobros add CONSTRAINT `fk_cobros_lote1`
+    FOREIGN KEY (`lote_idlote`)
+    REFERENCES `controlServicios`.`lote` (`idlote`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION;
+
+
+
+
+
+
+    alter table servicioscontratados add `detmesesporpagar` VARCHAR(45) NULL;
+
+    alter table cobros add `mesesporcobrardet` VARCHAR(45) NULL;
+
+
+    una hora telus
+
+
+
+
+challenge despues del almuerzo 
+
+
+jouse 
+
+    sistemas de seguridad y la nube
+
+    bio informática 
+
+
+challenge evaluación de test en línea 
+te inscribes 
+java 
+python
+sql
+
+
+
+
+
+
+
+
+
+
+
+
+
+SELECT `controlServicios`.clientes.primernombre,
+	`controlServicios`.clientes.primerapelldio,
+	`controlServicios`.clientes.direccion,
+	`controlServicios`.zona.nombrezona,
+	`controlServicios`.servicioscontratados.subtotal,
+	`controlServicios`.servicioscontratados.mesesnopagados
+FROM `controlServicios`.zona
+	inner join `controlServicios`.clientes ON 
+	 `controlServicios`.zona.nombrezona = `controlServicios`.clientes.nombrezona 
+	inner join `controlServicios`.servicioscontratados ON 
+	 `controlServicios`.clientes.idcliente = `controlServicios`.servicioscontratados.idcliente 
+WHERE 
+	 `controlServicios`.clientes.nombrezona =  'barrio garibaldi'
+	 AND `controlServicios`.servicioscontratados.nombreestado = 'Aprobado';
+
+
+     `controlServicios`.servicioscontratados.detmesesporpagar, 
+
+
+
+     SELECT `controlServicios`.clientes.primernombre,
+	`controlServicios`.clientes.segundonombre,
+	`controlServicios`.clientes.primerapelldio,
+	`controlServicios`.cobros.fecha,
+	`controlServicios`.cobros.totalcobrado
+FROM `controlServicios`.clientes
+	INNER JOIN `controlServicios`.servicioscontratados ON 
+	  ( 
+	 `controlServicios`.clientes.idcliente = `controlServicios`.servicioscontratados.idcliente) 
+	INNER JOIN `controlServicios`.cobros ON 
+	  ( 
+	 `controlServicios`.cobros.idservicioscontratados = `controlServicios`.servicioscontratados.idservicioscontratados) 
+WHERE 
+	 `controlServicios`.cobros.fecha =  ' 2020-07-14';
+
+
+
+
+
+
+  alter table cobros add `idcliente` INT NOT NULL;
+
+alter table cobros add CONSTRAINT `fk_cobros_clientes1`
+    FOREIGN KEY (`idcliente`)
+    REFERENCES `controlServicios`.`clientes` (`idcliente`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION;
+
+
+     /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return [
+            'idcobro' => 'Idcobro',
+            'numerofactura' => 'Numerofactura',
+            'idempleado' => 'Idempleado',
+            'fecha' => 'Fecha',
+            'totalporcobrar' => 'Monto por cobrar',
+            'totalcobrado' => 'Cobro',
+            
+            'idservicioscontratados' => 'Idservicioscontratados',
+            'tipo' => 'Tipo',
+            'factura' => 'Factura',
+            'contrasenya' => 'Contraseñaa',
+            'zona' => 'Zona',
+            'anyomes' => 'Año - Mes',
+            'mesespagados'=>'Meses pagados',
+            'mesesporcobrar'=>'Meses por pagar',
+            'mesesporcobrardet' => 'Meses por pagar'
+        ];
+    }
+
+
+
+     alter table servicioscontratados add `fechasuspension` DATE NULL;
+  alter table servicioscontratados add `fechareconexion` DATE NULL;
+  alter table servicioscontratados add `descripcionreconexion` VARCHAR(255) NULL;
+  alter table servicioscontratados add `descripcionsuspension` VARCHAR(255) NULL;
+  alter table servicioscontratados add `cobroreconexion` DOUBLE NULL;
+
+
+
+
+  ALTER TABLE cobros AUTO_INCREMENT=1;
+  ALTER TABLE clientes AUTO_INCREMENT=1;
+  ALTER TABLE servicioscontratados AUTO_INCREMENT=1;
+
+
+
+sw
+
+  ALTER TABLE clientes ADD CONSTRAINT UNIQUE INDEX `correlativo_UNIQUE` (`correlativo` ASC);
+  ALTER TABLE servicioscontratados ADD CONSTRAINT UNIQUE INDEX `contratonumero_UNIQUE` (`contratonumero` ASC);
+
+
+
+
+
+  `correlativo` VARCHAR(45) NULL 
+
+
+  alter table cobros modify column idcobro INT UNSIGNED NOT NULL AUTO_INCREMENT;

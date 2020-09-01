@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="pm_estadistica_referido" language="groovy" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f1dfa0c2-9210-4acb-9f8b-bbab20384fb6">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<parameter name="prefijo" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+     concat(PM_REFERIDO_POR.`titulo`,' ',PM_REFERIDO_POR.`nombres`,' ',PM_REFERIDO_POR.`apellidos`) as PM_REFERIDO_POR_nombres,
+     PM_REFERIDO_POR.`telefono` as PM_REFERIDO_POR_telefono,
+     PM_REFERIDO_POR.`id_referido_por` as PM_REFERIDO_POR_id_referido,
+     PM_REFERIDO_POR.`correo_electronico` as PM_REFERIDO_POR_correo_electronico,
+     PM_REFERIDO_POR.`direccion` as PM_REFERIDO_POR_direccion,
+     PM_REFERIDO_POR.`anotaciones` as PM_REFERIDO_POR_anotaciones,
+     DAT.PM_ORDEN_total_pagado
+from
+     PM_REFERIDO_POR,
+
+(SELECT
+     SUM(PM_ORDEN.`total_pagado`) AS PM_ORDEN_total_pagado,
+     PM_ORDEN.`id_referido_por` AS PM_ORDEN_id_referido,
+     PM_ORDEN.`prefijo` AS PM_ORDEN_prefijo
+FROM
+     `PM_ORDEN` PM_ORDEN
+GROUP BY
+        PM_ORDEN.`id_referido_por`
+HAVING
+     PM_ORDEN.`prefijo`=$P{prefijo}) DAT
+where
+     DAT.PM_ORDEN_id_referido = PM_REFERIDO_POR.id_referido_por]]>
+	</queryString>
+	<field name="PM_REFERIDO_POR_nombres" class="java.lang.String"/>
+	<field name="PM_REFERIDO_POR_telefono" class="java.lang.String"/>
+	<field name="PM_REFERIDO_POR_id_referido" class="java.lang.Long"/>
+	<field name="PM_REFERIDO_POR_correo_electronico" class="java.lang.String"/>
+	<field name="PM_REFERIDO_POR_direccion" class="java.lang.String"/>
+	<field name="PM_REFERIDO_POR_anotaciones" class="java.lang.String"/>
+	<field name="PM_ORDEN_total_pagado" class="java.lang.Double"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="70" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="0" y="13" width="263" height="33" uuid="e11b2085-ba7a-4c6c-be6d-5c8b8263009a"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Estadistica por mes]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="273" y="26" width="100" height="20" uuid="64fcc639-021f-44b9-9b45-65d4eb30113f"/>
+				<textFieldExpression><![CDATA[$P{prefijo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="36" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="35" width="555" height="1" uuid="5b05890e-f688-4db5-9955-dd5d62a71ef0"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="0" y="19" width="134" height="15" uuid="0f475930-b328-4339-b91d-b1bc03f613a3"/>
+				<text><![CDATA[Nombre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="147" y="19" width="79" height="15" uuid="f920e939-e436-4013-bcc0-ffe17c57ef6a"/>
+				<text><![CDATA[Telefono]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="235" y="19" width="79" height="15" uuid="8bdedda0-6f6e-4d91-ac20-0685a364617b"/>
+				<text><![CDATA[Correo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="325" y="19" width="138" height="15" uuid="6076bf9e-207e-4ec7-b96d-b3dafd68168a"/>
+				<text><![CDATA[Dirección]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="474" y="19" width="98" height="15" uuid="f6791053-b2e0-40db-9e81-c6a586dcc2e3"/>
+				<text><![CDATA[Cobrado]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1" uuid="941bbd95-9a99-47aa-9220-a0fe0e557901"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement style="Detail" x="0" y="0" width="134" height="15" uuid="e92ddae4-8f77-4963-9f34-c402af2f0212"/>
+				<textFieldExpression><![CDATA[$F{PM_REFERIDO_POR_nombres}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="147" y="0" width="79" height="15" uuid="abb2af82-0688-4a67-ab36-c243c5a07861"/>
+				<textFieldExpression><![CDATA[$F{PM_REFERIDO_POR_telefono}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="235" y="0" width="79" height="15" uuid="de684b19-c12e-4602-8da3-37a99a5cfd72"/>
+				<textFieldExpression><![CDATA[$F{PM_REFERIDO_POR_correo_electronico}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="325" y="0" width="138" height="15" uuid="cbfa8bdc-ce94-428c-beae-a2b53cfe17bc"/>
+				<textFieldExpression><![CDATA[$F{PM_REFERIDO_POR_direccion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="474" y="0" width="98" height="15" uuid="36ae29d8-a92d-40cf-b4cf-9f10fe4ed50d"/>
+				<textFieldExpression><![CDATA[$F{PM_ORDEN_total_pagado}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="13" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="da81adda-bd4c-496e-9db4-75024165806b"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement style="Column header" x="433" y="0" width="80" height="20" uuid="b7d310ba-95ff-4f40-92e8-52f7e5027077"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Column header" x="513" y="0" width="40" height="20" uuid="9d51c33b-910b-4c41-acd1-d1aa01a392f4"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" x="0" y="0" width="197" height="20" uuid="fb5c781c-df8b-4e2a-8115-d192031a694c"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
