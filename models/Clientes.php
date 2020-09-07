@@ -43,11 +43,10 @@ class Clientes extends \yii\db\ActiveRecord
         return [
             [['direccion', 'referencias'], 'string'],
             [['nombrezona'], 'required'],
-            [['correlativo'], 'string', 'max' => 5],
             [['primernombre', 'segundonombre', 'primerapelldio', 'segundoapellido'], 'string', 'max' => 75],
             [['dpi'], 'string', 'max' => 15],
             [['telefono1', 'telefono2'], 'string', 'max' => 40],
-            [['nit', 'nombrezona', 'mail'], 'string', 'max' => 45],
+            [['nit', 'nombrezona', 'mail','correlativo'], 'string', 'max' => 45],
             [['nombrezona'], 'required'],
             [['correlativo'], 'unique'],
             //'exist', 'skipOnError' => true, 'targetClass' => Zona::className(), 'targetAttribute' => ['nombrezona' => 'nombrezona']
