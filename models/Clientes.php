@@ -201,7 +201,7 @@ class Clientes extends \yii\db\ActiveRecord
         $clientes = [];
 
         foreach ($result as $record)
-            $clientes[$record->idcliente] = ($record->idcliente != '1') ? ($record->primernombre . ' ' . $record->primerapelldio . '. Agrupación cobro: ' . $record->nombrezona . '. DPI: ' . $record->dpi . '. Nit: ' . $record->nit) : 'Ingrese nuevo usuario';
+            $clientes[$record->idcliente] = ($record->idcliente != '1') ? ($record->correlativo. ' - '.$record->primernombre . ' ' . $record->primerapelldio . '. Agrupación cobro: ' . $record->nombrezona . '. DPI: ' . $record->dpi . '. Nit: ' . $record->nit) : 'Ingrese nuevo usuario';
 
         return $clientes;
     }
