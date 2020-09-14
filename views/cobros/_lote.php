@@ -68,23 +68,9 @@ use kartik\select2\Select2;
                                 <th><?= $form->field($cobro, 'factura')
                                         ->textInput(['id' => "Cobros{$key}_factura", 'name' => "Cobros[$key][factura]"])->label(false) ?></th>
                                 <th><?= $form->field($cobro, 'mesespagados')
+                                                                      ->textInput(['readonly' => false, 'id' => "Cobros{$key}_mesespagados", 'name' => "Cobros[$key][mesespagados]"])->label(false) ?></th>
 
-                                        ->widget(Select2::classname(), [
-                                            'data' =>  [0 => 0, 1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 7, 8 => 8, 9 => 9, 10 => 10, 11 => 11, 12 => 12, 13 => 13, 14 => 14, 15 => 15, 16 => 16],
-                                            'options' => ['tag' => true, 'id' => "Cobros{$key}_mesespagados", 'name' => "Cobros[$key][mesespagados]"],
-                                            'pluginOptions' => ['allowClear' => false,],
 
-                                            'pluginEvents' => [
-                                                "select2:select" => "function(value) { 
-                                                    var montocobrado =  $('#Cobros{$key}_totalcobrado');
-                                                    var total = $('#lote-totalcobrado').val() - montocobrado.val();
-                                                  
-                                                    montocobrado.val($('#Cobros{$key}_mesespagados').val() * ($('#cobropactado" . $cobro->idservicioscontratados . "')[0].innerText));
-                                                    $('#lote-totalcobrado').val(parseInt(total) + parseInt(montocobrado.val()));
-                                                }",
-                                            ]
-
-                                        ])->label(false) ?></th>
                                 <th><?= $form->field($cobro, 'totalcobrado')
                                         ->textInput(['readonly' => false, 'id' => "Cobros{$key}_totalcobrado", 'name' => "Cobros[$key][totalcobrado]"])->label(false) ?></th>
 
@@ -153,3 +139,6 @@ $script = <<< JS
 JS;
 $this->registerJs($script);
 ?>
+
+
+

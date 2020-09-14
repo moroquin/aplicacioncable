@@ -79,7 +79,7 @@ class Servicioscontratados extends \yii\db\ActiveRecord
             'segundoapellido' => ' ',
 
 
-            'mesesnopagados' => 'Meses no pagados',
+            'mesesnopagados' => 'Meses por pagar(Pagos adelantados signo - )',
             'subtotal' => 'Sub total',
             'idcliente' => 'Idcliente',
             'idservicio' => 'Idservicio',

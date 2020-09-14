@@ -72,10 +72,10 @@ $this->params['breadcrumbs'][] = $this->title;
             //'subtotal',
             //'idcliente',
             //'idservicio',
-            'contratonumero',
+            //'contratonumero',
             //'cobropactado',
             //'duracioncontrato',
-            'fechainicio',
+            //'fechainicio',
 
             //'idservicioscontratados',
             //'corte',

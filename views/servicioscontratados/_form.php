@@ -134,7 +134,7 @@ use kartik\date\DatePicker;
 
                     ]) ?>
             </div>
-            <div class="col-xs-4">
+            <div class="col-xs-6">
                 <?= $form->field($modelservicios, 'mesesnopagados')->textInput(['type' => 'number']) ?>
             </div>
         </div>

@@ -229,6 +229,10 @@ alter table cobros add CONSTRAINT `fk_cobros_clientes1`
 
 
 
+delete from cobros;
+delete from servicioscontratados;
+delete from clientes;
+
   ALTER TABLE cobros AUTO_INCREMENT=1;
   ALTER TABLE clientes AUTO_INCREMENT=1;
   ALTER TABLE servicioscontratados AUTO_INCREMENT=1;
@@ -248,3 +252,23 @@ sw
 
 
   alter table cobros modify column idcobro INT UNSIGNED NOT NULL AUTO_INCREMENT;
+
+
+
+  /*
+                                        ->widget(Select2::classname(), [
+                                            'data' =>  [0 => 0, 1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 7, 8 => 8, 9 => 9, 10 => 10, 11 => 11, 12 => 12, 13 => 13, 14 => 14, 15 => 15, 16 => 16],
+                                            'options' => ['tag' => true, 'id' => "Cobros{$key}_mesespagados", 'name' => "Cobros[$key][mesespagados]"],
+                                            'pluginOptions' => ['allowClear' => false,],
+
+                                            'pluginEvents' => [
+                                                "select2:select" => "function(value) { 
+                                                    var montocobrado =  $('#Cobros{$key}_totalcobrado');
+                                                    var total = $('#lote-totalcobrado').val() - montocobrado.val();
+                                                  
+                                                    montocobrado.val($('#Cobros{$key}_mesespagados').val() * ($('#cobropactado" . $cobro->idservicioscontratados . "')[0].innerText));
+                                                    $('#lote-totalcobrado').val(parseInt(total) + parseInt(montocobrado.val()));
+                                                }",
+                                            ]
+
+                                        ])->label(false) ?></th>*/
