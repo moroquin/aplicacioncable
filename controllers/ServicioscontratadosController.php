@@ -168,7 +168,14 @@ class ServicioscontratadosController extends Controller
 
 
 
-
+ public function actionClientes(){
+    $clientes = Clientes::find()->all();
+    foreach ($clientes as $cliente){
+        $cliente->actualizarEspaciosblanco();
+        $cliente->save();
+    }
+    
+ }
 
 
 
