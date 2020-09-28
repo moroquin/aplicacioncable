@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
           //  'idcobro',
             'contrasenya',
-            'factura',
+           // 'numerofactura  ',
             //'idempleado',
             'fecha',
             'totalporcobrar',
